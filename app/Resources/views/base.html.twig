@@ -5,8 +5,9 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css">
     </head>
-    <body>
+    <body style="width: 1024px; margin: 0 auto">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
