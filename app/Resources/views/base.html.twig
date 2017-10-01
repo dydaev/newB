@@ -7,8 +7,13 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css">
     </head>
-    <body style="width: 1024px; margin: 0 auto">
-        {% block body %}{% endblock %}
+    <body>
+        <div class="container">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ logout_path() }}" class="btn btn-danger ">Logout!</a>
+            {% endif %}
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

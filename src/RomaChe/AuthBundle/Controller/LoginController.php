@@ -4,7 +4,6 @@ namespace RomaChe\AuthBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends Controller
 {
@@ -19,6 +18,10 @@ class LoginController extends Controller
             "username" => $lastUserName,
             "error" => $error
         ));
+    }
+
+    public function logoutAction()
+    {
     }
 
 }

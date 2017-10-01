@@ -5,3 +5,7 @@ auth_homepage:
 login:
     path:     /login
     defaults: { _controller: AuthBundle:Login:login }
+
+logout:
+    path:     /logout
+    defaults: { _controller: AuthBundle:Login:logout }
