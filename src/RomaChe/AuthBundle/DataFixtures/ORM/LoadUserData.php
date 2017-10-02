@@ -22,11 +22,11 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
         $user->setUsername('root');
         $user->setEmail('1122@i.ua');
         $user->setDateAdd(new \DateTime());
-        $user->setBirthday(new \DateTime());
         $user->setSex(true);
         $user->setCountry('Ukraine');
         $user->setCity('Kyiv');
         $user->setAboutSelf('Myself');
+        $user->setRoles( Array('ROLE_SUPER_USER') );
 
 
         $encoder = $this->container->get('security.password_encoder');

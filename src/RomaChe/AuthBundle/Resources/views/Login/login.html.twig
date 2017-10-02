@@ -3,30 +3,69 @@
 {% block title %}AuthBundle:Login:login{% endblock %}
 
 {% block body %}
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3>Login</h3>
-        </div>
-        <div class="panel-body">
-            {% if error %}
-                <div class="alert alert-danger">
-                    {{ username }}
-                    {{ error.messageKey }}
-                </div>
-            {% endif %}
-            <form action="{{ path('login') }}" method="post">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" name="_username" id="username" class="form-control" value="{{ username }}">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" name="_password" id="password" class="form-control">
-                </div>
+    <div class="container col col-lg-6" style="margin-top: 10%;">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                  <li class="nav-item">
+                      <a class="nav-link active" id="in-tab" data-toggle="tab" href="#in" role="tab" aria-controls="in" aria-expanded="true">Sign in</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" id="up-tab" data-toggle="tab" href="#up" role="tab" aria-controls="up">Sign up</a>
+                  </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade show active" id="in" role="tabpanel" aria-labelledby="in-tab">
+                        <form class="form-horizontal" action="{{ path('login') }}" method="post">
+                            <fieldset>
+                                <div class="form-group ">
+                                    <label for="inputLogin" class="col-lg-2 control-label float-left">Login</label>
+                                    <input name="_username" type="text" class="form-control" id="inputLogin" placeholder="Login">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword" class="col-lg-3 control-label float-left">Password</label>
+                                    <input name="_password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                </div>
+                                <button class="btn btn-outline-info float-right">Sign in</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="up" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="conteiner">
 
-                <button class="btn btn-info pull-right">Login</button>
-            </form>
+                            <form action="{{ path('add_user') }}" method="post">
+                                <div class="form-group">
+                                    <label class="col-lg-2 form-control-label" for="name"></label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Login</div>
+                                        <input type="text" class="form-control" name="login" id="login" placeholder="Login">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only col-lg-2 " for="email">email</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Email</div>
+                                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Password</div>
+                                        <input name="password" type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+                                    </div>
 
+                                    <small id="passwordHelpInline" class="text-muted">
+                                      Must be 8-20 characters long.
+                                    </small>
+                                </div>
+                                <button type="submit" class="btn btn-outline-info float-right">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

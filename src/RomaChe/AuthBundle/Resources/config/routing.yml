@@ -9,3 +9,7 @@ login:
 logout:
     path:     /logout
     defaults: { _controller: AuthBundle:Login:logout }
+
+add_user:
+    path:     /add_user
+    defaults: { _controller: AuthBundle:Login:addUser }

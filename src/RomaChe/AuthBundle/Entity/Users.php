@@ -60,35 +60,35 @@ class Users implements UserInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthday", type="date")
+     * @ORM\Column(name="birthday", type="date", nullable=true)
      */
     private $birthday;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="sex", type="boolean")
+     * @ORM\Column(name="sex", type="boolean", nullable=true)
      */
     private $sex;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=255)
+     * @ORM\Column(name="country", type="string", length=255, nullable=true)
      */
     private $country;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="city", type="string", length=255)
+     * @ORM\Column(name="city", type="string", length=255, nullable=true)
      */
     private $city;
 
     /**
      * @var text
      *
-     * @ORM\Column(name="aboutSelf", type="text")
+     * @ORM\Column(name="aboutSelf", type="text", nullable=true)
      */
     private $aboutSelf;
 
@@ -220,10 +220,7 @@ class Users implements UserInterface
      */
     public function getRoles()
     {
-//        return $this->roles;
-        return [
-            'ROLE_USER'
-        ];
+        return $this->roles;
     }
 
     /**
