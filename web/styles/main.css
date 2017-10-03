@@ -1,0 +1,74 @@
+@font-face {
+    font-family: Elizabeth_tt-Uni; /* Гарнитура шрифта */
+    src: url(../fonts/10377.ttf);
+   }
+body{
+    margin: 0;
+    padding: 0;
+    background: gray;
+}
+
+div.bg{
+    height: 1950px;
+    width: 1040px;
+    margin: 0 auto;
+    background: url(../img/bg_map.png) no-repeat #000;
+}
+div.bg_pattern{
+    margin: 0;
+    padding: 30px;
+    height: 100%;
+    width: 100%;
+    background: url(../img/bg_pattern.png);
+}
+.wraper{
+    margin: 5px 0 0 0;
+    padding: 16px;
+    height: 100%;
+    width: 980px;
+    background: #fff;
+}
+.logo{
+    display: inline-flex;
+    width: 400px;
+    margin: 0;
+    color: #000;
+    font-size: 48px;
+    letter-spacing: -2px;
+    font-family: Elizabeth_tt-Uni, 'Comic Sans MS', cursive;
+}
+.logo-top{
+    margin-bottom: -20px;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+.logo-bottom{
+    text-transform: uppercase;
+}
+.logo-bottom>span{
+    color: #cf0000;
+}
+ul.nav{
+    margin: 28px 0 0 0;
+}
+ul.main-nav a.nav-link{
+    color: #cf0000;
+    padding: .5rem 13px;
+    font-size: 13px;
+    text-transform: capitalize;
+}
+li.nav-line{
+    height: 13px;
+    width: 1px;
+    background: #000;
+    margin-top: 11px;
+}
+div.weath-exchange-rates>div{
+    display: inline-block;
+}
+div.exchange-rates>div{
+    display: inline-block;
+}
+nav.navbar{
+    text-transform: uppercase;
+}
