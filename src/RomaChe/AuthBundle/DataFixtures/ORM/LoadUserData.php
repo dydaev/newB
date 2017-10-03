@@ -26,7 +26,7 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
         $user->setCountry('Ukraine');
         $user->setCity('Kyiv');
         $user->setAboutSelf('Myself');
-        $user->setRoles( Array('ROLE_SUPER_USER') );
+        $user->setRoles( Array('ROLE_SUPER_USER', 'ROLE_USER', 'ROLE_ADMIN') );
 
 
         $encoder = $this->container->get('security.password_encoder');
