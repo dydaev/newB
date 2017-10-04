@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new RomaChe\AuthBundle\AuthBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new RomaChe\NewsBundle\NewsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
