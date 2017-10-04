@@ -22,10 +22,9 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
         $user->setUsername('root');
         $user->setEmail('1122@i.ua');
         $user->setDateAdd(new \DateTime());
-        $user->setSex(true);
         $user->setCountry('Ukraine');
         $user->setCity('Kyiv');
-        $user->setAboutSelf('Myself');
+        $user->setAboutSelf('This prime user with admin roles');
         $user->setRoles( Array('ROLE_SUPER_USER', 'ROLE_USER', 'ROLE_ADMIN') );
 
 
