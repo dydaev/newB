@@ -47,9 +47,9 @@
                                 <li class="nav-item">
                                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                             <a href="{{ logout_path() }}" class="nav-link">Sign out</a>
-                                        {% else %}
+                                    {% else %}
                                             <a href="login" class="nav-link">Sign in</a>
-                                        {% endif %}
+                                    {% endif %}
                                 </li>
                             </ul>
                         </header>
