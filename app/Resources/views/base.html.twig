@@ -7,7 +7,7 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" >
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-        <link rel="stylesheet" href="./styles/main.css">
+        <link rel="stylesheet" href="{{ asset('./styles/main.css') }}">
     </head>
     <body>
         <div class="container-fluid">
@@ -46,7 +46,19 @@
                                 <li class="nav-line"></li>
                                 <li class="nav-item">
                                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                            <a href="{{ logout_path() }}" class="nav-link">Sign out</a>
+<div class="btn-group">
+  <button type="button" class="btn nav-link dropdown-toggle btn-link btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Hi, {{ app.user.username }} 
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id }) }}">Profile</a>
+{% if is_granted('ROLE_SUPER_USER') %}
+    <a class="dropdown-item" href="{{ path('user_index') }}">Users list</a>
+{% endif %}
+    <a class="dropdown-item" href="{{ logout_path() }}">Sign out</a>
+  </div>
+</div>
+    
                                     {% else %}
                                             <a href="login" class="nav-link">Sign in</a>
                                     {% endif %}

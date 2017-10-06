@@ -18,6 +18,9 @@ class UsersController extends Controller
      */
     public function indexAction()
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_USER')) {
+            throw $this->createAccessDeniedException();
+        }
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('AuthBundle:Users')->findAll();

@@ -26,7 +26,6 @@ class UsersType extends AbstractType
         $builder
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
-            ->add('password', PasswordType::class)
             ->add('dateAdd', DateTimeType::class)
             ->add('roles')
             ->add('birthday', BirthdayType::class)

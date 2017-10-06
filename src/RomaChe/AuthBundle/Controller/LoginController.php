@@ -35,10 +35,12 @@ class LoginController extends Controller
         $user->setDateAdd(new \DateTime());
         $user->setRoles( Array('ROLE_USER') );//ROLE_SUPER_USER
 
-        $encoder = $this->container->get('security.password_encoder');
-        $password = $encoder->encodePassword($user, $request->get('password'));
-        $user->setPassword($password);
+        //$encoder = $this->container->get('security.password_encoder');
+        //$password = $encoder->encodePassword($user, $request->get('password'));
 
+        //$user->setPassword($password);
+        $user->setPassword($request->get('password'));
+        
         $manager->persist($user);
         $manager->flush();
         return $this->redirectToRoute('login');

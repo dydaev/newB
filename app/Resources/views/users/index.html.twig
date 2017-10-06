@@ -3,37 +3,33 @@
 {% block body %}
     <h1>Users list</h1>
 
-    <table>
-        <thead>
+    <table  class="table">
+        <thead class="thead-inverse">
             <tr>
                 <th>Id</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Dateadd</th>
                 <th>Roles</th>
                 <th>Birthday</th>
                 <th>Sex</th>
                 <th>Country</th>
                 <th>City</th>
-                <th>Aboutself</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                <th scope="row"><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></th>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.password }}</td>
                 <td>{% if user.dateAdd %}{{ user.dateAdd|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if user.roles %}{{ user.roles|join(', ') }}{% endif %}</td>
                 <td>{% if user.birthday %}{{ user.birthday|date('Y-m-d') }}{% endif %}</td>
                 <td>{% if user.sex %}Yes{% else %}No{% endif %}</td>
                 <td>{{ user.country }}</td>
                 <td>{{ user.city }}</td>
-                <td>{{ user.aboutSelf }}</td>
                 <td>
                     <ul>
                         <li>

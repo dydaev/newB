@@ -160,7 +160,10 @@ class Users implements UserInterface
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $encoder = $this->container->get('security.password_encoder');
+        $pass = $encoder->encodePassword($user, $password);
+                
+        $this->password = $pass;
 
         return $this;
     }
