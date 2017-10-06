@@ -1,0 +1,1 @@
+export Small_news_review from './main/small-news-review';
