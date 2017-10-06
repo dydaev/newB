@@ -10,7 +10,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 import * as reducers from './reducers';
-import { App, Home, Foo, Bar } from './components';
+import Main_nav from './components/Main-nav';
 
 import * as Pages from './pages';
 
@@ -35,8 +35,9 @@ ReactDOM.render(
     <Provider store={store}>
         <div>
             <Router history={history}>
-                <Route path="/" component={App}>
-                    <IndexRoute component={Home}/>
+                <Route path="/" component={Main_nav}>
+                    <IndexRoute component={Pages.Home}/>
+                    <Route path="/" component={Pages.Home}/>
                     <Route path="world" component={Pages.World}/>
                     <Route path="sport" component={Pages.Sport}/>
                     <Route path="tech" component={Pages.Tech}/>
