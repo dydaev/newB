@@ -1,3 +1,4 @@
+export Home from './Home';
 export Blogs from './blogs';
 export Books from './books';
 export Busines from './busines';
@@ -6,4 +7,4 @@ export Culture from './culture';
 export Sport from './sport';
 export Tech from './tech';
 export World from './world';
-export Home from './Home';
+export News from './news';

@@ -46,6 +46,7 @@ ReactDOM.render(
                     <Route path="culture" component={Pages.Culture}/>
                     <Route path="books" component={Pages.Books}/>
                     <Route path="blogs" component={Pages.Blogs}/>
+                    <Route path="news" component={Pages.News}/>
                 </Route>
             </Router>
         </div>
