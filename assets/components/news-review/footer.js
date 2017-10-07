@@ -30,8 +30,8 @@ const Review_footer = ({ author = 'incognito', comments = 0 , fontSize = '10px',
             marginBottom: 0
         }
     };
-    let content;
     
+    let content;
     if ( addedAt && newsId) {
         let time = Date.now() - addedAt;
         let result;

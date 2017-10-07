@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Block_previews from '../containers/block-previews';
-import Block_previews_gallery from '../containers/block-previews-gallery';
-import Block_previews_text4x4 from '../containers/block-previews-text4x4';
-import { News_review, Img_news_review, Img_gallery_preview } from '../components/news-review';
+import Block_previews from '../block-previews';
+import Block_previews_gallery from '../block-previews-gallery';
+import Block_previews_text4x4 from '../block-previews-text4x4';
+import { News_review, Img_news_review, Img_gallery_preview } from '../../components/news-review';
 
-export default function Books() {
+export default function Main_left_section() {
     const width = 200;
     const img1 = "http://simple-fauna.ru/wp-content/uploads/2016/12/Mouse-opossum.jpg";
     const img2 = "http://cdn.fishki.net/upload/post/2016/11/01/2123789/a8cdb6e529d81f72d0882a492c12d82e.jpg";
@@ -25,8 +25,8 @@ export default function Books() {
     ];
     
     return (
-        <div>
-            <Block_previews title="Books newss" width='455px' >
+        <section style={{ width: '455px' }}>
+            <Block_previews title="Books newss" width='100%' more='res' >
                 <Img_news_review
                     img={ img1 }
                     title={ title }
@@ -49,7 +49,7 @@ export default function Books() {
                     width = '145px'
                 />
             </Block_previews>
-            <Block_previews_gallery title="gallery" width='455px' height='210px'>
+            <Block_previews_gallery title="gallery" width='100%' height='210px'>
                 {gallery.map( (img, ind) => 
                     <Img_gallery_preview
                         key = { ind }
@@ -59,7 +59,7 @@ export default function Books() {
                     />
                 )}
             </Block_previews_gallery>
-            <Block_previews_text4x4 title="tech news" width='455px' height='210px'>
+            <Block_previews_text4x4 title="tech news" width='100%' height='210px'>
                 <News_review
                     title={ title }
                     text={ text }
@@ -97,6 +97,6 @@ export default function Books() {
                     height = '95px'
                     />
             </Block_previews_text4x4>
-        </div>
+        </section>
     );
 }

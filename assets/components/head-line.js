@@ -27,15 +27,15 @@ const Head_line = ({title, more}) => {
             marginBottom: -3
         }
     };
-    let boxMore
+    let buttonMore
     if ( more) {
-        boxMore = <div style={ styles.more }><Button_more link='' /></div>
+        buttonMore = <div style={ styles.more }><Button_more link='' /></div>
     }
     return (
         <header style={ styles.main }>
             <h3 style={ styles.title }>{ title }</h3>
             <div style={ styles.line }/>
-            { boxMore }
+            { buttonMore }
         </header>
     );
 }

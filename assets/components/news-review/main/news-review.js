@@ -4,9 +4,10 @@ import Review_header from '../header';
 import Review_footer from '../footer';
 import Review_content from '../content';
 
-const News_review = ({ title, text, author, comments, newsId, addedAt, width }) => {
+const News_review = ({ title, text, author, comments, newsId, addedAt, width, height = 100, marging }) => {
     const styles = {
-        height: 100,
+        marging: marging,
+        height: height,
         width: width
     }
 
@@ -30,7 +31,7 @@ News_review.PropTypes = {
     author: React.PropTypes.string,
     comments: React.PropTypes.number,
     newsId: React.PropTypes.number,
-    addedAt: React.PropTypes.number
+    addedAt: React.PropTypes.string
 }
 
 export default News_review;
