@@ -1,3 +1,7 @@
+auth_user:
+    resource: "@AuthBundle/Resources/config/routing/users.yml"
+    prefix:   /user
+
 auth_homepage:
     path:     /
     defaults: { _controller: AuthBundle:Default:index }
