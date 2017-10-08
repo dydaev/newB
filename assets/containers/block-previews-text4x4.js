@@ -25,7 +25,7 @@ export default function Block_previews_text4x4({ title, width, height, children,
 
     return (
         <section style={ styles.section }>
-            <Head_line title={ title } more="dsa"/>
+            <Head_line title={ title } link="dsa"/>
             <div style={ styles.content }>
                 {children.map(( child, ind ) => {
                     return (ind % columns) ? 

@@ -6,6 +6,7 @@ import Block_previews_text4x4 from '../block-previews-text4x4';
 
 import Button_more from '../../components/button-more';
 import Dotted_line from '../../components/dotted-line';
+import Img_red_text from '../../components/news-review/main/img-redText';
 import { News_review, Img_news_review, Img_gallery_preview } from '../../components/news-review';
 
 const Main_center_section =() => {
@@ -54,12 +55,14 @@ const Main_center_section =() => {
                 />
                 <Button_more link='#'/>
             </Block_previews >
-            <Block_previews  width="100%" padding='5px 0 0' title="editorial">
+            <Block_previews  width="100%" title="editorial">
                 {films.map( (img, ind) => {
-                    return (<Img_gallery_preview key={ ind }
-                        src={ img }
-                        link={ img }
-                        width='100%'
+                    return (<Img_red_text 
+                        key={ ind } 
+                        img={ img }
+                        text= { text }
+                        link={ img } 
+                        width="100%" 
                     />)
                 })}
 

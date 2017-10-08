@@ -25,7 +25,7 @@ export default function Block_previews({ title, width, height = 'auto', children
 
     return (
         <section style={ styles.section }>
-            <Head_line title={ title } more={ more }/>
+            <Head_line title={ title } link={ more }/>
             <div style={ styles.content }>
                 {children.map(child => child)}
             </div>
