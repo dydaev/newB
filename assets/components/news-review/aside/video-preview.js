@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button_more from '../../button-more'
 
-export default function Aside_vide_preview({ children }) {
+export default function Aside_vide_preview({ children, margin }) {
     const styles = {
         body: {
             background: '#983a15',
@@ -10,6 +10,7 @@ export default function Aside_vide_preview({ children }) {
             padding: '9px 20px',
             width: 250,
             height: 316,
+            margin: margin
         },
         row: {
             height: 55

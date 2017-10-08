@@ -7,8 +7,8 @@ import Main_center_section from '../containers/main/center-section'
 
 function Home({ number, increase, decrease }) {
     return (
-        <section className='home-page' style={{ display: 'flex', justifyContent: 'space-between', width: 670}}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between', }}>
+        <section className='home-page' style={{ display: 'flex', justifyContent: 'space-between'}}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between', width: 670, }}>
                 <div style={{ width: 670, height: 495, background: '#000' }}/>
                 <Main_left_section/>
                 <Main_center_section/>
@@ -19,7 +19,7 @@ function Home({ number, increase, decrease }) {
 }
 
 export default connect(
-    state => ({ number: state.number }),
+    state => ({ pages: state.pages }),
     { increase, decrease }
 )(Home)
 

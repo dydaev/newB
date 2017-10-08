@@ -37,26 +37,26 @@ const Main_aside =() => {
 
     return (
         <aside className='main-aside' style={{ width: 250 }}>
-            <Aside_vide_preview style={ { }} >
+            <Aside_vide_preview margin="0 0 20px 0" >
                 <Aside_movie_line link="#" text={ text }/>
                 <Aside_movie_line link="#" text={ text }/>
                 <Aside_movie_line link="#" text={ text }/>
                 <Aside_movie_line link="#" text={ text }/>
             </Aside_vide_preview >
 
-            <div style={{ width: '100%', height: 230 }} >
+            <div style={{ width: '100%', height: 230, marginBottom: 17 }} >
                 <a href="#">
                     <img  style={{ width: '100%', height: '100%' }}  src="https://files1.coloribus.com/files/adsarchive/part_1833/18330655/file/jack-daniels-whisky-spirit-600-49446.jpg"/>
                 </a>
             </div>
 
-            <div style={{ width: '100%', height: 212, background: '#121212', color: '#202021' }} >
-                <h3 style={{ textTransform: 'uppercase' }}>Sign Up for newsletter</h3>
-                <p>Sign up to receive our free newsletters!</p>
-                <input type="text" placeholder="name"/>
-                <input type="email" placeholder="email"/>
-                <Button bsStyle="danger">Danger</Button>
-                <p style={{ color: '#cf0000' }}>We do not spam. We value your privacy</p>
+            <div style={{ width: '100%', height: 212, background: '#121212', color: '#202021', padding: '15px 20px', marginBottom: 20 }} >
+                <h3 style={{ textTransform: 'uppercase', fontFamily: 'Franchise-Bold, "Comic Sans MS", cursive', fontSize: '29px', marginBottom: 0 }}>Sign Up for newsletter</h3>
+                <p style={{fontSize: '12px', marginBottom: '10px'}}>Sign up to receive our free newsletters!</p>
+                <input style={{paddingLeft: '5px', height: '28px', marginBottom: '8px', width: '100%'}} type="text" placeholder="name"/>
+                <input style={{paddingLeft: '5px', height: '28px', marginBottom: '10px', width: '100%'}} type="email" placeholder="email"/>
+                <Button bsStyle="danger"  bsSize="small">SUBMIT</Button>
+                <p style={{ fontSize: '11px', color: '#cf0000' }}>We do not spam. We value your privacy</p>
             </div>
 
             <div>
