@@ -36,12 +36,12 @@ const Main_aside =() => {
     ]
 
     return (
-        <section style={{ width: 250 }}>
-            <Aside_vide_preview style={ {background: '#983a15' }} >
-                <Aside_movie_line text={ text }/>
-                <Aside_movie_line text={ text }/>
-                <Aside_movie_line text={ text }/>
-                <Aside_movie_line text={ text }/>
+        <aside className='main-aside' style={{ width: 250 }}>
+            <Aside_vide_preview style={ { }} >
+                <Aside_movie_line link="#" text={ text }/>
+                <Aside_movie_line link="#" text={ text }/>
+                <Aside_movie_line link="#" text={ text }/>
+                <Aside_movie_line link="#" text={ text }/>
             </Aside_vide_preview >
 
             <div style={{ width: '100%', height: 230 }} >
@@ -68,7 +68,7 @@ const Main_aside =() => {
                 <div style={{ height: 80, background: 'gray'}}/>
                 <Button_more/>
             </div>
-        </section>
+        </aside>
     );
 }
 

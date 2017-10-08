@@ -7,14 +7,14 @@ import Main_center_section from '../containers/main/center-section'
 
 function Home({ number, increase, decrease }) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between', width: 670}}>
+        <section className='home-page' style={{ display: 'flex', justifyContent: 'space-between', width: 670}}>
             <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between', }}>
                 <div style={{ width: 670, height: 495, background: '#000' }}/>
                 <Main_left_section/>
                 <Main_center_section/>
             </div>
             <Main_aside/>
-        </div>
+        </section>
     )
 }
 

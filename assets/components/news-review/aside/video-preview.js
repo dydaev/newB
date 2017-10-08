@@ -6,6 +6,7 @@ export default function Aside_vide_preview({ children }) {
     const styles = {
         body: {
             background: '#983a15',
+            position: 'relative',
             padding: '9px 20px',
             width: 250,
             height: 316,
@@ -14,8 +15,11 @@ export default function Aside_vide_preview({ children }) {
             height: 55
         },
         footer: {
-            marginLeft: '100%',
-            marginTop: '100%'
+            marginLeft: '-61px',
+            marginTop: '-12px',
+            position: 'absolute',
+            left: '100%',
+            right: '100%',
         }
     }
     return (

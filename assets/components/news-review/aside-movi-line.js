@@ -20,6 +20,7 @@ export default function Aside_movie_line({ text, link, width = '100%', margin='1
             triangle: {
                 width: 0,
                 height: 0,
+                marginLeft: '6px',
                 borderStyle: 'solid',
                 borderWidth: '8px 0 8px 13px',
                 borderColor: 'transparent transparent transparent #202021',
