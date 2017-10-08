@@ -1,0 +1,38 @@
+@font-face 
+    font-family: Elizabeth_tt-Uni
+    src: url(../fonts/10377.ttf)
+
+@font-face 
+    font-family: Franchise-Bold
+    src: url(../fonts/Franchise-Bold-hinted.ttf)
+
+a:hover
+  text-decoration: none
+
+body
+  background: #ccc
+
+  nav.main-nav 
+    background: #202021!important
+    padding: 0!important
+
+    ul.navbar-nav
+      width: 100%
+      display: flex
+      flex-flow: row nowrap
+      justify-content: space-around
+
+      li.nav-item
+        display: inline-block
+        
+        a.nav-link
+          font-size: 25px
+          font-family: Franchise-Bold, 'Comic Sans MS', cursive
+
+  section.home-page
+    aside.main-aside
+      .main-aside-videopreview
+        a
+          color: #000
+          &:hover
+            color: #cf0000
