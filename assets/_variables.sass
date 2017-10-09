@@ -1,0 +1,18 @@
+@font-face 
+    font-family: Elizabeth_tt-Uni
+    src: url(../fonts/10377.ttf)
+
+@font-face 
+    font-family: Franchise-Bold
+    src: url(../fonts/Franchise-Bold-hinted.ttf)
+
+$image-path: '../img'
+
+$dirty-red: #cf0000
+$dirty-gray: #202021
+
+=backgroundShort($imgpath,$position:0 0,$repeat: no-repeat,$color: 'none')
+  @if $color = 'none'
+    background: url(#{$imgpath}) $repeat $position
+  @if $color != 'none'
+    background: url(#{$imgpath}) $repeat $position $color

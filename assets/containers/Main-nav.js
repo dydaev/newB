@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router'
 
 import { Nav, Navbar, NavItem, NavLink } from 'reactstrap';
 
-import MainHeader from './header';
+import MainHeader from './header/';
 
 export default function Main_nav({ children }) {
     return (
@@ -37,7 +37,7 @@ export default function Main_nav({ children }) {
                   </NavItem>
                 </Nav>
             </Navbar>
-          <div style={{ marginTop: '1.5em' }}>{children}</div>
+          <div style={{ marginTop: '5px' }}>{children}</div>
       </div>
     )
 }
