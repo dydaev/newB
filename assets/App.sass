@@ -6,14 +6,85 @@
     font-family: Franchise-Bold
     src: url(../fonts/Franchise-Bold-hinted.ttf)
 
+$image-path: '../img'
+
+$dirty-red: #cf0000
+$dirty-gray: #202021
+
+=backgroundShort($imgpath,$position:0 0,$repeat: no-repeat,$color: 'none')
+  @if $color = 'none'
+    background: url(#{$imgpath}) $repeat $position
+  @if $color != 'none'
+    background: url(#{$imgpath}) $repeat $position $color
+  
+
 a:hover
   text-decoration: none
 
 body
+  margin: 0
+  padding: 0
   background: #ccc
 
+  div.bg
+    height: 1950px
+    width: 1040px
+    margin: 0 auto
+    +backgroundShort('#{$image-path}/bg_map.png', #000)
+
+    div.bg_pattern
+      margin: 0
+      padding: 30px
+      height: 100%
+      width: 100%
+      +backgroundShort('#{$image-path}/bg_pattern.png')
+      
+      div.wraper
+        margin: 5px 0 0 0;
+        padding: 16px;
+        height: 100%;
+        width: 980px;
+        background: #fff;
+
+        header#main
+          a>div#logo
+            display: inline-flex
+            width: 400px
+            margin: 0
+            color: #000
+            font-size: 48px
+            letter-spacing: -2px
+            font-family: Elizabeth_tt-Uni, 'Comic Sans MS', cursive
+
+            div.logo-top
+              margin-bottom: -20px
+              font-size: 20px
+              text-transform: uppercase
+
+            div.logo-bottom
+              text-transform: uppercase
+              span
+                color: $dirty-red
+          div#main-header-widgets p
+            display: inline-block
+            color: red
+          
+          ul#main-menu
+            margin: 28px 0 0 0
+
+            a.nav-link
+              color: $dirty-red
+              padding: .5rem 13px
+              font-size: 13px
+              text-transform: capitalize
+            li.nav-line
+              height: 13px
+              width: 1px
+              background: #000
+              margin-top: 11px
+
   nav.main-nav 
-    background: #202021!important
+    background: $dirty-gray!important
     padding: 0!important
 
     ul.navbar-nav
@@ -35,4 +106,4 @@ body
         a
           color: #000
           &:hover
-            color: #cf0000
+            color: $dirty-red

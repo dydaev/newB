@@ -1,6 +1,8 @@
 {
+  "build/scripts.js": "/build/scripts.js",
   "build/fonts/10377.ttf": "/build/fonts/10377.558620da.ttf",
   "build/fonts/Franchise-Bold-hinted.ttf": "/build/fonts/Franchise-Bold-hinted.e5f2f90e.ttf",
-  "build/scripts.js": "/build/scripts.js",
-  "build/styles.css": "/build/styles.css"
+  "build/styles.css": "/build/styles.css",
+  "build/images/bg_map.png": "/build/images/bg_map.9d23b97d.png",
+  "build/images/bg_pattern.png": "/build/images/bg_pattern.751f3f29.png"
 }

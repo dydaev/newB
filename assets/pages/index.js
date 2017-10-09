@@ -8,3 +8,4 @@ export Sport from './sport';
 export Tech from './tech';
 export World from './world';
 export News from './news';
+export Login from './login';

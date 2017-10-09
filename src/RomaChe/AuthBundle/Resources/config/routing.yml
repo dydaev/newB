@@ -34,15 +34,13 @@ blogs_news:
     path:     /blogs
     defaults: { _controller: AuthBundle:Default:index }
 
-
-
 login:
     path:     /login
-    defaults: { _controller: AuthBundle:Login:login }
+    defaults: { _controller: AuthBundle:Default:index }
 
 logout:
     path:     /logout
-    defaults: { _controller: AuthBundle:Login:logout }
+    defaults: { _controller: AuthBundle:Default:index }
 
 add_user:
     path:     /add_user
