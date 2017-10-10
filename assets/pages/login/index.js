@@ -1,19 +1,24 @@
 import React from 'react';
 
+import { connect } from 'react-redux'
+// import { increase, decrease } from '../../actions'
+
 import { CardBody, CardHeader, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
 
-export default class Login extends React.Component {
+import LoginForm from '../../containers/login-form/';
+
+class LoginPage extends React.Component {
     constructor(props) {
       super(props);
-  
+
       this.toggle = this.toggle.bind(this);
       this.state = {
         activeTab: '1'
       };
     }
-  
     toggle(tab) {
+console.log("state in loginPage:", this.props);
       if (this.state.activeTab !== tab) {
         this.setState({
           activeTab: tab
@@ -48,31 +53,21 @@ export default class Login extends React.Component {
                 <TabPane tabId="1">
                   <Row className= "justify-content-md-center">
                     <Col sm="9">
-                      <Form>
-                        <FormGroup row>
-                          <Label for="exampleEmail" size="lg">Email</Label>
-                          <Input type="email" name="email" id="exampleEmail" placeholder="email" />
-                        </FormGroup>
-                        <FormGroup row>
-                          <Label for="password" >Password</Label>
-                          <Input type="password" name="password" id="password" placeholder="password" />
-                        </FormGroup>
-                        <Button>Submit</Button>
-                      </Form>
+                      <LoginForm/>
                     </Col>
                   </Row>
               </TabPane>
               <TabPane tabId="2">
               <Row className= "justify-content-md-center">
                 <Col sm="9">
-                
+
                 <CardTitle>Sign up</CardTitle>
                 <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
                 <Button>Go somewhere</Button>
-                
+
                 </Col>
                 <Col sm="6">
-                
+
                 </Col>
                 </Row>
                 </TabPane>
@@ -83,4 +78,7 @@ export default class Login extends React.Component {
       );
     }
   }
-  
+export default connect(
+    state => ({ Store: state }),
+    {}//{ increase, decrease }
+)(LoginPage)

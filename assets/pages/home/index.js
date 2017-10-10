@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { increase, decrease } from '../../actions/count'
+import { increase, decrease } from '../../actions'
 import Main_aside from '../../containers/main/aside'
 import Main_left_section from '../../containers/main/left-section'
 import Main_center_section from '../../containers/main/center-section'

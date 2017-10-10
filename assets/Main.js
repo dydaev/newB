@@ -15,7 +15,7 @@ import Main_nav from './containers/Main-nav';
 import * as Pages from './pages';
 
 const reducer = combineReducers({
-    reducers,
+    ...reducers,
     routing: routerReducer
 })
 

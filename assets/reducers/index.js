@@ -1,5 +1,6 @@
 
-export count from './count'
+export count from './count';
+export login from './login'
 
 /*
 import { combineReducers } from 'redux';

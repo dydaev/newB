@@ -8,7 +8,8 @@ const REDUCERS = {
     },
     AUTH: {
         SUCCESS: 'AUTH_SUCCESS',
-        FAIL: 'AUTH_FAIL'
+        FAIL: 'AUTH_FAIL',
+        LOGIN: 'LOGIN'
     }
 };
 export const INCREASE = 'INCREASE';
