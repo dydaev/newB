@@ -1,22 +1,20 @@
 import REDUCERS from '../consts'
+import Axios from 'axios';
 
-export function login(data) {
+const actionLogin = response  => {
+  console.log(response);
     return {
-        type: REDUCERS.AUTH.LOGIN,
-        payload: data
+        type: REDUCERS.AUTH.LOGIN ,
+        payload: response
     }
 }
-
-// export function increase(n) {
-//     return {
-//         type: INCREASE,
-//         amount: n
-//     }
-// }
-//
-// export function decrease(n) {
-//     return {
-//         type: DECREASE,
-//         amount: n
-//     }
-// }
+export const login = (data) => dispatch => {
+  // return Axios.post('/login/auth', JSON.parse(data))
+  return Axios({
+  method: 'post',
+  url: '/login/auth',
+  data: data
+})
+    .then ( response => dispatch( actionLogin(response.data)))
+    .catch( error => console.log('An error login fatch. ', error))
+}

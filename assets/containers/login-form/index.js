@@ -13,8 +13,8 @@ class LoginForm extends React.Component {
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.state = {
-        login: '',
-        pass: ''
+        _login: '',
+        _password: ''
       };
     }
     handleChange(e) {
@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
     submitForm() {
       const { Dispatcher } = this.props;
 console.log("props in loginForm:", this.props);
-      Dispatcher(actions.login({pass: this.state.pass, login: this.state.login}));
+      Dispatcher(actions.login({_pass: this.state.pass, email: this.state.login}));
     }
 
     render() {

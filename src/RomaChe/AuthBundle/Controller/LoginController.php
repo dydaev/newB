@@ -2,25 +2,56 @@
 
 namespace RomaChe\AuthBundle\Controller;
 
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use RomaChe\AuthBundle\Entity\Users;
 
 class LoginController extends Controller
 {
-    public function loginAction(Request $request)
+    public function signinAction(Request $request)
     {
-        $authUtils = $this->get('security.authentication_utils');
+        $content = json_decode($request->getContent());
 
-        $error = $authUtils->getLastAuthenticationError();
-        $lastUserName = $authUtils->getLastUsername();
+        if( $content->{'email'} ) {
+          $em = $this->getDoctrine()->getEntityManager();
+          $user = $em->getRepository('AuthBundle:Users')->findOneBy(array('email' => $content->{'email'}));
 
-        return $this->render('AuthBundle:Login:login.html.twig', array(
-            "username" => $lastUserName,
-            "error" => $error
-        ));
+          if($user !== null) {
+            $providerKey = 'long_secure_key';
+            $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+            $passwordValid = $this->get('security.password_encoder')->isPasswordValid($user, $content->{'_pass'});
+
+            if($passwordValid) {
+              $this->get('security.token_storage')->setToken($token);
+              $this->get('session')->set('_security_'.$providerKey, serialize($token));
+
+              return $this->redirect($this->generateUrl('check'));
+            } else {
+
+              return new JsonResponse(array("response" => 'Wrong email or password!'));
+            }
+          } else {
+            return new JsonResponse(array("response" => 'Wrong email or password!'));
+          }
+        } else {
+          return new JsonResponse(array("response" => 'Please enter email'));
+        }
     }
+    public function checkAction()
+    {
+        if (false === $this->get('security.authorization_checker')->isGranted(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )) {
+            return new JsonResponse(array("response" => 'Not logged'));
+        }
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
 
+        return new JsonResponse(array("response" => $user->getUsername().' is logged'));
+
+    }
     public function logoutAction()
     {
     }

@@ -3,11 +3,13 @@ import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
 
 import React from 'react';
+import thunk from 'redux-thunk'
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import * as reducers from './reducers';
 import Main_nav from './containers/Main-nav';
@@ -19,16 +21,9 @@ const reducer = combineReducers({
     routing: routerReducer
 })
 
-const DevTools = createDevTools(
-    <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
-        <LogMonitor theme="tomorrow" preserveScrollTop={false} />
-    </DockMonitor>
-)
+const store = createStore(reducer, composeWithDevTools(
+  applyMiddleware(thunk)));
 
-const store = createStore(
-    reducer,
-    DevTools.instrument()
-)
 const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
@@ -54,4 +49,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 )
-//            <DevTools />

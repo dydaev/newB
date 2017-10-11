@@ -38,6 +38,14 @@ login:
     path:     /login
     defaults: { _controller: AuthBundle:Default:index }
 
+check:
+    path:     /login/check
+    defaults: { _controller: AuthBundle:Login:check }
+
+signin:
+    path:     /login/auth
+    defaults: { _controller: AuthBundle:Login:signin }
+
 logout:
     path:     /logout
     defaults: { _controller: AuthBundle:Default:index }
