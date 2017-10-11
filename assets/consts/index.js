@@ -7,9 +7,9 @@ const REDUCERS = {
         CHANGE_CITY: 'CHANGE_CITY'
     },
     AUTH: {
-        SUCCESS: 'AUTH_SUCCESS',
-        FAIL: 'AUTH_FAIL',
-        LOGIN: 'LOGIN'
+        LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+        LOGIN_FAILURE: 'LOGIN_FAILURE',
+        MESSAGE: 'MESSAGE',
     }
 };
 export const INCREASE = 'INCREASE';

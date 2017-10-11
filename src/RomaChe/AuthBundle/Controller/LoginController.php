@@ -17,12 +17,14 @@ class LoginController extends Controller
 
         if( $content->{'email'} ) {
           $em = $this->getDoctrine()->getEntityManager();
-          $user = $em->getRepository('AuthBundle:Users')->findOneBy(array('email' => $content->{'email'}));
+          $user = $em->getRepository('AuthBundle:Users')
+            ->findOneBy(array('email' => $content->{'email'}));
 
           if($user !== null) {
             $providerKey = 'long_secure_key';
             $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
-            $passwordValid = $this->get('security.password_encoder')->isPasswordValid($user, $content->{'_pass'});
+            $passwordValid = $this->get('security.password_encoder')
+              ->isPasswordValid($user, $content->{'_pass'});
 
             if($passwordValid) {
               $this->get('security.token_storage')->setToken($token);
@@ -31,25 +33,39 @@ class LoginController extends Controller
               return $this->redirect($this->generateUrl('check'));
             } else {
 
-              return new JsonResponse(array("response" => 'Wrong email or password!'));
+              return new JsonResponse(array(
+                "type" => 'message',
+                "message" => 'Wrong email or password!'
+              ));
             }
           } else {
-            return new JsonResponse(array("response" => 'Wrong email or password!'));
+            return new JsonResponse(array(
+              "type" => 'message',
+              "message" => 'Wrong email or password!'
+            ));
           }
         } else {
-          return new JsonResponse(array("response" => 'Please enter email'));
+          return new JsonResponse(array(
+            "type" => 'message',
+            "message" => 'Please enter email'
+          ));
         }
     }
+
     public function checkAction()
     {
-        if (false === $this->get('security.authorization_checker')->isGranted(
-            'IS_AUTHENTICATED_REMEMBERED'
-        )) {
-            return new JsonResponse(array("response" => 'Not logged'));
+        if (false === $this->get('security.authorization_checker')
+          ->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return new JsonResponse(array(
+              "type" => 'isNotLogged'
+            ));
         }
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
 
-        return new JsonResponse(array("response" => $user->getUsername().' is logged'));
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        return new JsonResponse(array(
+          "type" => 'name'
+          "name"=> $user->getUsername()
+        ));
 
     }
     public function logoutAction()
