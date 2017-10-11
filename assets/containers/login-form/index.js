@@ -6,31 +6,39 @@ import { login as actions }  from '../../actions'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
 
+
+
 class LoginForm extends React.Component {
     constructor(props) {
       super(props);
-
+      const { Dispatcher } = this.props;
+      this.Dispatcher = Dispatcher;
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.state = {
-        _login: '',
-        _password: ''
+        pass: '',
+        email: ''
       };
     }
     handleChange(e) {
+      if (this.props.headColor !== 'head_color_blue') {
+        this.Dispatcher(actions.change_head_color('head_color_blue'))
+      }
+      console.log("Login props= ", this.props);
       switch (e.target.id) {
         case 'password':
           this.setState({pass: e.target.value});
           break;
         case "email":
-          this.setState({login: e.target.value});
+          this.setState({email: e.target.value});
           break;
       }
     }
     submitForm() {
-      const { Dispatcher } = this.props;
-console.log("props in loginForm:", this.props);
-      Dispatcher(actions.login({_pass: this.state.pass, email: this.state.login}));
+      this.Dispatcher(actions.fatch_login({
+        _pass: this.state.pass,
+        email: this.state.email
+      }));
     }
 
     render() {
@@ -64,6 +72,6 @@ console.log("props in loginForm:", this.props);
     }
   }
 export default connect(
-    state => ({ Store: state }),
+    ({ login }) => ({ Store: login.login }),
     dispatch => ({Dispatcher: dispatch})
 )(LoginForm)

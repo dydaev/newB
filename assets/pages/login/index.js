@@ -30,7 +30,11 @@ console.log("state in loginPage:", this.props);
         <section id="login" className= "col-sm-12">
           <div className=" col-lg-8 login-firm offset-lg-2">
             <Card>
-              <CardHeader>Login page</CardHeader>
+              <CardHeader className={ this.props.Store.headColor }>{
+                this.props.Store.message ?
+                `Login page: ${this.props.Store.message}` :
+                'Login page'
+              }</CardHeader>
               <Nav tabs>
                 <NavItem>
                   <NavLink
@@ -79,6 +83,6 @@ console.log("state in loginPage:", this.props);
     }
   }
 export default connect(
-    state => ({ Store: state }),
-    {}//{ increase, decrease }
+    ({ login }) => ({ Store: login.login }),
+    dispatch => ({Dispatcher: dispatch})
 )(LoginPage)
