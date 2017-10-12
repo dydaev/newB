@@ -63,7 +63,7 @@ class LoginController extends Controller
 
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         return new JsonResponse(array(
-          "type" => 'name',
+          "type" => 'isLogged',
           "name" => $user->getUsername()
         ));
 

@@ -12,12 +12,34 @@ const initialState = {
 }
 
 export default function update(state = initialState, action) {
+  console.log(`Try updating action ${action.type} to `, action.payload);
   switch (action.type) {
     case REDUCERS.AUTH.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         login:{
           isLogin: true,
           name: action.payload
+        }
+      })
+    case REDUCERS.AUTH.IS_LOGGED:
+      return Object.assign({}, state, {
+        login:{
+          isLogin: true,
+          name: action.payload
+        }
+      })
+    case REDUCERS.AUTH.NOT_LOGGED:
+      return Object.assign({}, state, {
+        login:{
+          isLogin: false,
+          name: ''
+        }
+      })
+    case REDUCERS.AUTH.LOGOUT:
+      return Object.assign({}, state, {
+        login:{
+          isLogin: false,
+          name: ''
         }
       })
     case REDUCERS.AUTH.LOGIN_FAILURE:

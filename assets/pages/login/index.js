@@ -18,7 +18,6 @@ class LoginPage extends React.Component {
       };
     }
     toggle(tab) {
-console.log("state in loginPage:", this.props);
       if (this.state.activeTab !== tab) {
         this.setState({
           activeTab: tab

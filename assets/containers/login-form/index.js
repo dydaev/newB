@@ -11,8 +11,8 @@ import classnames from 'classnames';
 class LoginForm extends React.Component {
     constructor(props) {
       super(props);
-      const { Dispatcher } = this.props;
-      this.Dispatcher = Dispatcher;
+      this.Dispatcher = props.Dispatcher;
+
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.state = {

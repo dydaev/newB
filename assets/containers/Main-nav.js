@@ -1,13 +1,25 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+
+import { login as actions }  from '../actions'
 
 import { Nav, Navbar, NavItem, NavLink } from 'reactstrap';
 
 import MainHeader from './header/';
 
-export default function Main_nav({ children }) {
-    return (
-      <div>
+class Main_nav extends React.Component {
+    constructor(props) {
+      super(props);
+      this.Dispatcher = this.props.Dispatcher;
+
+      if (!props.Store.login.isLogin) {
+        this.Dispatcher(actions.logged_check());
+      }
+    }
+    render() {
+      return (
+        <div>
             <MainHeader/>
             <Navbar color="dark"  className="navbar-dark main-nav">
                 <Nav navbar>
@@ -37,8 +49,12 @@ export default function Main_nav({ children }) {
                   </NavItem>
                 </Nav>
             </Navbar>
-          <div style={{ marginTop: '5px' }}>{children}</div>
-      </div>
-    )
+            <div style={{ marginTop: '5px' }}>{this.props.children}</div>
+        </div>
+      )
+    }
 }
-//<button onClick={() => browserHistory.push('/foo')}>Go to /foo</button>
+export default connect(
+    ( store ) => ({ Store: store }),
+    dispatch => ({Dispatcher: dispatch})
+)(Main_nav)
