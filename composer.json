@@ -5,7 +5,8 @@
     "autoload": {
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
-            "RomaChe\\AuthBundle\\": "src/RomaChe/AuthBundle"
+            "RomaChe\\AuthBundle\\": "src/RomaChe/AuthBundle",
+            "RomaChe\\NewsBundle\\": "src/RomaChe/NewsBundle"
         },
         "classmap": [
             "app/AppKernel.php",
