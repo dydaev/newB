@@ -2,14 +2,59 @@ auth_homepage:
     path:     /
     defaults: { _controller: AuthBundle:Default:index }
 
+world_news:
+    path:     /world
+    defaults: { _controller: AuthBundle:Default:index }
+
+sport_news:
+    path:     /sport
+    defaults: { _controller: AuthBundle:Default:index }
+
+tech_news:
+    path:     /tech
+    defaults: { _controller: AuthBundle:Default:index }
+
+busines_news:
+    path:     /busines
+    defaults: { _controller: AuthBundle:Default:index }
+
+movies_news:
+    path:     /movies
+    defaults: { _controller: AuthBundle:Default:index }
+
+culture_news:
+    path:     /culture
+    defaults: { _controller: AuthBundle:Default:index }
+
+books_news:
+    path:     /books
+    defaults: { _controller: AuthBundle:Default:index }
+
+blogs_news:
+    path:     /blogs
+    defaults: { _controller: AuthBundle:Default:index }
+
 login:
     path:     /login
-    defaults: { _controller: AuthBundle:Login:login }
+    defaults: { _controller: AuthBundle:Default:index }
+
+check:
+    path:     /login/check/authorize
+    defaults: { _controller: AuthBundle:Login:check }
+
+validateEmail:
+    path:     /login/check/email
+    defaults: { _controller: AuthBundle:Login:validationEmail }
+
+signin:
+    path:     /login/auth
+    defaults: { _controller: AuthBundle:Login:signin }
 
 logout:
     path:     /logout
-    defaults: { _controller: AuthBundle:Login:logout }
+    defaults: { _controller: AuthBundle:Default:index }
+
 
 add_user:
-    path:     /add_user
+    path:     /login/add_user
     defaults: { _controller: AuthBundle:Login:addUser }

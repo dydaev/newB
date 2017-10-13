@@ -1,0 +1,20 @@
+
+list_news:
+    path:     /
+    defaults: { _controller: NewsBundle:News:listNews }
+
+show_news:
+    path:     /show
+    defaults: { _controller: NewsBundle:News:showNews }
+
+update_news:
+    path:     /update
+    defaults: { _controller: NewsBundle:News:updateNews }
+
+delete_news:
+    path:     /delete
+    defaults: { _controller: NewsBundle:News:deleteNews }
+
+create_news:
+    path:     /create
+    defaults: { _controller: NewsBundle:News:createNews }

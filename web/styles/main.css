@@ -1,6 +1,10 @@
 @font-face {
-    font-family: Elizabeth_tt-Uni; /* Гарнитура шрифта */
+    font-family: Elizabeth_tt-Uni;
     src: url(../fonts/10377.ttf);
+}
+@font-face {
+    font-family: Franchise-Bold;
+    src: url(../fonts/Franchise-Bold-hinted.ttf);
    }
 body{
     margin: 0;
