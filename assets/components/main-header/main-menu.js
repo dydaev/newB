@@ -26,11 +26,11 @@ class MainMenu extends React.Component {
   render(){
     return (
         <ul id="main-menu" className="nav float-right ">
-            <li className="nav-item"><a className="nav-link active" href="">home</a></li>
+            <li className="nav-item"><a className="nav-link active" onClick={() => browserHistory.push('/')} href="#">home</a></li>
             <li className="nav-line"></li>
-            <li className="nav-item"><a className="nav-link" href="">About us</a></li>
+            <li className="nav-item"><a className="nav-link" href="#">About us</a></li>
             <li className="nav-line"></li>
-            <li className="nav-item"><a className="nav-link" href="">contact</a></li>
+            <li className="nav-item"><a className="nav-link" href="#">contact</a></li>
             <li className="nav-line"></li>
             <li className="nav-item">{
               this.props.Store.isLogin ?

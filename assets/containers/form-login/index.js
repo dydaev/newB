@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import { login as actions }  from '../../actions'
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -11,18 +12,21 @@ import REDUCERS from '../../consts'
 class LoginForm extends React.Component {
     constructor(props) {
       super(props);
-      this.Dispatcher = props.Dispatcher;
 
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.handleRedirectToHome = this.handleRedirectToHome.bind(this);
       this.state = {
         pass: '',
         email: ''
       };
     }
+    handleRedirectToHome(){
+      browserHistory.push('/');
+    }
     handleChange(e) {
       if (this.props.Store.headColor) {
-        this.Dispatcher(actions.change_head_color(''))
+        this.props.Dispatcher(actions.change_head_color(''))
       }
       switch (e.target.id) {
         case 'password':
@@ -34,13 +38,16 @@ class LoginForm extends React.Component {
       }
     }
     submitForm() {
-      this.Dispatcher(actions.fatch_login({
+      this.props.Dispatcher(actions.fatch_login({
         _pass: this.state.pass,
         email: this.state.email
       }));
     }
 
     render() {
+      if(this.props.Store.isLogin) {
+        this.handleRedirectToHome();
+      }
       return (
         <Form>
           <FormGroup row>

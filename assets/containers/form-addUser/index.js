@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import { login as actions }  from '../../actions'
 
 import { FormText, FormFeedback, Button, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -15,6 +15,7 @@ class UserAddForm extends React.Component {
 
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.handleRedirectToHome = this.handleRedirectToHome.bind(this);
       this.state = {
         isPassesEquals: '',
         name: '',
@@ -27,6 +28,9 @@ class UserAddForm extends React.Component {
       if(this.state.email !== prevState.email) {
         this.Dispatcher(actions.validateEmail({email: this.state.email}))
       }
+    }
+    handleRedirectToHome(){
+      browserHistory.push('/');
     }
     handleChange(e) {
       switch (e.target.id) {
@@ -62,6 +66,9 @@ class UserAddForm extends React.Component {
     }
 
     render() {
+      if(this.props.Store.isLogin) {
+        this.handleRedirectToHome();
+      }
       let disabledButton = 'disabled'
       if (
         this.props.Store.isEmailValid &&
