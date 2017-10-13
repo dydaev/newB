@@ -29,7 +29,7 @@ export const logout = () => dispatch => {
   })
 }
 export const logged_check = () => dispatch => {
-  return Axios.get('/login/check')
+  return Axios.get('/login/check/authorize')
   .then ( ({ data })  => {
     if (data.type === 'isLogged' && data.name ) {
       dispatch( action(
@@ -45,6 +45,27 @@ export const logged_check = () => dispatch => {
       console.log("Logged fail, what want wrong(");
     }
   })
+}
+export const add_new_user = (data) => dispatch => {
+  return Axios({
+    method: 'post',
+    url: '/login/add_user',
+    data: data
+  })
+  .then ( ({ data })  => {
+    if (data.result) {
+      dispatch( action(
+        REDUCERS.AUTH.ADD_NEW_USER,
+        {
+          result: data.result,
+          message: data.message
+        }
+      ))
+    } else {
+      console.log("Add new user fail, what want wrong(. Result:", data);
+    }
+  })
+  .catch( error => console.log('An error user add. ', error))
 }
 export const fatch_login = (data) => dispatch => {
   // return Axios.post('/login/auth', JSON.parse(data))
@@ -77,4 +98,28 @@ export const fatch_login = (data) => dispatch => {
       }
     })
     .catch( error => console.log('An error login fatch. ', error))
+}
+export const validateEmail = (data) => dispatch => {
+  return Axios({
+    method: 'post',
+    url: '/login/check/email',
+    data: data
+  })
+    .then ( response => {
+      if (response.data.type === 'message') {
+        dispatch( action(
+          REDUCERS.AUTH.IS_VALID_EMAIL, {
+            isEmailValid: false,
+            message: response.data.message
+          }
+        ))
+      } else if (response.data.type === 'isValidEmail') {
+        dispatch( action(
+          REDUCERS.AUTH.IS_VALID_EMAIL, {
+            isEmailValid: true
+          }
+        ))
+      }
+    })
+    .catch( error => console.log('An error vlidation email. ', error))
 }

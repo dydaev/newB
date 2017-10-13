@@ -39,8 +39,12 @@ login:
     defaults: { _controller: AuthBundle:Default:index }
 
 check:
-    path:     /login/check
+    path:     /login/check/authorize
     defaults: { _controller: AuthBundle:Login:check }
+
+validateEmail:
+    path:     /login/check/email
+    defaults: { _controller: AuthBundle:Login:validationEmail }
 
 signin:
     path:     /login/auth
@@ -50,6 +54,7 @@ logout:
     path:     /logout
     defaults: { _controller: AuthBundle:Default:index }
 
+
 add_user:
-    path:     /add_user
+    path:     /login/add_user
     defaults: { _controller: AuthBundle:Login:addUser }

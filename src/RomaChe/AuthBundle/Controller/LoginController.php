@@ -68,27 +68,78 @@ class LoginController extends Controller
         ));
 
     }
-    public function logoutAction()
-    {
-    }
 
+    public function validationEmailAction(Request $request)
+    {
+      $content = json_decode($request->getContent());
+      if( $content->{'email'} ) {
+
+        //TODO parse email on regexp
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('AuthBundle:Users')
+        ->findOneBy(array('email' => $content->{'email'}));
+        if($user === null) {
+          return new JsonResponse(array(
+            "type" => 'isValidEmail'
+          ));
+        }
+      } else {
+        return new JsonResponse(array(
+          "type" => 'message',
+          "message" => 'Email is empty!'
+        ));
+      }
+      return new JsonResponse(array(
+        "type" => 'message',
+        "message" => 'Email already in use!'//'Email invalid!'
+      ));
+    }
     public function addUserAction(Request $request)
     {
-        $manager = $this->getDoctrine()->getManager();
-        $user = new Users();
+        $content = json_decode($request->getContent());
+        if(
+          $content->{'email'} &&
+          $content->{'name'} &&
+          $content->{'_pass'} 
+        ) {
 
-        $user->setUsername($request->get('login'));
-        $user->setEmail($request->get('email'));
-        $user->setDateAdd(new \DateTime());
-        $user->setRoles( Array('ROLE_USER') );//ROLE_SUPER_USER
+          //TODO parse email on regexp
 
-        $encoder = $this->container->get('security.password_encoder');
-        $password = $encoder->encodePassword($user, $request->get('password'));
-        $user->setPassword($password);
+          $em = $this->getDoctrine()->getEntityManager();
+          $user = $em->getRepository('AuthBundle:Users')
+            ->findOneBy(array('email' => $content->{'email'}));
+          if($user === null) {
+              $manager = $this->getDoctrine()->getManager();
+              $user = new Users();
 
-        $manager->persist($user);
-        $manager->flush();
-        return $this->redirectToRoute('login');
+              $user->setUsername($content->{'name'});
+              $user->setEmail($content->{'email'});
+              $user->setDateAdd(new \DateTime());
+              $user->setRoles( Array('ROLE_USER') );//ROLE_SUPER_USER
+
+              $encoder = $this->container->get('security.password_encoder');
+              $password = $encoder->encodePassword($user, $content->{'_pass'});
+              $user->setPassword($password);
+
+              $manager->persist($user);
+              $manager->flush();
+              return new JsonResponse(array(
+                "result" => true
+              ));
+          }
+        } else {
+          return new JsonResponse(array(
+            "result" => false,
+            "message" => 'Form is invalid!'
+          ));
+        }
+        return new JsonResponse(array(
+            "result" => false,
+            "message" => 'Email already in use!'
+        ));
     }
+    public function logoutAction()
+    {}
 
 }

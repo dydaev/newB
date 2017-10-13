@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import { CardBody, CardHeader, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
 
-import LoginForm from '../../containers/login-form/';
+import LoginForm from '../../containers/form-login/';
+import UserAddForm from '../../containers/form-addUser/';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -30,7 +31,10 @@ class LoginPage extends React.Component {
           <div className=" col-lg-8 login-firm offset-lg-2">
             <Card>
               <CardHeader className={ this.props.Store.headColor }>{
-                this.props.Store.message ?
+                (
+                  this.props.Store.headColor === 'head_color_orange' ||
+                  this.props.Store.headColor === 'head_color_red'
+                ) ?
                 `Login page: ${this.props.Store.message}` :
                 'Login page'
               }</CardHeader>
@@ -59,25 +63,18 @@ class LoginPage extends React.Component {
                       <LoginForm/>
                     </Col>
                   </Row>
-              </TabPane>
-              <TabPane tabId="2">
-              <Row className= "justify-content-md-center">
-                <Col sm="9">
-
-                <CardTitle>Sign up</CardTitle>
-                <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                <Button>Go somewhere</Button>
-
-                </Col>
-                <Col sm="6">
-
-                </Col>
-                </Row>
                 </TabPane>
-          </TabContent>
-          </Card>
+                <TabPane tabId="2">
+                  <Row className= "justify-content-md-center">
+                    <Col sm="9">
+                      <UserAddForm/>
+                    </Col>
+                  </Row>
+                </TabPane>
+              </TabContent>
+            </Card>
           </div>
-          </section>
+        </section>
       );
     }
   }
