@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Block_previews from '../containers/block-previews';
-import Block_previews_gallery from '../containers/block-previews-gallery';
-import Block_previews_text4x4 from '../containers/block-previews-text4x4';
-import { News_review, Img_news_review, Img_gallery_preview } from '../components/news-review';
+import Block_previews from '../../containers/block-previews';
+import Block_previews_gallery from '../../containers/block-previews-gallery';
+import Block_previews_text4x4 from '../../containers/block-previews-text4x4';
+import { News_review, Img_news_review, Img_gallery_preview } from '../../components/news-review';
 
 export default function Books() {
     const width = 200;
@@ -23,7 +23,7 @@ export default function Books() {
         'https://files.brightside.me/files/news/part_4/46555/208855-3432610-1000-1446444849comment_pngkZ7y3otB9J0WJmTBEYYcmM3S6Tydz-1000-6d51e333c8-1484729696.jpg',
         'https://files.brightside.me/files/news/part_4/46555/206005-12-_2_-1000-41dad920ee-1484729696.jpg'
     ];
-    
+
     return (
         <div>
             <Block_previews title="Books newss" width='455px' >
@@ -50,11 +50,11 @@ export default function Books() {
                 />
             </Block_previews>
             <Block_previews_gallery title="gallery" width='455px' height='210px'>
-                {gallery.map( (img, ind) => 
+                {gallery.map( (img, ind) =>
                     <Img_gallery_preview
                         key = { ind }
-                        src={ img } 
-                        link={ img } 
+                        src={ img }
+                        link={ img }
                         width = '145px'
                     />
                 )}

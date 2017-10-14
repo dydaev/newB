@@ -1,0 +1,21 @@
+staff_super:
+    path:     /super
+    defaults: { _controller: AuthBundle:Default:index }
+staff_admin:
+    path:     /admin
+    defaults: { _controller: AuthBundle:Default:index }
+staff_publisher:
+    path:     /publisher
+    defaults: { _controller: AuthBundle:Default:index }
+staff_writer:
+    path:     /writer
+    defaults: { _controller: AuthBundle:Default:index }
+
+
+
+getUsersList:
+    path:     /getUsersList
+    defaults: { _controller: AuthBundle:Staff:getUsersList }
+getUser:
+    path:     /getUser
+    defaults: { _controller: AuthBundle:Staff:getUser }

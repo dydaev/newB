@@ -16,6 +16,10 @@ const REDUCERS = {
         LOGIN_FAILURE: 'LOGIN_FAILURE',
         CHANGE_HEAD_COLOR: 'CHANGE_HEAD_COLOR',
         MESSAGE: 'MESSAGE',
+    },
+    STAFF: {
+        GET_USER: 'GET_USER',
+        GET_USERS_LIST: 'GET_USERS_LIST'
     }
 };
 export const INCREASE = 'INCREASE';

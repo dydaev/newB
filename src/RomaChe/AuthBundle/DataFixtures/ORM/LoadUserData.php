@@ -4,6 +4,7 @@ namespace RomaChe\AuthBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use RomaChe\AuthBundle\Entity\Users;
+use RomaChe\AuthBundle\Entity\Role;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,15 +19,19 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
+        $role = new Role();
+        $role->setName('ROLE_SUPER_USER');
+
+        $manager->persist($role);
+
         $user = new Users();
         $user->setUsername('root');
         $user->setEmail('1122@i.ua');
-        $user->setDateAdd(new \DateTime());
         $user->setCountry('Ukraine');
         $user->setCity('Kyiv');
-        $user->setAboutSelf('This prime user with admin roles');
-        $user->setRoles( Array('ROLE_SUPER_USER', 'ROLE_USER', 'ROLE_ADMIN') );
+        $user->setAboutSelf('This prime super user');
 
+        $user->getUserRoles()->add($role);
 
         $encoder = $this->container->get('security.password_encoder');
         $password = $encoder->encodePassword($user, '0000');

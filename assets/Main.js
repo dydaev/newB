@@ -34,15 +34,19 @@ ReactDOM.render(
                     <IndexRoute component={Pages.Home}/>
                     <Route path="/" component={Pages.Home}/>
                     <Route path="login" component={Pages.Login}/>
-                    <Route path="world" component={Pages.World}/>
-                    <Route path="sport" component={Pages.Sport}/>
-                    <Route path="tech" component={Pages.Tech}/>
-                    <Route path="busines" component={Pages.Busines}/>
-                    <Route path="movies" component={Pages.Movies}/>
-                    <Route path="culture" component={Pages.Culture}/>
-                    <Route path="books" component={Pages.Books}/>
-                    <Route path="blogs" component={Pages.Blogs}/>
-                    <Route path="news" component={Pages.News}/>
+                    <Route path="world" component={Pages.Public.World}/>
+                    <Route path="sport" component={Pages.Public.Sport}/>
+                    <Route path="tech" component={Pages.Public.Tech}/>
+                    <Route path="busines" component={Pages.Public.Busines}/>
+                    <Route path="movies" component={Pages.Public.Movies}/>
+                    <Route path="culture" component={Pages.Public.Culture}/>
+                    <Route path="books" component={Pages.Public.Books}/>
+                    <Route path="blogs" component={Pages.Public.Blogs}/>
+                    <Route path="news" component={Pages.Public.News}/>
+                    <Route path="staff/super" component={Pages.Staff.Super}/>
+                    <Route path="staff/admin" component={Pages.Staff.Admin}/>
+                    <Route path="staff/publisher" component={Pages.Staff.Publisher}/>
+                    <Route path="staff/writer" component={Pages.Staff.Writer}/>
                 </Route>
             </Router>
         </div>

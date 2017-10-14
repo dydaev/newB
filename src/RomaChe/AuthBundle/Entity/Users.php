@@ -3,6 +3,7 @@
 namespace RomaChe\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -13,12 +14,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Users implements UserInterface
 {
+  public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+    }
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
@@ -46,15 +52,19 @@ class Users implements UserInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateAdd", type="datetime")
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $dateAdd;
+    private $createdAt;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="roles", type="array")
-     */
+     /**
+          * @ORM\ManyToMany(targetEntity="Role")
+          * @ORM\JoinTable(name="user_roles",
+          *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+          *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+          * )
+          *
+          * @var ArrayCollection $roles
+          */
     private $roles;
 
     /**
@@ -176,27 +186,13 @@ class Users implements UserInterface
     }
 
     /**
-     * Set dateAdd
-     *
-     * @param \DateTime $dateAdd
-     *
-     * @return Users
-     */
-    public function setDateAdd($dateAdd)
-    {
-        $this->dateAdd = $dateAdd;
-
-        return $this;
-    }
-
-    /**
      * Get dateAdd
      *
      * @return \DateTime
      */
-    public function getDateAdd()
+    public function getcreatedAt()
     {
-        return $this->dateAdd;
+        return $this->createdAt;
     }
 
     /**
@@ -206,7 +202,7 @@ class Users implements UserInterface
      *
      * @return Users
      */
-    public function setRoles($roles)
+    public function setUserRoles($roles)
     {
         $this->roles = $roles;
 
@@ -214,13 +210,23 @@ class Users implements UserInterface
     }
 
     /**
-     * Get roles
+     * Геттер для ролей пользователя.
      *
-     * @return string
+     * @return ArrayCollection A Doctrine ArrayCollection
+     */
+    public function getUserRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Геттер для массива ролей.
+     *
+     * @return array An array of Role objects
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->getUserRoles()->toArray();
     }
 
     /**
@@ -365,5 +371,16 @@ class Users implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-}
 
+    /**
+     * Сравнивает пользователя с другим пользователем и определяет
+     * один и тот же ли это человек.
+     *
+     * @param UserInterface $user The user
+     * @return boolean True if equal, false othwerwise.
+     */
+    public function equals(UserInterface $user)
+    {
+        return md5($this->getUsername()) == md5($user->getUsername());
+    }
+}
