@@ -28,6 +28,9 @@ blogs_news:
 login:
     path:     /login
     defaults: { _controller: AuthBundle:Default:index }
+profile:
+    path:     /profile
+    defaults: { _controller: AuthBundle:Default:index }
 
 add_user:
       path:   /login/add_user

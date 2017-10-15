@@ -17,42 +17,79 @@ class StaffController extends Controller
             // ...
         ));
     }
-    public function getUserAction(Request $request)
+    public function getUserAction(Request $request = null)
     {
-        $content = json_decode($request->getContent());
-        if( $content->{'userId'} ) {
-          $em = $this->getDoctrine()->getEntityManager();
-          $user = $em->getRepository('AuthBundle:Users')
-            ->findOneBy(array('id' => $content->{'userId'}));
-          if($user !== null) {
-            return new JsonResponse(array(
-              "type" => 'user',
-              "user" =>  array(
-                'name' =>  $user->getUsername(),
-                'email' => $user->getEmail(),
-                'role' => $user->getRoles()
-            )));
+        if($request->getMethod() == 'POST' && $request !== null ) {
+
+          $content = json_decode($request->getContent());
+
+          if( $content->{'userId'} ) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $em->getRepository('AuthBundle:Users')
+              ->findOneBy(array('id' => $content->{'userId'}));
+
+            if($user !== null) {
+              if($this->get('security.authorization_checker')->isGranted('ROLE_SUPER_USER')) {
+                return new JsonResponse(array(
+                  "type" => 'user',
+                  "user" =>  $user->toArray()
+                ));
+              } else {
+                return new JsonResponse(array(
+                  "type" => 'error',
+                  "message" =>  'Access exception!'
+                ));
+              }
+
+            } else {
+              return new JsonResponse(array(
+                "type" => 'message',
+                "message" => 'No user with this id'
+              ));
+
+            }
           } else {
             return new JsonResponse(array(
               "type" => 'message',
-              "message" => 'No user with this id'
+              "message" => 'Not ID!'
             ));
           }
+        } elseif ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new JsonResponse(array(
+                "type" => 'user',
+                "user" => $this->get('security.token_storage')
+                  ->getToken()
+                  ->getUser()
+                  ->toArray()
+            ));
         } else {
-          return new JsonResponse(array(
-            "type" => 'message',
-            "message" => 'Not ID!'
-          ));
+            return new JsonResponse(array(
+                "type" => 'error'
+            ));
         }
     }
     public function getUsersListAction()
     {
-        $content = json_decode($request->getContent());
-        if( $content->{'email'} ) {
-          $em = $this->getDoctrine()->getEntityManager();
-          $user = $em->getRepository('AuthBundle:Users')
-            ->findOneBy(array('email' => $content->{'email'}));
-        }
+        $em = $this->getDoctrine()->getEntityManager();
+        $users = $em->getRepository('AuthBundle:Users')
+            ->findAll();
+
+        if(count($users) > 0) {
+
+            $users = array_map(function($user){
+                return $user->toArray();
+            }, $users);
+
+            return new JsonResponse(array(
+              "type" => 'users',
+              "users" => $users
+            ));
+          } else {
+            return new JsonResponse(array(
+              "type" => 'message',
+              "message" => 'Don`t find anyone user!'
+            ));
+          }
     }
 
 }

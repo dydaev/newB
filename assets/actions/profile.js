@@ -2,20 +2,20 @@ import REDUCERS from '../consts'
 import Axios from 'axios';
 
 const action = ( type, payload ) => {
-console.log('Pushing staff action: ', type , ', -> ', payload);
+console.log('Pushing profile action: ', type , ', -> ', payload);
     return {
         type: type,
         payload: payload
     }
 }
 
-export const change_head_color = ( colorClass ) => dispatch => {
+export const setUserId = ( id ) => dispatch => {
   dispatch( action(
-    REDUCERS.AUTH.CHANGE_HEAD_COLOR,
-    colorClass
+    REDUCERS.PROFILE.SET_USER_ID,
+    id
   ))
 }
-export const getUsersList = () => dispatch => {
+export const example = (a) => dispatch => {
   return Axios.get('/staff/getUsersList')
   .then ( ({data, status})  => {
     if (status === 200) {
@@ -29,20 +29,21 @@ export const getUsersList = () => dispatch => {
       console.log("What want wrong with getting users list.")
     }
   })
-  .catch( error => console.log('An error staff . ', error))
+  .catch( error => console.log('An error profile . ', error))
 }
-export const getUser = (userId) => dispatch => {
+export const getUser = ( userId = null ) => dispatch => {
   return Axios({
-    method: 'post',
+    method: userId !== null ? 'post' : 'get',
     url: '/staff/getUser',
     data: userId
   })
   .then ( ({data, status})  => {
     if (status === 200) {
+      console.log("profile request data: ",data);
       if(data.type === 'user') {
         dispatch( action(
-          REDUCERS.STAFF.GET_USER,
-          data.users
+          REDUCERS.PROFILE.SUCCESS_USER_PROFILE,
+          data.user
         ))
       } else if (data.type === 'message') {
         console.log("Not user, :", data.message);
@@ -51,5 +52,5 @@ export const getUser = (userId) => dispatch => {
       console.log("What want wrong with getting user.")
     }
   })
-  .catch( error => console.log('An error staff . ', error))
+  .catch( error => console.log('An error profile . ', error))
 }

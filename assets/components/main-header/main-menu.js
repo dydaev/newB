@@ -48,7 +48,7 @@ class MainMenu extends React.Component {
                       <PopoverBody>
                         <ul>
                           <li>
-                            <a href="#">Profile</a>
+                            <a href="#" onClick={() => browserHistory.push('/profile')}>Profile</a>
                           </li>
                           <li>
                             <a href="#" onClick={() => this.handleLogout()}>Sign out</a>

@@ -1,26 +1,26 @@
 import REDUCERS from '../consts';
 
 const initialState = {
-  staff:{
-    users_list: [],
+  profile:{
+    user_id: 0,
     user: []
   }
 }
 
 export default function update(state = initialState, action) {
 
-  console.log(`Try reduce staff action ${action.type} to `, action.payload);
+  console.log(`Try reduce profile action ${action.type} to `, action.payload);
   switch (action.type) {
 
-    case REDUCERS.STAFF.GET_USERS_LIST:
+    case REDUCERS.PROFILE.SET_USER_ID:
       return Object.assign({}, state, {
-        staff:{
-          users_list: action.payload
+        profile:{
+          user_id: action.payload
         }
       })
-    case REDUCERS.AUTH.GET_USER:
+    case REDUCERS.PROFILE.SUCCESS_USER_PROFILE:
       return Object.assign({}, state, {
-        staff:{
+        profile:{
           user: action.payload
         }
       })

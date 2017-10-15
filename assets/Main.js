@@ -34,6 +34,7 @@ ReactDOM.render(
                     <IndexRoute component={Pages.Home}/>
                     <Route path="/" component={Pages.Home}/>
                     <Route path="login" component={Pages.Login}/>
+                    <Route path="profile" component={Pages.Profile}/>
                     <Route path="world" component={Pages.Public.World}/>
                     <Route path="sport" component={Pages.Public.Sport}/>
                     <Route path="tech" component={Pages.Public.Tech}/>

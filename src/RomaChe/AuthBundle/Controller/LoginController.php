@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use RomaChe\AuthBundle\Entity\Users;
+use RomaChe\AuthBundle\Entity\Role;
 
 class LoginController extends Controller
 {
@@ -101,7 +102,7 @@ class LoginController extends Controller
         if(
           $content->{'email'} &&
           $content->{'name'} &&
-          $content->{'_pass'} 
+          $content->{'_pass'}
         ) {
 
           //TODO parse email on regexp
@@ -110,17 +111,29 @@ class LoginController extends Controller
           $user = $em->getRepository('AuthBundle:Users')
             ->findOneBy(array('email' => $content->{'email'}));
           if($user === null) {
-              $manager = $this->getDoctrine()->getManager();
+            $manager = $this->getDoctrine()->getManager();
+
+              $roleName = 'ROLE_USER';
+              $role = $em->getRepository('AuthBundle:Role')
+                ->findOneBy(array('name' => $roleName));
+
+              if($role === null) {
+                $role = new Role();
+                $role->setName($roleName);
+              }
+
+              $manager->persist($role);
+
               $user = new Users();
 
               $user->setUsername($content->{'name'});
               $user->setEmail($content->{'email'});
-              $user->setDateAdd(new \DateTime());
-              $user->setRoles( Array('ROLE_USER') );//ROLE_SUPER_USER
 
               $encoder = $this->container->get('security.password_encoder');
               $password = $encoder->encodePassword($user, $content->{'_pass'});
               $user->setPassword($password);
+
+              $user->getUserRoles()->add($role);
 
               $manager->persist($user);
               $manager->flush();

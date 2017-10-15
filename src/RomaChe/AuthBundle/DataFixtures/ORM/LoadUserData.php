@@ -31,11 +31,12 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
         $user->setCity('Kyiv');
         $user->setAboutSelf('This prime super user');
 
-        $user->getUserRoles()->add($role);
-
         $encoder = $this->container->get('security.password_encoder');
         $password = $encoder->encodePassword($user, '0000');
         $user->setPassword($password);
+
+        // $user->getUserRoles()->add($role);
+        $user->addRole($role);
 
         $manager->persist($user);
         $manager->flush();
