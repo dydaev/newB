@@ -10,6 +10,7 @@ class MainMenu extends React.Component {
     this.Dispatcher = props.Dispatcher;
 
     this.toggle = this.toggle.bind(this);
+    this.handlePopoverLink = this.handlePopoverLink.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.state = {
       popoverOpen: false
@@ -20,7 +21,12 @@ class MainMenu extends React.Component {
       popoverOpen: !this.state.popoverOpen
     });
   }
+  handlePopoverLink(path) {
+    this.toggle();
+    browserHistory.push(path)
+  }
   handleLogout() {
+    this.toggle();
     this.Dispatcher(actions.logout());
   }
   render(){
@@ -48,7 +54,7 @@ class MainMenu extends React.Component {
                       <PopoverBody>
                         <ul>
                           <li>
-                            <a href="#" onClick={() => browserHistory.push('/profile')}>Profile</a>
+                            <a href="#" onClick={() => this.handlePopoverLink('/profile')}>Profile</a>
                           </li>
                           <li>
                             <a href="#" onClick={() => this.handleLogout()}>Sign out</a>

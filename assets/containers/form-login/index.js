@@ -15,14 +15,10 @@ class LoginForm extends React.Component {
 
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      this.handleRedirectToHome = this.handleRedirectToHome.bind(this);
       this.state = {
         pass: '',
         email: ''
       };
-    }
-    handleRedirectToHome(){
-      browserHistory.push('/');
     }
     handleChange(e) {
       if (this.props.Store.headColor) {
@@ -45,9 +41,6 @@ class LoginForm extends React.Component {
     }
 
     render() {
-      if(this.props.Store.isLogin) {
-        this.handleRedirectToHome();
-      }
       return (
         <Form>
           <FormGroup row>

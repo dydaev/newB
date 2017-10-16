@@ -36,8 +36,11 @@ class StaffController extends Controller
                 ));
               } else {
                 return new JsonResponse(array(
-                  "type" => 'error',
-                  "message" =>  'Access exception!'
+                  "type" => 'user',
+                  "user" =>  $this->get('security.token_storage')
+                    ->getToken()
+                    ->getUser()
+                    ->toArray()
                 ));
               }
 
@@ -68,7 +71,7 @@ class StaffController extends Controller
             ));
         }
     }
-    public function getUsersListAction()
+    public function getUsersListAction()//TODO access control for users!!!
     {
         $em = $this->getDoctrine()->getEntityManager();
         $users = $em->getRepository('AuthBundle:Users')

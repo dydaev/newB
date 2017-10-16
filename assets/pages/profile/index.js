@@ -20,18 +20,24 @@ import {
 class ProfilePage extends React.Component {
     constructor(props) {
       super(props);
-
-      props.Dispatcher(action.getUser(
-        props.Store.user_id !== undefined ?
-        props.Store.user_id :
-        null
-      ));
-      this.state = {
-      };
+console.log("PROFILE PROPS-", props);
     }
-
+    componentDidUpdate() {
+      if(!this.props.Store.login.isLogin) {
+        browserHistory.push('/login');
+      }
+    }
+    componentWillMount() {
+      if(this.props.Store.profile.user.id) {
+        console.log("User ID is set in profile");
+        this.props.Dispatcher(action.getUser(this.props.Store.profile.user.id));
+      } else {
+        console.log("NO USER ID in profile");
+        this.props.Dispatcher(action.getUser());
+      }
+    }
     render() {
-      console.log("Profile this->", this.props);
+      console.log("PROFILE RENDER props:", this.props);
       return (
         <section id="login" className= "col-sm-12">
           <div className=" col-lg-10 login-firm offset-lg-1">
@@ -47,7 +53,7 @@ class ProfilePage extends React.Component {
                     name="email"
                     id="exampleEmail"
                     placeholder="email"
-                    value={this.props.Store.profile.user.email}
+                    value={this.props.Store.profile.user.email || ''}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -57,7 +63,7 @@ class ProfilePage extends React.Component {
                     name="name"
                     id="exName"
                     placeholder="name"
-                    value={this.props.Store.profile.user.username}
+                    value={this.props.Store.profile.user.username || ''}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -67,7 +73,7 @@ class ProfilePage extends React.Component {
                     name="city"
                     id="lbCity"
                     placeholder="city"
-                    value={this.props.Store.profile.user.city}
+                    value={this.props.Store.profile.user.city || ''}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -77,18 +83,26 @@ class ProfilePage extends React.Component {
                     name="country"
                     id="lbCountry"
                     placeholder="country"
-                    value={this.props.Store.profile.user.country}
+                    value={this.props.Store.profile.user.country || ''}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="lbRoles">Roles</Label>
                   <Input type="select" name="roles" id="lbRoles" multiple>
-
+                    {
+                      !this.props.Store.profile.Roles ?
+                      '' :
+                      Object.values(this.props.Store.profile.Roles).map((role, ind) => {
+                        return(
+                          <option key={ind}>{role}</option>
+                        )
+                      })
+                    }
                   </Input>
                 </FormGroup>
                 <FormGroup>
                   <Label for="lbAbout">About</Label>
-                  <Input type="textarea" name="about" id="lbAbout" value={this.props.Store.profile.user.aboutSelf}/>
+                  <Input type="textarea" name="about" id="lbAbout" value={this.props.Store.profile.user.aboutSelf || ''}/>
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleFile">Avatar</Label>
@@ -121,6 +135,11 @@ class ProfilePage extends React.Component {
     }
   }
 export default connect(
-    ( store ) => ({ Store: store.profile }),
+    ( store ) => ({
+      Store: {
+        profile: {...store.profile.profile},
+        login: {...store.login.login}
+      }
+    }),
     dispatch => ({Dispatcher: dispatch})
 )(ProfilePage)

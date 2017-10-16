@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux'
-// import { increase, decrease } from '../../actions'
+import { browserHistory } from 'react-router';
 
 import { CardBody, CardHeader, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
@@ -23,6 +23,11 @@ class LoginPage extends React.Component {
         this.setState({
           activeTab: tab
         });
+      }
+    }
+    componentDidUpdate() {      
+      if(this.props.Store.isLogin) {
+        browserHistory.push('/');
       }
     }
     render() {

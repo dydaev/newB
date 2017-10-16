@@ -126,6 +126,7 @@ class LoginController extends Controller
 
               $user = new Users();
 
+              $user->addRole($role);
               $user->setUsername($content->{'name'});
               $user->setEmail($content->{'email'});
 
@@ -133,7 +134,7 @@ class LoginController extends Controller
               $password = $encoder->encodePassword($user, $content->{'_pass'});
               $user->setPassword($password);
 
-              $user->getUserRoles()->add($role);
+              // $user->getUserRoles()->add($role);
 
               $manager->persist($user);
               $manager->flush();

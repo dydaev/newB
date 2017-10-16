@@ -13,13 +13,15 @@ export default function update(state = initialState, action) {
   switch (action.type) {
 
     case REDUCERS.PROFILE.SET_USER_ID:
-      return Object.assign({}, state, {
+      return Object.assign({}, {...state}, {
         profile:{
-          user_id: action.payload
+          user:{
+            id: action.payload
+          }
         }
       })
     case REDUCERS.PROFILE.SUCCESS_USER_PROFILE:
-      return Object.assign({}, state, {
+      return Object.assign({}, {...state}, {
         profile:{
           user: action.payload
         }

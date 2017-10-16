@@ -15,7 +15,6 @@ class UserAddForm extends React.Component {
 
       this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      this.handleRedirectToHome = this.handleRedirectToHome.bind(this);
       this.state = {
         isPassesEquals: '',
         name: '',
@@ -28,9 +27,6 @@ class UserAddForm extends React.Component {
       if(this.state.email !== prevState.email) {
         this.Dispatcher(actions.validateEmail({email: this.state.email}))
       }
-    }
-    handleRedirectToHome(){
-      browserHistory.push('/');
     }
     handleChange(e) {
       switch (e.target.id) {
@@ -66,9 +62,6 @@ class UserAddForm extends React.Component {
     }
 
     render() {
-      if(this.props.Store.isLogin) {
-        this.handleRedirectToHome();
-      }
       let disabledButton = 'disabled'
       if (
         this.props.Store.isEmailValid &&
@@ -89,7 +82,7 @@ class UserAddForm extends React.Component {
               name="email"
               id="email"
               placeholder="email"
-              valid={this.props.Store.isEmailValid}
+              valid={this.props.Store.isEmailValid ? true : false}
             />
             <FormText>
             {
@@ -108,7 +101,7 @@ class UserAddForm extends React.Component {
               name="name"
               id="name"
               placeholder="name"
-              valid={this.state.name}
+              valid={this.state.name ? true : false}
             />
           </FormGroup>
           <FormGroup row>
@@ -120,7 +113,7 @@ class UserAddForm extends React.Component {
               name="password"
               id="password"
               placeholder="password"
-              valid={this.state.isPassesEquals}
+              valid={this.state.isPassesEquals ? true : false}
             />
           </FormGroup>
           <FormGroup row>

@@ -35,7 +35,7 @@ export const getUser = ( userId = null ) => dispatch => {
   return Axios({
     method: userId !== null ? 'post' : 'get',
     url: '/staff/getUser',
-    data: userId
+    data: {userId: userId}
   })
   .then ( ({data, status})  => {
     if (status === 200) {
