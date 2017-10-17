@@ -28,7 +28,7 @@ class Users implements UserInterface
         'username'=>$this->username,
         'email'=>$this->email,
         'createdAt'=>$this->createdAt,
-        'Roles'=>$this->getRoles(),
+        'Roles'=>$this->getRolesNames(),
         'birthday'=>$this->birthday,
         'sex'=>$this->sex,
         'country'=>$this->country,
@@ -235,6 +235,20 @@ class Users implements UserInterface
     }
 
     /**
+     * Getter for get array names of roles
+     *
+     * @return array An array of Role name
+     */
+    public function getRolesNames()
+    {
+        $roleNames = array();
+        $roleNames = array_map(function($role){
+          return $role->getName();
+        }, $this->getUserRoles()->toArray());
+        return $roleNames;
+    }
+
+    /**
      * Set birthday
      *
      * @param \Date $birthday
@@ -415,8 +429,7 @@ class Users implements UserInterface
      */
     public function addRole(\RomaChe\AuthBundle\Entity\Role $role)
     {
-        $this->roles[] = $role;
-
+        $this->roles->add($role);
         return $this;
     }
 
@@ -428,5 +441,19 @@ class Users implements UserInterface
     public function removeRole(\RomaChe\AuthBundle\Entity\Role $role)
     {
         $this->roles->removeElement($role);
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return Users
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 }

@@ -120,9 +120,9 @@ class LoginController extends Controller
               if($role === null) {
                 $role = new Role();
                 $role->setName($roleName);
+                $manager->persist($role);
               }
 
-              $manager->persist($role);
 
               $user = new Users();
 

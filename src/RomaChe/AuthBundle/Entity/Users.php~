@@ -391,4 +391,42 @@ class Users implements UserInterface
 
 
 
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Users
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Add role
+     *
+     * @param \RomaChe\AuthBundle\Entity\Role $role
+     *
+     * @return Users
+     */
+    public function addRole(\RomaChe\AuthBundle\Entity\Role $role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Remove role
+     *
+     * @param \RomaChe\AuthBundle\Entity\Role $role
+     */
+    public function removeRole(\RomaChe\AuthBundle\Entity\Role $role)
+    {
+        $this->roles->removeElement($role);
+    }
 }
