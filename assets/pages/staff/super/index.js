@@ -83,18 +83,29 @@ class SuperPage extends React.Component {
     }
     handleGenerateRole(str) {
       let inputRole = this.state.selectedRoleName;
-      let prefix = 'role', section, role;
+      let prefix = 'role', section, role, user = false;
 
       if(inputRole !== '') {
         let inputArray = inputRole.split('_');
+       console.log(inputArray); 
+        inputArray.forEach( subStr => {
+            if(this.props.Store.Main.sections.includes(subStr.toLowerCase())) {
+                section = subStr;
+            }
+            if(Object.keys(this.props.Store.Main.roles).includes(subStr.toLowerCase())) {
+                role = subStr;
+                //user = role.toUpperCase() === 'USER' ? true : false
+            }
+        })
       }
 
       if(Object.keys(str)[0] === 'role') {
         role = str.role;
+        user = role.toUpperCase() === 'USER' ? true : false
       }
-      if(Object.keys(str)[0] === 'section') {
-        section = str.section;
-      }
+
+      section = (Object.keys(str)[0] === 'section' && !user) ? str.section : section
+
       role = prefix +
       (section ? ('_'+section) : '') +
       (role ? ('_'+role) : '');
