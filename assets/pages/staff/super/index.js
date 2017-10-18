@@ -27,7 +27,10 @@ class SuperPage extends React.Component {
         selectedRoleName: '',
         selectedRoleInd:''
       };
+      this.inputSection = '';
+      this.inputRole = '';
     }
+
 
     toggle(ind, id) {
       if (ind >= 0) {
@@ -87,21 +90,25 @@ class SuperPage extends React.Component {
 
       if(inputRole !== '') {
         let inputArray = inputRole.split('_');
-       console.log(inputArray); 
         inputArray.forEach( subStr => {
             if(this.props.Store.Main.sections.includes(subStr.toLowerCase())) {
                 section = subStr;
+                this.inputSection = section;
             }
             if(Object.keys(this.props.Store.Main.roles).includes(subStr.toLowerCase())) {
                 role = subStr;
-                //user = role.toUpperCase() === 'USER' ? true : false
+                this.inputRole = role;
+                user = role.toUpperCase() === 'USER' ? true : false
             }
         })
       }
 
       if(Object.keys(str)[0] === 'role') {
         role = str.role;
-        user = role.toUpperCase() === 'USER' ? true : false
+        if(role.toUpperCase() === 'USER') {
+          section = '';
+          user = true;
+        }
       }
 
       section = (Object.keys(str)[0] === 'section' && !user) ? str.section : section
@@ -111,7 +118,8 @@ class SuperPage extends React.Component {
       (role ? ('_'+role) : '');
 
       this.setState({
-        selectedRoleName: role.toUpperCase()
+        selectedRoleName: role.toUpperCase(),
+        selectedRoleInd: this.state.selectedRoleInd || ''
       })
     }
     render() {
@@ -148,31 +156,40 @@ class SuperPage extends React.Component {
                   value={this.state.selectedRoleName}
                 />
               </FormGroup>
-              <FormGroup>
-                <Label for="exSections">Sections</Label>
-                <Input
-                  type="select"
-                  name="selections"
-                  id="exSections"
-                  onChange={(e)=> this.handleGenerateRole({section: e.target.value})}
-                >
-                {this.props.Store.Main.sections.map((section, ind) => {
-                  return (<option key={ind}>{section}</option>)
-                })}
-                </Input>
-              </FormGroup>
-              <FormGroup>
-                <Label for="exRoles">Roles</Label>
-                <Input
-                  type="select"
-                  name="roles"
-                  id="exRoles"
-                  onChange={(e)=> this.handleGenerateRole({role: e.target.value})}
-                >
-                {Object.keys(this.props.Store.Main.roles).map((section, ind) => {
-                  return (<option key={ind}>{section}</option>)
-                })}
-                </Input>
+              <FormGroup className="inline">
+                <FormGroup className="col-lg-6 d-inline-block">
+                  <Label for="exSections">Sections</Label>
+                  <Input
+                    type="select"
+                    name="selections"
+                    id="exSections"
+                    onChange={(e)=> this.handleGenerateRole({section: e.target.value})}
+                  >
+                  {
+                    this.props.Store.Main.sections.map((section, ind) => {
+                      return this.inputSection.toUpperCase() === section.toUpperCase() ?
+                      (<option key={ind} selected>{section}</option>) :
+                      (<option key={ind}>{section}</option>)
+                    })
+                  }
+                  </Input>
+                </FormGroup>
+                <FormGroup className="col-lg-6 d-inline-block">
+                  <Label for="exRoles">Roles</Label>
+                  <Input
+                    type="select"
+                    name="roles"
+                    id="exRoles"
+                    onChange={(e)=> this.handleGenerateRole({role: e.target.value})}
+                  >
+                  {Object.keys(this.props.Store.Main.roles).map((role, ind) => {
+                    console.log("THIS__",this);
+                      return this.inputSection.toUpperCase() === role.toUpperCase() ?
+                      (<option key={ind} selected>{role}</option>) :
+                      (<option key={ind}>{role}</option>)
+                  })}
+                  </Input>
+                </FormGroup>
               </FormGroup>
             </ModalBody>
             <ModalFooter>
