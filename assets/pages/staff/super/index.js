@@ -31,6 +31,20 @@ class SuperPage extends React.Component {
       this.inputRole = '';
     }
 
+    componentWillUpdate(nextProps, nextState) {
+      if(nextState.selectedRoleName !== '') {
+        let inputArray = nextState.selectedRoleName.split('_');
+
+        inputArray.forEach( subStr => {
+          if(this.props.Store.Main.sections.includes(subStr.toLowerCase())) {
+            this.inputSection = subStr.toUpperCase();
+          }
+          if(Object.keys(this.props.Store.Main.roles).includes(subStr.toLowerCase())) {
+            this.inputRole = subStr.toUpperCase();
+          }
+        })
+      }
+    }
 
     toggle(ind, id) {
       if (ind >= 0) {
@@ -85,37 +99,22 @@ class SuperPage extends React.Component {
       }
     }
     handleGenerateRole(str) {
-      let inputRole = this.state.selectedRoleName;
-      let prefix = 'role', section, role, user = false;
+      const prefix = 'role';
 
-      if(inputRole !== '') {
-        let inputArray = inputRole.split('_');
-        inputArray.forEach( subStr => {
-            if(this.props.Store.Main.sections.includes(subStr.toLowerCase())) {
-                section = subStr;
-                this.inputSection = section;
-            }
-            if(Object.keys(this.props.Store.Main.roles).includes(subStr.toLowerCase())) {
-                role = subStr;
-                this.inputRole = role;
-                user = role.toUpperCase() === 'USER' ? true : false
-            }
-        })
-      }
+      this.inputRole = Object.keys(str)[0] === 'role' ?
+      str.role.toUpperCase() :
+      this.inputRole
 
-      if(Object.keys(str)[0] === 'role') {
-        role = str.role;
-        if(role.toUpperCase() === 'USER') {
-          section = '';
-          user = true;
-        }
-      }
+      this.inputSection = Object.keys(str)[0] !== 'section' ?
+      this.inputSection:
+      str.section
 
-      section = (Object.keys(str)[0] === 'section' && !user) ? str.section : section
+      const section = this.inputRole !== 'USER' ? this.inputSection : '';
 
-      role = prefix +
+
+      const role = prefix +
       (section ? ('_'+section) : '') +
-      (role ? ('_'+role) : '');
+      (this.inputRole ? ('_'+this.inputRole) : '');
 
       this.setState({
         selectedRoleName: role.toUpperCase(),
@@ -184,7 +183,7 @@ class SuperPage extends React.Component {
                   >
                   {Object.keys(this.props.Store.Main.roles).map((role, ind) => {
                     console.log("THIS__",this);
-                      return this.inputSection.toUpperCase() === role.toUpperCase() ?
+                      return this.inputRole.toUpperCase() === role.toUpperCase() ?
                       (<option key={ind} selected>{role}</option>) :
                       (<option key={ind}>{role}</option>)
                   })}
