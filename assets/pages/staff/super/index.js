@@ -19,7 +19,12 @@ class SuperPage extends React.Component {
       this.handleGenerateRole = this.handleGenerateRole.bind(this);
       this.handleOptionSelect = this.handleOptionSelect.bind(this);
       this.handleChangeInputRole = this.handleChangeInputRole.bind(this);
+      this.handleAdd = this.handleAdd.bind(this);
+      this.handleUpdate = this.handleUpdate.bind(this);
+      this.handleDelete = this.handleDelete.bind(this);
+
       this.state = {
+        name: '',
         modal: false,
         id: '',
         ind: '',
@@ -27,7 +32,7 @@ class SuperPage extends React.Component {
         selectedRoleName: '',
         selectedRoleInd:''
       };
-      this.inputSection = '';
+      this.inputSection = 'all';
       this.inputRole = '';
     }
 
@@ -45,12 +50,13 @@ class SuperPage extends React.Component {
         })
       }
     }
-
     toggle(ind, id) {
-      if (ind >= 0) {
-        console.log("roles->",ind, " = ",this.props.Store.staff.users_list[ind].Roles )
+      if(!this.state.modal) {
+        this.inputSection = 'all';
+        this.inputRole = '';
       }
       this.setState({
+        name: (ind >= 0) ? this.props.Store.staff.users_list[ind].username : '',
         selectedRoleName: '',
         selectedRoleInd: '',
         modal: !this.state.modal,
@@ -113,21 +119,57 @@ class SuperPage extends React.Component {
 
 
       const role = prefix +
-      (section ? ('_'+section) : '') +
+      ((section !== 'all' && section) ? ('_'+section) : '') +
       (this.inputRole ? ('_'+this.inputRole) : '');
 
       this.setState({
-        selectedRoleName: role.toUpperCase(),
-        selectedRoleInd: this.state.selectedRoleInd || ''
+        selectedRoleName: role.toUpperCase()
       })
     }
+    handleAdd() {
+      const newRole = this.state.selectedRoleName
+      if(newRole) {
+        this.setState({
+          roles: Array.from(new Set([...this.state.roles, newRole])),
+          selectedRoleName: ''
+        })
+      }
+    }
+    handleUpdate() {
+      if(this.state.selectedRoleInd) {
+        const selectedOptionsName = this.state.roles[this.state.selectedRoleInd]
+        const rolesArray = this.state.roles.map( role => {
+          return role === selectedOptionsName ?
+          (role.includes(this.state.selectedRoleName) ? role :
+          this.state.selectedRoleName) :
+          role
+        });
+        this.setState({
+          roles: rolesArray,
+          selectedRoleName: '',
+          selectedRoleInd: ''
+        })
+      }
+    }
+    handleDelete() {
+       const deleteName = this.state.selectedRoleName;
+      if(deleteName !== 'ROLE_USER') {
+        this.setState({
+          roles: this.state.roles.filter( role => {
+            return role !== deleteName
+          })
+        })
+      }
+    }
     render() {
-    console.log("PROPS STAFF_SUPER:", this.props);
       return (
           <section className='super-page' style={{ display: 'flex', justifyContent: 'space-between'}}>
 
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} backdrop={false}>
-            <ModalHeader toggle={this.toggle}>Roles setup</ModalHeader>
+          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} backdrop={true}>
+            <ModalHeader toggle={this.toggle}>
+              Setup roles for user
+              <split style={{ fontWeight: 'bold', textDecoration: 'underline' }}> { this.state.name } </split>
+            </ModalHeader>
             <ModalBody>
               <FormGroup>
                 <Label for="exampleSelectMulti">Roles</Label>
@@ -139,6 +181,7 @@ class SuperPage extends React.Component {
                 multiple>
                   {
                     this.state.roles.map((role, ind) => {
+                      console.log("props", this.props);
                       return(
                         <option key={ind} value={ind}>
                           {role}
@@ -148,10 +191,24 @@ class SuperPage extends React.Component {
                   }
                 </Input>
               </FormGroup>
+
+              <FormGroup className="row justify-content-around">
+                <FormGroup className="col-lg-3">
+                    <Button className="col-lg-12" color="secondary" onClick={this.handleAdd}>Add</Button>
+                </FormGroup>
+                <FormGroup className="col-lg-3">
+                    <Button className="col-lg-12" color="secondary" onClick={this.handleUpdate}>Update</Button>
+                </FormGroup>
+                <FormGroup className="col-lg-3">
+                    <Button className="col-lg-12" color="secondary" onClick={this.handleDelete}>Delete</Button>
+                </FormGroup>
+              </FormGroup>
+
               <FormGroup>
                 <Input
                   type="text"
                   onChange={(e) => this.handleChangeInputRole(e)}
+                  placeholder="select or enter role"
                   value={this.state.selectedRoleName}
                 />
               </FormGroup>
@@ -166,7 +223,9 @@ class SuperPage extends React.Component {
                   >
                   {
                     this.props.Store.Main.sections.map((section, ind) => {
-                      return this.inputSection.toUpperCase() === section.toUpperCase() ?
+                      const selectOption = this.inputSection.toUpperCase() ?
+                      this.inputSection.toUpperCase() : 'all'
+                      return selectOption === section.toUpperCase() ?
                       (<option key={ind} selected>{section}</option>) :
                       (<option key={ind}>{section}</option>)
                     })
@@ -182,7 +241,6 @@ class SuperPage extends React.Component {
                     onChange={(e)=> this.handleGenerateRole({role: e.target.value})}
                   >
                   {Object.keys(this.props.Store.Main.roles).map((role, ind) => {
-                    console.log("THIS__",this);
                       return this.inputRole.toUpperCase() === role.toUpperCase() ?
                       (<option key={ind} selected>{role}</option>) :
                       (<option key={ind}>{role}</option>)

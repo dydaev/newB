@@ -7,6 +7,7 @@ const initialState = {
       user: 'Reade all'
     },
     sections: [
+      'all',
       'world',
       'sport',
       'tech',
