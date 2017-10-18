@@ -19,3 +19,6 @@ getUsersList:
 getUser:
     path:     /getUser
     defaults: { _controller: AuthBundle:Staff:getUser }
+updateRoles:
+    path:     /updateRoles
+    defaults: { _controller: AuthBundle:Staff:updateRoles }

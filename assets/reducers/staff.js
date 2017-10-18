@@ -24,6 +24,16 @@ export default function update(state = initialState, action) {
           user: action.payload
         }
       })
+    case REDUCERS.STAFF.GET_USER_TO_LIST:
+      return Object.assign({}, state, {
+        staff:{
+          users_list: state.staff.users_list.map( user => {
+            return user.id !== action.payload.id ?
+            user :
+            action.payload
+          })
+        }
+      })
 
     default:
       return {...state};

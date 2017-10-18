@@ -13,7 +13,6 @@ class SuperPage extends React.Component {
       props.Dispatcher(action.staff.getUsersList());
 
       this.toggle = this.toggle.bind(this);
-      this.handleAddUser = this.handleAddUser.bind(this);
       this.handleUserEdit = this.handleUserEdit.bind(this);
       this.handleModalSave = this.handleModalSave.bind(this);
       this.handleGenerateRole = this.handleGenerateRole.bind(this);
@@ -73,13 +72,12 @@ class SuperPage extends React.Component {
       }
     }
 
-    handleAddUser() {
-      alert('new user added')
-    }
-
     handleModalSave() {
+      this.props.Dispatcher(action.staff.updateRoles({
+        userId: this.state.id,
+        roles: this.state.roles
+      }))
       this.toggle();
-      alert("Save user " + this.state.id)
     }
     handleOptionSelect(e) {
       this.setState({
@@ -284,7 +282,7 @@ class SuperPage extends React.Component {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><a href="#" onClick={()=>this.handleAddUser()}>Add new user</a></td>
+                    <td></td>
                   </tr>
               </tbody>
             </Table>

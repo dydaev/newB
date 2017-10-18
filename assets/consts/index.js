@@ -24,7 +24,8 @@ const REDUCERS = {
     },
     STAFF: {
         GET_USER: 'GET_USER',
-        GET_USERS_LIST: 'GET_USERS_LIST'
+        GET_USERS_LIST: 'GET_USERS_LIST',
+        GET_USER_TO_LIST: 'GET_USER_TO_LIST'
     }
 };
 export const INCREASE = 'INCREASE';

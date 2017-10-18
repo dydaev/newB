@@ -31,6 +31,27 @@ export const getUsersList = () => dispatch => {
   })
   .catch( error => console.log('An error staff . ', error))
 }
+export const updateRoles = (data) => dispatch => {
+  console.log(data);
+  return Axios({
+    method: 'post',
+    url: '/staff/updateRoles',
+    data: data
+  })
+  .then ( ({data, status})  => {
+    if(status === 200){
+      if(data.type === 'user') {
+        dispatch(action(
+          REDUCERS.STAFF.GET_USER_TO_LIST,
+          data.user
+        ))
+      } else if (data.type === 'message') {
+        console.log('Action staff message: ', data.message);
+      }
+    }
+  })
+  .catch( error => console.log('An error staff . ', error))
+}
 export const getUser = (userId) => dispatch => {
   return Axios({
     method: 'post',
