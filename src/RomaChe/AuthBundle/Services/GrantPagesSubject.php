@@ -24,9 +24,9 @@ class GrantPagesSubject
     $this->$subject = $subject;
 
     $this->roles = $user->getRoles();
-    $this->subjectState = subject->getChmod();
+    $this->subjectAccessState = subject->getChmod();
   }
-  private function compareRolesWithSection()
+  private function getRoleSections()
   {
 
   }

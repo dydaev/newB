@@ -7,6 +7,12 @@ services:
          $em : '@doctrine.orm.default_entity_manager'
          $tokenStorage: '@security.token_storage'
 
+   RomaChe.SecurityStrategicService:
+       class: RomaChe\AuthBundle\Services\SecurityStrategicService
+       public: true
+       arguments:
+         $em : '@doctrine.orm.default_entity_manager'
+         $tokenStorage: '@security.token_storage'
 #    auth.example:
 #        class: RomaChe\AuthBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

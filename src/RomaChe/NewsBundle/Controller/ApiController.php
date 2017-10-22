@@ -23,8 +23,6 @@ class ApiController extends Controller
     }
     public function mainGetAction($gettingObject = null)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
         $sections = $this->getDoctrine()
             ->getRepository(Section::class)
             ->findAll(); // ->findOneBy(array('id' => $content->{'userId'}));
@@ -33,32 +31,20 @@ class ApiController extends Controller
             ->getRepository(Users::class)
             ->findOneBy(array('username' => '111'));
 
-        $userSectionRoles =  new UserSectionRoles($this->getDoctrine()->getManager(), $user);
+        $secStrategic = $this->get('RomaChe.SecurityStrategicService');
+        $secStrategic->setUser($user);
+
         $result = array();
         foreach ($sections as $section) {
-          $sectionRoles = $userSectionRoles->getSectionRoles($section);
-          $chmodObjectService = new ChmodObjectService($section);
 
-          // dump($section->getChmod()->getAuthor()->getUserName());die();
-          // dump($sectionRoles);
-          // dump($chmodObjectService->getRights());
+          $secStrategic->setPageObject($section);
+
+          //dump($section->getChmod()->getAuthor()->getUserName());die();
 
           if(
-            (//Author rights
-                $section
-                  ->getChmod()
-                  ->getAuthor() == $user &&
-                $chmodObjectService->getAuthorRight() >= 4
-            )||
-            (//Group right
-                count($sectionRoles) > 0 &&
-                (
-                  in_array('ADMIN', $sectionRoles) ||
-                  $chmodObjectService->getGroupRight() >= 4
-                )
-            )||
-            //Other rights
-            $chmodObjectService->getOtherRight() >= 4
+              $secStrategic->isRightAuthor(array(4 ,5 ,6 ,7 )) ||
+              $secStrategic->isRightGroup(array(4 ,5 ,6 ,7 )) ||
+              $secStrategic->isRightForOther(array(4 ,5 ,6 ,7 ))
           ) {
               $result[] = $section->getName();
           }

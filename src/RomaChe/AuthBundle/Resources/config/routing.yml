@@ -53,5 +53,5 @@ user:
     defaults: { _controller: AuthBundle:Default:index }
 
 staf:
-    resource: "@AuthBundle/Resources/config/staff.yml"
+    resource: "@AuthBundle/Resources/config/routing_staff.yml"
     prefix:   /staff
