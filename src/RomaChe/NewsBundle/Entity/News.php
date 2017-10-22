@@ -138,6 +138,15 @@ class News implements ChmodInterface
 
         return $this;
     }
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->title;
+    }
 
     /**
      * Get title

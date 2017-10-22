@@ -2,8 +2,9 @@
 
 namespace RomaChe\AuthBundle\Helpers;
 
+use Doctrine\ORM\EntityManager;
 use RomaChe\AuthBundle\Entity\Users;
-use RomaChe\NewsBundle\Entity\Sections;
+use RomaChe\NewsBundle\Entity\Section;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RomaChe\AuthBundle\Helpers\UserSectionRolesInterface;
@@ -11,23 +12,29 @@ use RomaChe\AuthBundle\Helpers\UserSectionRolesInterface;
 /**
  *Checkers for user accessing to section
  */
-class UserSectionRoles extends Controller implements UserSectionRolesInterface
+class UserSectionRoles implements UserSectionRolesInterface
 {
+  private $em;
   private $user;
   private $roles;
   private $sectionsRoles;
 
-  function __construct(UserInterface $user)
+  function __construct(EntityManager $em,$user = null)
   {
-    $this->user = $user;
-    $this->roles = $user->getRoles();
-    $this->sectionsRoles = array();
+    $this->em = $em;
+    if($user !== null && $user instanceof UserInterface) {
+      $this->user = $user;
+      $this->roles = $user->getRoles();
+      $this->sectionsRoles = array();
 
-    $this->sections = $this->getDoctrine()
-        ->getRepository(Sections::class)
+      $this->sections = $this->em->getRepository(Section::class)
         ->findAll();
 
-    $this->updateSectionsRoles();
+      $this->updateSectionsRoles();
+    } else {
+      $this->user = null;
+      $this->sectionsRoles = array();
+    }
   }
 
   /**
@@ -36,8 +43,7 @@ class UserSectionRoles extends Controller implements UserSectionRolesInterface
   */
   private function getSectionNameById($sectionId)
   {
-        $section = $this->sections = $this->getDoctrine()
-        ->getRepository(Sections::class)
+        $section = $this->em->getRepository(Section::class)
         ->findOneBy(array('id' => $sectionId));
 
         if($section != null) {
@@ -48,20 +54,16 @@ class UserSectionRoles extends Controller implements UserSectionRolesInterface
   }
   private function updateSectionsRoles()
   {
-    foreach ($roles as $role) {
-      $expRole = explode('_', $role);
+    foreach ($this->roles as $role) {
+      $expRole = explode('_', $role->getName());
       if($expRole[0] === 'ROLE' && count($expRole) > 2) {
-
-        if( !in_array($expRole[1], $this->sectionsRoles[]) ) {
-          $this->sectionsRoles[] = $expRole[1];
+        if( !array_key_exists($expRole[1], $this->sectionsRoles) ) {
+          $this->sectionsRoles[$expRole[1]] = array();
 
           if( !in_array($expRole[2], $this->sectionsRoles[$expRole[1]]) ) {
             $this->sectionsRoles[$expRole[1]][] = $expRole[2];
           }
         }
-        return true;
-      } else {
-        return false;
       }
     }
   }
@@ -123,12 +125,18 @@ class UserSectionRoles extends Controller implements UserSectionRolesInterface
   */
   public function getSectionRoles($sectionName)
   {
-    $sectionName = strtoupper($sectionName);
-
-    if(in_array($sectionName, $this->sectionsRoles)) {
+    if($sectionName instanceof ChmodInterface) {
+      $sectionName = strtoupper($sectionName->getName());
+    } else {
+      $sectionName = strtoupper($sectionName);
+    }
+    if(array_key_exists($sectionName, $this->sectionsRoles)) {
         return $this->sectionsRoles[$sectionName];
     } else {
-        return false;
+      if(array_key_exists('SUPER', $this->sectionsRoles)) {
+        return $this->sectionsRoles['SUPER'];
+      }
+        return array();
     }
   }
 }

@@ -20,7 +20,7 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $role = new Role();
-        $role->setName('ROLE_SUPER_USER');
+        $role->setName('ROLE_SUPER_ADMIN');
 
         $manager->persist($role);
 

@@ -109,6 +109,15 @@ class Comment implements ChmodInterface
     }
 
     /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->title;
+    }
+    /**
      * Set commect
      *
      * @param string $commect

@@ -1,7 +1,3 @@
-news_homepage:
-    path:     /api
-    defaults: { _controller: NewsBundle:Default:index }
-
-api_news:
-    resource: "@NewsBundle/Resources/config/routing/news.yml"
-    prefix:   /api/news
+getSections:
+    path:     /api/main/get={gettingObject}
+    defaults: { _controller: NewsBundle:Api:mainGet }
