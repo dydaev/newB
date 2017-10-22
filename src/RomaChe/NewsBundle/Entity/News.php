@@ -3,15 +3,24 @@
 namespace RomaChe\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RomaChe\AuthBundle\Helpers\ChmodInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * News
  *
- * @ORM\Table(name="news", indexes={@ORM\Index(name="pub_date", columns={"pub_date"}), @ORM\Index(name="fk_news_news_category", columns={"news_category_id"})})
  * @ORM\Entity
  */
-class News
+class News implements ChmodInterface
 {
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+        $this->coments = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->type = 'NEWS';
+    }
     /**
      * @var integer
      *
@@ -20,6 +29,13 @@ class News
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
 
     /**
      * @var string
@@ -64,16 +80,40 @@ class News
     private $pubDate;
 
     /**
-     * @var \NewsCategory
+     * @var \Theme
      *
-     * @ORM\ManyToOne(targetEntity="NewsCategory")
+     * @ORM\ManyToOne(targetEntity="Theme", inversedBy="newses")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="news_category_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
      * })
      */
-    private $newsCategory;
+    private $theme;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="newses")
+     * @ORM\JoinTable(name="newses_tags")
+     */
+    private $tags;
 
+    /**
+     * One Product has One Shipment.
+     * @ORM\OneToOne(targetEntity="Chmod")
+     * @ORM\JoinColumn(name="chmod_id", referencedColumnName="id")
+     */
+    private $chmod;
+
+    /**
+     * One News has Many Comments.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="product")
+     */
+    private $coments;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
 
     /**
      * Get id
@@ -230,26 +270,167 @@ class News
     }
 
     /**
-     * Set newsCategory
+     * Set createdAt
      *
-     * @param \RomaChe\NewsBundle\Entity\NewsCategory $newsCategory
+     * @param \DateTime $createdAt
      *
      * @return News
      */
-    public function setNewsCategory(\RomaChe\NewsBundle\Entity\NewsCategory $newsCategory = null)
+    public function setCreatedAt($createdAt)
     {
-        $this->newsCategory = $newsCategory;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get newsCategory
+     * Get createdAt
      *
-     * @return \RomaChe\NewsBundle\Entity\NewsCategory
+     * @return \DateTime
      */
-    public function getNewsCategory()
+    public function getCreatedAt()
     {
-        return $this->newsCategory;
+        return $this->createdAt;
+    }
+
+    /**
+     * Set chmod
+     *
+     * @param \RomaChe\NewsBundle\Entity\Chmod $chmod
+     *
+     * @return News
+     */
+    public function setChmod(\RomaChe\NewsBundle\Entity\Chmod $chmod = null)
+    {
+        $this->chmod = $chmod;
+
+        return $this;
+    }
+
+    /**
+     * Get chmod
+     *
+     * @return \RomaChe\NewsBundle\Entity\Chmod
+     */
+    public function getChmod()
+    {
+        return $this->chmod;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return News
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set theme
+     *
+     * @param \RomaChe\NewsBundle\Entity\Theme $theme
+     *
+     * @return News
+     */
+    public function setTheme(\RomaChe\NewsBundle\Entity\Theme $theme = null)
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return \RomaChe\NewsBundle\Entity\Theme
+     */
+    public function getTheme()
+    {
+        return $this->theme;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \RomaChe\NewsBundle\Entity\Tag $tag
+     *
+     * @return News
+     */
+    public function addTag(\RomaChe\NewsBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \RomaChe\NewsBundle\Entity\Tag $tag
+     */
+    public function removeTag(\RomaChe\NewsBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+
+    /**
+     * Add coment
+     *
+     * @param \RomaChe\NewsBundle\Entity\Comment $coment
+     *
+     * @return News
+     */
+    public function addComent(\RomaChe\NewsBundle\Entity\Comment $coment)
+    {
+        $this->coments[] = $coment;
+
+        return $this;
+    }
+
+    /**
+     * Remove coment
+     *
+     * @param \RomaChe\NewsBundle\Entity\Comment $coment
+     */
+    public function removeComent(\RomaChe\NewsBundle\Entity\Comment $coment)
+    {
+        $this->coments->removeElement($coment);
+    }
+
+    /**
+     * Get coments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComents()
+    {
+        return $this->coments;
     }
 }

@@ -20,6 +20,7 @@ class Users implements UserInterface
     {
         $this->roles = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->chmods = new ArrayCollection();
     }
     public function toArray()
     {
@@ -42,9 +43,16 @@ class Users implements UserInterface
      *
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
+     * @ORM\OneToOne(targetEntity="Chmod", mappedBy="user")
      * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
+
+    /**
+     * One Author has Many Chmods.
+     * @ORM\OneToMany(targetEntity="RomaChe\NewsBundle\Entity\Chmod", mappedBy="author")
+     */
+    private $chmods;
 
     /**
      * @var string
@@ -455,5 +463,41 @@ class Users implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+
+
+    /**
+     * Add chmod
+     *
+     * @param \RomaChe\NewsBundle\Entity\Chmod $chmod
+     *
+     * @return Users
+     */
+    public function addChmod(\RomaChe\NewsBundle\Entity\Chmod $chmod)
+    {
+        $this->chmods[] = $chmod;
+
+        return $this;
+    }
+
+    /**
+     * Remove chmod
+     *
+     * @param \RomaChe\NewsBundle\Entity\Chmod $chmod
+     */
+    public function removeChmod(\RomaChe\NewsBundle\Entity\Chmod $chmod)
+    {
+        $this->chmods->removeElement($chmod);
+    }
+
+    /**
+     * Get chmods
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChmods()
+    {
+        return $this->chmods;
     }
 }

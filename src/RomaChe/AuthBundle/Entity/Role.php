@@ -13,6 +13,11 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  */
 class Role implements RoleInterface
 {
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->endAt = new \DateTime('2020-01-01');
+    }
     /**
      * @var int
      *
@@ -43,6 +48,51 @@ class Role implements RoleInterface
      */
     private $roleGroup;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true)
+     */
+    private $createdAt;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="endAt", type="datetime", nullable=true)
+     */
+    private $endAt;
+
+    /**
+     * Get dateAdd
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Get dateEnd
+     *
+     * @return \DateTime
+     */
+    public function getEndAt()
+    {
+        return $this->endAt;
+    }
+
+    /**
+     * Set name
+     *
+     * @param DateTime $endAt
+     *
+     * @return Roles
+     */
+    public function setEndAt($endAt)
+    {
+        $this->endAt = $endAt;
+        return $this;
+    }
 
     /**
      * Get id
@@ -146,5 +196,19 @@ class Role implements RoleInterface
     public function getRoleGroup()
     {
         return $this->roleGroup;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Role
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }

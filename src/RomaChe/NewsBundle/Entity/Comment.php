@@ -3,23 +3,20 @@
 namespace RomaChe\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RomaChe\AuthBundle\Helpers\PageSubjectInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use RomaChe\AuthBundle\Helpers\ChmodInterface;
 
 /**
- * Section
+ * Comment
  *
- * @ORM\Table(name="section")
- * @ORM\Entity(repositoryClass="RomaChe\NewsBundle\Repository\SectionRepository")
+ * @ORM\Table(name="comment")
+ * @ORM\Entity(repositoryClass="RomaChe\NewsBundle\Repository\CommentRepository")
  */
-class Section implements ChmodInterface
+class Comment implements ChmodInterface
 {
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->themes = new ArrayCollection();
-        $this->type = 'SECTION';
+        $this->type = 'COMMENT';
     }
     /**
      * @var int
@@ -30,14 +27,33 @@ class Section implements ChmodInterface
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
     private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $name;
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="commect", type="text")
+     */
+    private $commect;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
 
     /**
      * One Product has One Shipment.
@@ -47,23 +63,16 @@ class Section implements ChmodInterface
     private $chmod;
 
     /**
-     * @var string
+     * @var \Section
      *
-     * @ORM\Column(name="description", type="string", length=500, nullable=true)
+     * @ORM\ManyToOne(targetEntity="News", inversedBy="comments")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="news_id", referencedColumnName="id")
+     * })
      */
-    private $description;
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
+    private $news;
 
-    /**
-     * One Section has Many Themes.
-     * @ORM\OneToMany(targetEntity="Theme", mappedBy="section")
-     */
-    private $themes;
+
 
     /**
      * Get id
@@ -76,60 +85,51 @@ class Section implements ChmodInterface
     }
 
     /**
-     * Set name
+     * Set title
      *
-     * @param string $name
+     * @param string $title
      *
-     * @return Section
+     * @return Comment
      */
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get title
      *
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
-    }
-    /**
-     * Get name for PageSubjectInterface
-     *
-     * @return string
-     */
-    public function getSectionName()
-    {
-        return $this->name;
+        return $this->title;
     }
 
     /**
-     * Set description
+     * Set commect
      *
-     * @param string $description
+     * @param string $commect
      *
-     * @return Section
+     * @return Comment
      */
-    public function setDescription($description)
+    public function setCommect($commect)
     {
-        $this->description = $description;
+        $this->commect = $commect;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get commect
      *
      * @return string
      */
-    public function getDescription()
+    public function getCommect()
     {
-        return $this->description;
+        return $this->commect;
     }
 
     /**
@@ -137,7 +137,7 @@ class Section implements ChmodInterface
      *
      * @param \DateTime $createdAt
      *
-     * @return Section
+     * @return Comment
      */
     public function setCreatedAt($createdAt)
     {
@@ -161,7 +161,7 @@ class Section implements ChmodInterface
      *
      * @param \RomaChe\NewsBundle\Entity\Chmod $chmod
      *
-     * @return Section
+     * @return Comment
      */
     public function setChmod(\RomaChe\NewsBundle\Entity\Chmod $chmod = null)
     {
@@ -185,7 +185,7 @@ class Section implements ChmodInterface
      *
      * @param string $type
      *
-     * @return Section
+     * @return Comment
      */
     public function setType($type)
     {
@@ -205,36 +205,26 @@ class Section implements ChmodInterface
     }
 
     /**
-     * Add theme
+     * Set news
      *
-     * @param \RomaChe\NewsBundle\Entity\Theme $theme
+     * @param \RomaChe\NewsBundle\Entity\News $news
      *
-     * @return Section
+     * @return Comment
      */
-    public function addTheme(\RomaChe\NewsBundle\Entity\Theme $theme)
+    public function setNews(\RomaChe\NewsBundle\Entity\News $news = null)
     {
-        $this->themes[] = $theme;
+        $this->news = $news;
 
         return $this;
     }
 
     /**
-     * Remove theme
+     * Get news
      *
-     * @param \RomaChe\NewsBundle\Entity\Theme $theme
+     * @return \RomaChe\NewsBundle\Entity\News
      */
-    public function removeTheme(\RomaChe\NewsBundle\Entity\Theme $theme)
+    public function getNews()
     {
-        $this->themes->removeElement($theme);
-    }
-
-    /**
-     * Get themes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getThemes()
-    {
-        return $this->themes;
+        return $this->news;
     }
 }

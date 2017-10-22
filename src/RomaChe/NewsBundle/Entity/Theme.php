@@ -3,23 +3,22 @@
 namespace RomaChe\NewsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RomaChe\AuthBundle\Helpers\PageSubjectInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use RomaChe\AuthBundle\Helpers\ChmodInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Section
+ * Theme
  *
- * @ORM\Table(name="section")
- * @ORM\Entity(repositoryClass="RomaChe\NewsBundle\Repository\SectionRepository")
+ * @ORM\Table(name="theme")
+ * @ORM\Entity(repositoryClass="RomaChe\NewsBundle\Repository\ThemeRepository")
  */
-class Section implements ChmodInterface
+class Theme implements ChmodInterface
 {
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->themes = new ArrayCollection();
-        $this->type = 'SECTION';
+        $this->newses = new ArrayCollection();
+        $this->type = 'THEME';
     }
     /**
      * @var int
@@ -30,21 +29,20 @@ class Section implements ChmodInterface
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+
     private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * One Product has One Shipment.
-     * @ORM\OneToOne(targetEntity="Chmod")
-     * @ORM\JoinColumn(name="chmod_id", referencedColumnName="id")
-     */
-    private $chmod;
 
     /**
      * @var string
@@ -52,6 +50,7 @@ class Section implements ChmodInterface
      * @ORM\Column(name="description", type="string", length=500, nullable=true)
      */
     private $description;
+
     /**
      * @var \DateTime
      *
@@ -60,10 +59,27 @@ class Section implements ChmodInterface
     private $createdAt;
 
     /**
-     * One Section has Many Themes.
-     * @ORM\OneToMany(targetEntity="Theme", mappedBy="section")
+     * One Theme has One chmod.
+     * @ORM\OneToOne(targetEntity="Chmod")
+     * @ORM\JoinColumn(name="chmod_id", referencedColumnName="id")
      */
-    private $themes;
+    private $chmod;
+
+    /**
+     * One Theme has Many newses.
+     * @ORM\OneToMany(targetEntity="News", mappedBy="theme")
+     */
+    private $newses;
+
+    /**
+     * @var \Section
+     *
+     * @ORM\ManyToOne(targetEntity="Section", inversedBy="themes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
+     * })
+     */
+    private $section;
 
     /**
      * Get id
@@ -80,7 +96,7 @@ class Section implements ChmodInterface
      *
      * @param string $name
      *
-     * @return Section
+     * @return Theme
      */
     public function setName($name)
     {
@@ -98,22 +114,13 @@ class Section implements ChmodInterface
     {
         return $this->name;
     }
-    /**
-     * Get name for PageSubjectInterface
-     *
-     * @return string
-     */
-    public function getSectionName()
-    {
-        return $this->name;
-    }
 
     /**
      * Set description
      *
      * @param string $description
      *
-     * @return Section
+     * @return Theme
      */
     public function setDescription($description)
     {
@@ -137,7 +144,7 @@ class Section implements ChmodInterface
      *
      * @param \DateTime $createdAt
      *
-     * @return Section
+     * @return Theme
      */
     public function setCreatedAt($createdAt)
     {
@@ -156,12 +163,13 @@ class Section implements ChmodInterface
         return $this->createdAt;
     }
 
+
     /**
      * Set chmod
      *
      * @param \RomaChe\NewsBundle\Entity\Chmod $chmod
      *
-     * @return Section
+     * @return Theme
      */
     public function setChmod(\RomaChe\NewsBundle\Entity\Chmod $chmod = null)
     {
@@ -185,7 +193,7 @@ class Section implements ChmodInterface
      *
      * @param string $type
      *
-     * @return Section
+     * @return Theme
      */
     public function setType($type)
     {
@@ -205,36 +213,60 @@ class Section implements ChmodInterface
     }
 
     /**
-     * Add theme
+     * Add newse
      *
-     * @param \RomaChe\NewsBundle\Entity\Theme $theme
+     * @param \RomaChe\NewsBundle\Entity\News $newse
      *
-     * @return Section
+     * @return Theme
      */
-    public function addTheme(\RomaChe\NewsBundle\Entity\Theme $theme)
+    public function addNewse(\RomaChe\NewsBundle\Entity\News $newse)
     {
-        $this->themes[] = $theme;
+        $this->newses[] = $newse;
 
         return $this;
     }
 
     /**
-     * Remove theme
+     * Remove newse
      *
-     * @param \RomaChe\NewsBundle\Entity\Theme $theme
+     * @param \RomaChe\NewsBundle\Entity\News $newse
      */
-    public function removeTheme(\RomaChe\NewsBundle\Entity\Theme $theme)
+    public function removeNewse(\RomaChe\NewsBundle\Entity\News $newse)
     {
-        $this->themes->removeElement($theme);
+        $this->newses->removeElement($newse);
     }
 
     /**
-     * Get themes
+     * Get newses
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getThemes()
+    public function getNewses()
     {
-        return $this->themes;
+        return $this->newses;
+    }
+
+    /**
+     * Set section
+     *
+     * @param \RomaChe\NewsBundle\Entity\Section $section
+     *
+     * @return Theme
+     */
+    public function setSection(\RomaChe\NewsBundle\Entity\Section $section = null)
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * Get section
+     *
+     * @return \RomaChe\NewsBundle\Entity\Section
+     */
+    public function getSection()
+    {
+        return $this->section;
     }
 }
