@@ -12,6 +12,8 @@ use RomaChe\AuthBundle\Helpers\UserSectionRoles;
 use RomaChe\AuthBundle\Helpers\ChmodInterface;
 use RomaChe\NewsBundle\Entity\Section;
 use RomaChe\AuthBundle\Entity\Users;
+use RomaChe\AuthBundle\Entity\Consts;
+
 
 class SecurityStrategicService
 {
@@ -21,26 +23,31 @@ class SecurityStrategicService
     private $userSectionRoles;
     private $sectionRoles;
     private $user;
+    private $authorizationChecker;
 
     /**
     *@param EntityManager $em
     *@param $object pageObject
     *@param UserInterface user for check
     */
-    public function __construct(EntityManager $em, $tokenStorage)
+    public function __construct(EntityManager $em, $tokenStorage, $authorizationChecker)
     {
         $this->em = $em;
-        $this->user = $tokenStorage->getToken()->getUser();
-        if($this->user == 'anon.') {
-          $this->user = null;
-        }
-        $this->userSectionRoles = new UserSectionRoles($this->em, $this->user);
+        $this->sectionRoles = array();
+        $this->userSectionRoles = array();
+        $this->authorizationChecker = $authorizationChecker;
+
+        $this->setUser($tokenStorage->getToken()->getUser());
     }
 
-    public function setUser(UserInterface $user)
+    public function setUser($user = null)
     {
-      $this->user = $user;
-      $this->userSectionRoles = new UserSectionRoles($this->em, $this->user);
+      if($user != null && $user instanceof UserInterface ) {
+        $this->user = $user;
+        $this->userSectionRoles = new UserSectionRoles($this->em, $this->user);
+      } else {
+        $this->user = null;
+      }
     }
 
     /**
@@ -50,52 +57,90 @@ class SecurityStrategicService
     {
       $this->pageObject = $pageObject;
       $this->chmodObjectService = new ChmodObjectService($pageObject);
-      $this->sectionRoles = $this->userSectionRoles->getSectionRoles($pageObject);
+      if(count($this->userSectionRoles) > 0) {
+        $this->sectionRoles = $this->userSectionRoles->getSectionRoles($pageObject);
+      }
     }
 
     /**
+    *@param int , right for red(4), write(2) or execute(1) the object
     *@param array permissions number for granting array(4, 5, 6, 7)
     *@return boolean
     */
-    public function isRightAuthor($permissions)
+    public function isRightAuthor($right, $permissions = null)
     {
-      if(
-          $this->isAuthor() &&
-          $this->checkPermissions($this->chmodObjectService->getAuthorRight(), $permissions)
-      ) {
+      $permissions = $permissions ? $permissions : array(Consts::DEFAULT_AUTHOR_PERMISSION);
+
+      if($this->isAuthor()) {
+          return $this->checkPermissions($this->chmodObjectService->getAuthorRight(), $permissions, $right);
+      }
+      return false;
+    }
+
+    /**
+    *@param int , right for red(4), write(2) or execute(1) the object
+    *@param array permissions number for granting array(4, 5, 6, 7)
+    *@return boolean
+    */
+    public function isRightForOther($right, $permissions = null)
+    {
+      $permissions = $permissions ? $permissions : array(Consts::DEFAULT_OTHER_USERS_PERMISSION);
+
+      if($this->checkPermissions($this->chmodObjectService->getOtherRight(), $permissions, $right)) {
           return true;
       }
-          return false;
+      return false;
     }
 
     /**
+    *@param int , right for red(4), write(2) or execute(1) the object
     *@param array permissions number for granting array(4, 5, 6, 7)
     *@return boolean
     */
-    public function isRightForOther($permissions)
+    public function isRightGroup($right, $permissions = null)
     {
-      if($this->checkPermissions($this->chmodObjectService->getOtherRight(), $permissions)) {
-          return true;
-      }
-          return false;
-    }
-
-    /**
-    *@param array permissions number for granting array(4, 5, 6, 7)
-    *@return boolean
-    */
-    public function isRightGroup($permissions)
-    {
+      $permissions = $permissions ? $permissions :
+      ( $this->sectionRoles ? $this->sectionRoles['permissions'] : array() );
       if(
-        count($this->sectionRoles) > 0 &&
-        (
           $this->isAdmin() ||
-          $this->checkPermissions($this->chmodObjectService->getGroupRight(), $permissions)
-        )
+          $this->checkPermissions($this->chmodObjectService->getGroupRight(), $permissions, $right)
       ) {
           return true;
       }
-          return false;
+      return false;
+    }
+
+    public function checkCan($right)
+    {
+      return $this->isHaveAccess($right);
+    }
+
+    /**
+    *@var int group mask for work. Author and other is standart(CONSTANT) permission
+    *@param int , author right for red(4), write(2) or execute(1) the object
+    *@return boolean
+    */
+    public function isHaveAccess($right)
+    {
+      return $this->isAllRight($right, $right, $right);
+    }
+
+    /**
+    *@param int , author right for red(4), write(2) or execute(1) the object
+    *@param int , group right for red(4), write(2) or execute(1) the object
+    *@param int , other users right for red(4), write(2) or execute(1) the object
+    *@return boolean
+    */
+    public function isAllRight($author, $group, $other)
+    {
+      $result = false;
+      if($this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
+        $result =
+          $this->isRightAuthor($author) || $this->isRightGroup($group);
+      }
+      $result = $result || $this->isRightForOther($other);
+
+      return $result;
     }
 
     /**
@@ -123,12 +168,14 @@ class SecurityStrategicService
     /**
     *@param objectRights geting chmod from object
     *@param array permissions with this object opening
+    *@param int , right for red(4), write(2) or execute(1) the object
     *@return bool
     */
-    private function checkPermissions($objectRights, $permissions)
+    private function checkPermissions($objectRights, $permissions, $right = 0)
     {
       foreach ($permissions as $permission) {
-        if($objectRights == $permission) {
+        $res = $objectRights & $permission & $right;
+        if($res) {
           return true;
         }
       }

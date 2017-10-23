@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use RomaChe\AuthBundle\Entity\Users;
+use RomaChe\AuthBundle\Entity\Consts;
 use RomaChe\AuthBundle\Entity\Role;
 
 class LoginController extends Controller
@@ -120,6 +121,7 @@ class LoginController extends Controller
               if($role === null) {
                 $role = new Role();
                 $role->setName($roleName);
+                $role->setPermission(Consts::DEFAULT_GROUP_USER_PERMISSION);
                 $manager->persist($role);
               }
 

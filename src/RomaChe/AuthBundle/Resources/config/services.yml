@@ -13,6 +13,7 @@ services:
        arguments:
          $em : '@doctrine.orm.default_entity_manager'
          $tokenStorage: '@security.token_storage'
+         $authorizationChecker: '@security.authorization_checker'
 #    auth.example:
 #        class: RomaChe\AuthBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

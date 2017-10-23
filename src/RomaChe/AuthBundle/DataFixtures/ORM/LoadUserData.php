@@ -21,6 +21,7 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
     {
         $role = new Role();
         $role->setName('ROLE_SUPER_ADMIN');
+        $role->setPermission(7);
 
         $manager->persist($role);
 

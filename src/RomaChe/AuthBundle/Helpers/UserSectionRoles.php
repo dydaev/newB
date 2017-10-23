@@ -19,7 +19,7 @@ class UserSectionRoles implements UserSectionRolesInterface
   private $roles;
   private $sectionsRoles;
 
-  function __construct(EntityManager $em,$user = null)
+  function __construct(EntityManager $em, $user = null)
   {
     $this->em = $em;
     if($user !== null && $user instanceof UserInterface) {
@@ -57,12 +57,13 @@ class UserSectionRoles implements UserSectionRolesInterface
     foreach ($this->roles as $role) {
       $expRole = explode('_', $role->getName());
       if($expRole[0] === 'ROLE' && count($expRole) > 2) {
+
         if( !array_key_exists($expRole[1], $this->sectionsRoles) ) {
           $this->sectionsRoles[$expRole[1]] = array();
-
-          if( !in_array($expRole[2], $this->sectionsRoles[$expRole[1]]) ) {
-            $this->sectionsRoles[$expRole[1]][] = $expRole[2];
-          }
+        }
+        if( !in_array($expRole[2], $this->sectionsRoles[$expRole[1]]) ) {
+          $this->sectionsRoles[$expRole[1]][] = $expRole[2];
+          $this->sectionsRoles[$expRole[1]]['permissions'][] = $role->getPermission();
         }
       }
     }
@@ -130,6 +131,9 @@ class UserSectionRoles implements UserSectionRolesInterface
     } else {
       $sectionName = strtoupper($sectionName);
     }
+    $sectionName = explode(' ', $sectionName);
+    $sectionName = $sectionName[0];
+    // dump($sectionName);die();
     if(array_key_exists($sectionName, $this->sectionsRoles)) {
         return $this->sectionsRoles[$sectionName];
     } else {

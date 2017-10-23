@@ -35,6 +35,13 @@ class Role implements RoleInterface
     private $name;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="permission", type="smallint", length=1)
+     */
+    private $permission;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="desctription", type="text", nullable=true)
@@ -210,5 +217,29 @@ class Role implements RoleInterface
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * Set permission
+     *
+     * @param integer $permission
+     *
+     * @return Role
+     */
+    public function setPermission($permission)
+    {
+        $this->permission = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Get permission
+     *
+     * @return integer
+     */
+    public function getPermission()
+    {
+        return $this->permission;
     }
 }

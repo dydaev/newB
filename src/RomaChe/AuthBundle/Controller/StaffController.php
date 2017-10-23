@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use RomaChe\AuthBundle\Entity\Users;
+use RomaChe\AuthBundle\Entity\Consts;
 use RomaChe\AuthBundle\Entity\Role;
 
 class StaffController extends Controller
@@ -39,9 +40,11 @@ class StaffController extends Controller
                 if($role === null) {
                   $role = new Role();
                   $role->setName($value);
+                  $role->setPermission(Consts::DEFAULT_GROUP_PERMISSION);
                   $manager->persist($role);
                 }
                 if(!in_array($value, $user->getRolesNames())) {
+
                   $user->addRole($role);
                 }
               }
