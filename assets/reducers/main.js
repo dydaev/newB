@@ -7,7 +7,7 @@ const initialState = {
       writer: 'Editor papers for sections',
       user: 'Reade all'
     },
-    sections: []
+    sections: {}
 }
 
 export default function update(state = initialState, action) {

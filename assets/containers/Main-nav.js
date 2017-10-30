@@ -25,9 +25,14 @@ class Main_nav extends React.Component {
             <Navbar color="dark"  className="navbar-dark main-nav">
                 <Nav navbar>
                   {!this.props.Store.Main.sections ? '' :
-                    this.props.Store.Main.sections.map( (sectionName, ind) => {
-                      const shortName = sectionName.split(' ')[0];
-                      const routPath = shortName;
+                    Object.keys(this.props.Store.Main.sections).map( (section, ind) => {
+
+                      const sectionName = section.includes('_') ?
+                      section.split('_').reduceRight((acc, name) => (name + ' ' + acc), '') :
+                      section;
+
+                      const routPath = section.split('_')[0];
+
                       return(
                         <NavItem key={ind}>
                             <NavLink href="#" onClick={() => browserHistory.push('/' + routPath)}>{sectionName}</NavLink>

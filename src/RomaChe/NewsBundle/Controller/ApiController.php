@@ -36,8 +36,26 @@ class ApiController extends Controller
 
           foreach ($sections as $section) {
               $secStrategic->setPageObject($section);
-              if($secStrategic->checkCan(Consts::READ)) {
-                  $result[] = $section->getName();
+
+              if($secStrategic->checkCan(Consts::READ)) {//check, is can read section
+
+                  $sectionName = $section->getName();//(e.t.c. WORLD NEWS -> WORLD_NEWS)
+                  $sectionName = strpos($sectionName, ' ') ?
+                  implode(explode(' ', $sectionName),'_') :
+                  $sectionName;
+
+                  if($section->getThemes()->count() > 0) {
+
+                    foreach ($section->getThemes()->toArray() as $theme) {
+                      $secStrategic->setPageObject($section);
+                      if($secStrategic->checkCan(Consts::READ)) {
+                        $result[$sectionName] = $theme->getName();
+                      }
+                    }
+
+                  } else {
+                     $result[$sectionName] = array();
+                  }
               }
           }
           break;
