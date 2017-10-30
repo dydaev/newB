@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { login as actions }  from '../../actions'
+import { login, Main  }  from '../../actions'
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import classnames from 'classnames';
@@ -34,10 +34,11 @@ class LoginForm extends React.Component {
       }
     }
     submitForm() {
-      this.props.Dispatcher(actions.fatch_login({
+      this.props.Dispatcher(login.fatch_login({
         _pass: this.state.pass,
         email: this.state.email
       }));
+      this.props.Dispatcher(Main.getSections());
     }
 
     render() {

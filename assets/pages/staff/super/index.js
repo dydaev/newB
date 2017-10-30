@@ -238,7 +238,8 @@ class SuperPage extends React.Component {
                     id="exRoles"
                     onChange={(e)=> this.handleGenerateRole({role: e.target.value})}
                   >
-                  {Object.keys(this.props.Store.Main.roles).map((role, ind) => {
+                  {  !this.props.Store.Main.roles ? '' :
+                    Object.keys(this.props.Store.Main.roles).map((role, ind) => {
                       return this.inputRole.toUpperCase() === role.toUpperCase() ?
                       (<option key={ind} selected>{role}</option>) :
                       (<option key={ind}>{role}</option>)
@@ -292,9 +293,9 @@ class SuperPage extends React.Component {
 }
 
 export default connect(
-    ({ Main, login, staff }) => ({
+    ({ Main, staff, login }) => ({
       Store: {
-        Main: Main.Main,
+        Main: {...Main},
         login: login.login,
         staff: staff.staff
       }

@@ -1,4 +1,7 @@
 const REDUCERS = {
+    MAIN: {
+        UPDATE_SECTIONS: 'UPDATE_SECTIONS'
+    },
     NEWS: {
         ADD: 'ADD_NEWS',
         DELETE: 'DELETE_NEWS'

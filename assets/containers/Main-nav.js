@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
-import { login as actions }  from '../actions'
+import { login, Main }  from '../actions'
 
-import { Nav, Navbar, NavItem, NavLink } from 'reactstrap';
+import { Nav, Navbar, NavItem, NavLink, NavDropdown, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 import MainHeader from './header/';
 
@@ -14,8 +14,9 @@ class Main_nav extends React.Component {
       this.Dispatcher = this.props.Dispatcher;
 
       if (!props.Store.login.isLogin) {
-        this.Dispatcher(actions.logged_check());
+        this.Dispatcher(login.logged_check());
       }
+      this.Dispatcher(Main.getSections());
     }
     render() {
       return (
@@ -23,30 +24,16 @@ class Main_nav extends React.Component {
             <MainHeader/>
             <Navbar color="dark"  className="navbar-dark main-nav">
                 <Nav navbar>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/world')}>world news</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/sport')}>sport</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/tech')}>tech</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/busines')}>busines</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/movies')}>movies</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/culture')}>culture</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/books')}>books</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="#" onClick={() => browserHistory.push('/blogs')}>blogs</NavLink>
-                  </NavItem>
+                  {!this.props.Store.Main.sections ? '' :
+                    this.props.Store.Main.sections.map( (sectionName, ind) => {
+                      const shortName = sectionName.split(' ')[0];
+                      const routPath = shortName;
+                      return(
+                        <NavItem key={ind}>
+                            <NavLink href="#" onClick={() => browserHistory.push('/' + routPath)}>{sectionName}</NavLink>
+                        </NavItem>
+                      );
+                  })}
                 </Nav>
             </Navbar>
             <div style={{ marginTop: '5px' }}>{this.props.children}</div>
@@ -56,5 +43,5 @@ class Main_nav extends React.Component {
 }
 export default connect(
     ( store ) => ({ Store: store }),
-    dispatch => ({Dispatcher: dispatch})
+    dispatch => ({ Dispatcher: dispatch })
 )(Main_nav)

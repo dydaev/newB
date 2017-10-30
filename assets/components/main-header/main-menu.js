@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { login as actions }  from '../../actions'
+import { login, Main }  from '../../actions'
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 
 class MainMenu extends React.Component {
@@ -27,7 +27,8 @@ class MainMenu extends React.Component {
   }
   handleLogout() {
     this.toggle();
-    this.Dispatcher(actions.logout());
+    this.Dispatcher(login.logout());
+    this.Dispatcher(Main.getSections());
   }
   render(){
     return (

@@ -15,6 +15,7 @@ export const change_head_color = ( colorClass ) => dispatch => {
     colorClass
   ))
 }
+
 export const logout = () => dispatch => {
   return Axios.get('/logout')
   .then ( ({status})  => {
@@ -28,6 +29,7 @@ export const logout = () => dispatch => {
     }
   })
 }
+
 export const logged_check = () => dispatch => {
   return Axios.get('/login/check/authorize')
   .then ( ({ data })  => {

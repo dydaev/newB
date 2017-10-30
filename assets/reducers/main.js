@@ -1,26 +1,26 @@
+import REDUCERS from '../consts';
+
 const initialState = {
-  Main:{
     roles:{
       admin: 'Editor sections roles for users',
       publisher: 'Editior themes for sections',
       writer: 'Editor papers for sections',
       user: 'Reade all'
     },
-    sections: [
-      'all',
-      'world',
-      'sport',
-      'tech',
-      'busines',
-      'movies',
-      'culture',
-      'books',
-      'beauty',
-      'blogs'
-    ]
-  }
+    sections: []
 }
 
 export default function update(state = initialState, action) {
-  return {...state};
+
+  console.log(`Try reduce Main action ${action.type} to `, action.payload, " state:", state);
+
+  switch (action.type) {
+    case REDUCERS.MAIN.UPDATE_SECTIONS:
+      return Object.assign({}, ...state, {
+          sections: action.payload
+      })
+
+    default:
+      return {...state};
+  }
 }
