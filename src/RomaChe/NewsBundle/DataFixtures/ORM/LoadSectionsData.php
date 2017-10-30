@@ -5,6 +5,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use RomaChe\AuthBundle\Entity\Users;
 use RomaChe\NewsBundle\Entity\Chmod;
+use RomaChe\NewsBundle\Entity\Theme;
 use RomaChe\NewsBundle\Entity\Section;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,6 +35,7 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
           'staff',
           '+'
         );
+        $staffArr = array('admin', 'publisher', 'super', 'writer');
 
         $users = $this->container->get('doctrine')->getEntityManager('default')
           ->getRepository(Users::class);
@@ -46,10 +48,31 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
 
           $chmod = new Chmod();
           $chmod->setGroupName('SUPER');
-
-          $chmod->setChmod( $value == 'staff' ? 710 : ($value == '+' ? 500 : 744));
+          $chmod->setDescription('Section');
 
           $superUser = $users->findOneBy(array('username' => 'root'));
+
+          if( $value == 'staff' ) {
+            $chmod->setChmod(710);
+            foreach ($staffArr as $staffValue) {
+              $theme = new Theme();
+              $theme->setName($staffValue);
+              $themeChmod = new Chmod();
+              $themeChmod->setChmod(710);
+              $themeChmod->setDescription('Theme');
+              $themeChmod->setGroupName('SUPER');
+              $themeChmod->setAuthor($superUser);
+              $manager->persist($themeChmod);
+              $theme->setChmod($themeChmod);
+
+              $manager->persist($theme);
+              $section->addTheme($theme);
+            }
+
+          } else {
+            $chmod->setChmod( $value == '+' ? 500 : 744);
+          }
+
           $chmod->setAuthor($superUser);
           $manager->persist($chmod);
 
