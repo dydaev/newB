@@ -7,7 +7,9 @@ const initialState = {
       writer: 'Editor papers for sections',
       user: 'Reade all'
     },
-    sections: {}
+    sections: {},
+    isError: false,
+    errorMessaege: ''
 }
 
 export default function update(state = initialState, action) {
@@ -18,6 +20,18 @@ export default function update(state = initialState, action) {
     case REDUCERS.MAIN.UPDATE_SECTIONS:
       return Object.assign({}, ...state, {
           sections: action.payload
+      })
+
+    case REDUCERS.MAIN.CLOSE_MAIN_ERR:
+      return Object.assign({}, ...state, {
+          isError: false,
+          errorMessaege: ''
+      })
+
+    case REDUCERS.MAIN.SET_MAIN_ERR:
+      return Object.assign({}, ...state, {
+        isError: true,
+        errorMessaege: action.payload
       })
 
     default:

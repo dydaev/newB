@@ -35,7 +35,7 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
           'staff',
           '+'
         );
-        $staffArr = array('admin', 'publisher', 'super', 'writer');
+        $staffArr = array('admin', 'super');
 
         $users = $this->container->get('doctrine')->getEntityManager('default')
           ->getRepository(Users::class);
@@ -56,6 +56,7 @@ class LoadUserData implements  FixtureInterface, ContainerAwareInterface
             $chmod->setChmod(710);
             foreach ($staffArr as $staffValue) {
               $theme = new Theme();
+              $theme->setSection($section);
               $theme->setName($staffValue);
               $themeChmod = new Chmod();
               $themeChmod->setChmod(710);

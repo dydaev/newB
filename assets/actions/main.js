@@ -18,7 +18,16 @@ export const getSections = () => dispatch => {
         data.sections
       ))
     } else {
-      console.log("Getting sections failed!!!")
+      dispatch( action(
+        REDUCERS.MAIN.SET_MAIN_ERR,
+        "Getting sections failed!!!"
+      ))
     }
   })
+}
+export const closeErr = () => dispatch => {
+    dispatch( action(
+      REDUCERS.MAIN.CLOSE_MAIN_ERR,
+      false
+    ))
 }

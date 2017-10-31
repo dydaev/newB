@@ -45,11 +45,11 @@ class ApiController extends Controller
                   $sectionName;
 
                   if($section->getThemes()->count() > 0) {
-
+                    $result[$sectionName] = array();
                     foreach ($section->getThemes()->toArray() as $theme) {
-                      $secStrategic->setPageObject($section);
+                      $secStrategic->setPageObject($theme);
                       if($secStrategic->checkCan(Consts::READ)) {
-                        $result[$sectionName] = $theme->getName();
+                        array_push($result[$sectionName], $theme->getName());
                       }
                     }
 

@@ -220,7 +220,7 @@ class SuperPage extends React.Component {
                     onChange={(e)=> this.handleGenerateRole({section: e.target.value})}
                   >
                   {
-                    this.props.Store.Main.sections.map((section, ind) => {
+                    Object.keys(this.props.Store.Main.sections).map((section, ind) => {
                       const selectOption = this.inputSection.toUpperCase() ?
                       this.inputSection.toUpperCase() : 'all'
                       return selectOption === section.toUpperCase() ?

@@ -29,7 +29,12 @@ export const getUsersList = () => dispatch => {
       console.log("What want wrong with getting users list.")
     }
   })
-  .catch( error => console.log('An error staff . ', error))
+  .catch( error => {
+    dispatch( action(
+      REDUCERS.MAIN.SET_MAIN_ERR,
+      'An error staff ' + error
+    ))
+  })
 }
 export const updateRoles = (data) => dispatch => {
   console.log(data);

@@ -75,9 +75,7 @@ class Theme implements ChmodInterface
      * @var \Section
      *
      * @ORM\ManyToOne(targetEntity="Section", inversedBy="themes")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="section_id", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      */
     private $section;
 

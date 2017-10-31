@@ -1,6 +1,8 @@
 const REDUCERS = {
     MAIN: {
-        UPDATE_SECTIONS: 'UPDATE_SECTIONS'
+        UPDATE_SECTIONS: 'UPDATE_SECTIONS',
+        CLOSE_MAIN_ERR: 'CLOSE_MAIN_ERR',
+        SET_MAIN_ERR: 'SET_MAIN_ERR'
     },
     NEWS: {
         ADD: 'ADD_NEWS',
