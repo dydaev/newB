@@ -1,7 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
-import { login, Main }  from '../../actions'
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+
+import { Action }  from '../../actions';
+import REDUCER from '../../consts';
+
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 
 class MainMenu extends React.Component {
@@ -27,8 +30,8 @@ class MainMenu extends React.Component {
   }
   handleLogout() {
     this.toggle();
-    this.Dispatcher(login.logout());
-    this.Dispatcher(Main.getSections());
+    this.Dispatcher(Action.update(REDUCER.AUTH_LOGOUT));
+    this.Dispatcher(Action.update(REDUCER.MAIN_UPDATE_SECTIONS));
   }
   render(){
     return (
@@ -71,6 +74,6 @@ class MainMenu extends React.Component {
   }
 }
 export default connect(
-    ({ login }) => ({ Store: login.login }),
+    ({ login }) => ({ Store: login }),
     dispatch => ({Dispatcher: dispatch})
 )(MainMenu)

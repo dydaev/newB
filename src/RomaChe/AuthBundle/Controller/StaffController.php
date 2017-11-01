@@ -68,14 +68,13 @@ class StaffController extends Controller
         if($request->getMethod() == 'POST' && $request !== null ) {
 
           $content = json_decode($request->getContent());
-
           if( $content->{'userId'} ) {
             $em = $this->getDoctrine()->getEntityManager();
             $user = $em->getRepository('AuthBundle:Users')
               ->findOneBy(array('id' => $content->{'userId'}));
 
             if($user !== null) {
-              if($this->get('security.authorization_checker')->isGranted('ROLE_SUPER_USER')) {
+              if($this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
                 return new JsonResponse(array(
                   "type" => 'user',
                   "user" =>  $user->toArray()
@@ -93,14 +92,16 @@ class StaffController extends Controller
             } else {
               return new JsonResponse(array(
                 "type" => 'message',
-                "message" => 'No user with this id'
+                "message" => 'No user with this id',
+                "color" => 'warning'
               ));
 
             }
           } else {
             return new JsonResponse(array(
               "type" => 'message',
-              "message" => 'Not ID!'
+              "message" => 'Not ID!',
+              "color" => 'warning'
             ));
           }
         } elseif ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {

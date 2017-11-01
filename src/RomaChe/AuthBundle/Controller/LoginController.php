@@ -37,19 +37,22 @@ class LoginController extends Controller
 
               return new JsonResponse(array(
                 "type" => 'message',
-                "message" => 'Wrong email or password!'
+                "message" => 'Wrong email or password!',
+                "color" => 'warning'
               ));
             }
           } else {
             return new JsonResponse(array(
               "type" => 'message',
-              "message" => 'Wrong email or password!'
+              "message" => 'Wrong email or password!',
+              "color" => 'warning'
             ));
           }
         } else {
           return new JsonResponse(array(
             "type" => 'message',
-            "message" => 'Please enter email'
+            "message" => 'Please enter email',
+            "color" => 'warning'
           ));
         }
     }
@@ -88,13 +91,13 @@ class LoginController extends Controller
         }
       } else {
         return new JsonResponse(array(
-          "type" => 'message',
-          "message" => 'Email is empty!'
+          "type" => 'inValid',
+          "text" => 'Email is empty!'
         ));
       }
       return new JsonResponse(array(
-        "type" => 'message',
-        "message" => 'Email already in use!'//'Email invalid!'
+        "type" => 'inValid',
+        "text" => 'Email already in use!'//'Email invalid!'
       ));
     }
     public function addUserAction(Request $request)

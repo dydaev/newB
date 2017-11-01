@@ -1,33 +1,23 @@
-import REDUCERS from '../consts';
+import REDUCER from '../consts';
 
 const initialState = {
-  profile:{
-    user_id: 0,
-    user: []
-  }
-}
+  user_id: 0,
+  user: [],
+};
 
 export default function update(state = initialState, action) {
 
-  console.log(`Try reduce profile action ${action.type} to `, action.payload);
   switch (action.type) {
-
-    case REDUCERS.PROFILE.SET_USER_ID:
-      return Object.assign({}, {...state}, {
-        profile:{
-          user:{
-            id: action.payload
-          }
-        }
-      })
-    case REDUCERS.PROFILE.SUCCESS_USER_PROFILE:
-      return Object.assign({}, {...state}, {
-        profile:{
-          user: action.payload
-        }
-      })
+    case REDUCER.PROFILE_SET_USER_ID:
+      return Object.assign({}, state, {
+        user_id: action.payload,
+      });
+    case REDUCER.GET_PROFILE_USER:
+      return Object.assign({}, state, {
+        user: action.payload.user,
+      });
 
     default:
-      return {...state};
+      return { ...state };
   }
 }

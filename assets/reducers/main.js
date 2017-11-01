@@ -1,4 +1,4 @@
-import REDUCERS from '../consts';
+import REDUCER from '../consts';
 
 const initialState = {
     roles:{
@@ -8,31 +8,37 @@ const initialState = {
       user: 'Reade all'
     },
     sections: {},
-    isError: false,
-    errorMessaege: ''
+    isMessage: false,
+    message: {
+      color: '',
+      message: ''
+    }
 }
 
 export default function update(state = initialState, action) {
 
-  console.log(`Try reduce Main action ${action.type} to `, action.payload, " state:", state);
-
   switch (action.type) {
-    case REDUCERS.MAIN.UPDATE_SECTIONS:
-      return Object.assign({}, ...state, {
-          sections: action.payload
+    case REDUCER.MAIN_UPDATE_SECTIONS:
+      return Object.assign({}, state, {
+          sections: action.payload.sections
       })
 
-    case REDUCERS.MAIN.CLOSE_MAIN_ERR:
-      return Object.assign({}, ...state, {
-          isError: false,
-          errorMessaege: ''
+    case REDUCER.MAIN_SET_MESSAGE:
+      if(action.payload.type === 'message') {
+        return Object.assign({}, state, {
+          isMessage: true,
+          message: { ...action.payload }
+        })
+      }
+    case REDUCER.MAIN_CLOSE_MESSAGE:
+      return Object.assign({}, state, {
+          isMessage: false,
+          message: {
+            color: '',
+            message: ''
+          }
       })
 
-    case REDUCERS.MAIN.SET_MAIN_ERR:
-      return Object.assign({}, ...state, {
-        isError: true,
-        errorMessaege: action.payload
-      })
 
     default:
       return {...state};

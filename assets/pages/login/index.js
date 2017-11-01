@@ -25,7 +25,7 @@ class LoginPage extends React.Component {
         });
       }
     }
-    componentDidUpdate() {      
+    componentDidUpdate() {
       if(this.props.Store.isLogin) {
         browserHistory.push('/');
       }
@@ -84,6 +84,6 @@ class LoginPage extends React.Component {
     }
   }
 export default connect(
-    ({ login }) => ({ Store: login.login }),
+    ({ login }) => ({ Store: login }),
     dispatch => ({Dispatcher: dispatch})
 )(LoginPage)

@@ -1,95 +1,101 @@
 import REDUCERS from '../consts';
 
 const initialState = {
-  login:{
     isLogin: false,
     newMessage: false,
     isUserAdded: false,
-    headColor: 'head_color_blue',
+    headColor: '',
     message: '',
     login: '',
     pass: '',
     isEmailValid: false
-  }
 }
 
 export default function update(state = initialState, action) {
   let color;
-  console.log(`Try updating action ${action.type} to `, action.payload);
   switch (action.type) {
-    case REDUCERS.AUTH.LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        login:{
-          isLogin: true,
-          name: action.payload
-        }
-      })
-    case REDUCERS.AUTH.IS_VALID_EMAIL:
-      return Object.assign({}, state, {
-        login:{
-          isEmailValid: action.payload.isEmailValid,
-          message: action.payload.message || ''
-        }
-      })
-    case REDUCERS.AUTH.ADD_NEW_USER:
+    case REDUCERS.AUTH_IS_VALID_EMAIL:
+      if(action.payload.type === 'isValidEmail') {
+        return Object.assign({}, state, {
+          isEmailValid: true,
+          message: ''
+        });
+      } else {
+        return Object.assign({}, state, {
+          isEmailValid: false,
+          message: action.payload.text
+        });
+      }
+
+    case REDUCERS.AUTH_ADD_NEW_USER:
       if (!action.payload.result) {
         color = 'head_color_red';
       } else {
         color = 'head_color_green';
       }
       return Object.assign({}, state, {
-        login:{
           headColor: color,
           isUserAdded: action.payload.result,
           message: action.payload.message || ''
-        }
       })
-    case REDUCERS.AUTH.IS_LOGGED:
+    case REDUCERS.AUTH_IS_LOGGED:
+      if(action.payload.type === 'isLogged' && action.payload.name) {
+        return Object.assign({}, state, {
+            isLogin: true,
+            name: action.payload.name
+        })
+      }
+    case REDUCERS.AUTH_NOT_LOGGED:
       return Object.assign({}, state, {
-        login:{
-          isLogin: true,
-          name: action.payload
-        }
-      })
-    case REDUCERS.AUTH.NOT_LOGGED:
-      return Object.assign({}, state, {
-        login:{
           isLogin: false,
           name: ''
-        }
       })
-    case REDUCERS.AUTH.LOGOUT:
+    case REDUCERS.AUTH_LOGOUT:
       return Object.assign({}, state, {
-        login:{
           isLogin: false,
           name: ''
-        }
       })
-    case REDUCERS.AUTH.LOGIN_FAILURE:
-      return Object.assign({}, state, {
-        login:{
-          isLogin: false,
-          name: ''
-        }
-      })
-    case REDUCERS.AUTH.MESSAGE:
+    case REDUCERS.AUTH_LOGINING:
+      switch (action.payload.type) {
+        case 'isLogged':
+          return Object.assign({}, state, {
+              isLogin: true,
+              name: action.payload.name
+          })
+          break;
+        case 'isNotLogged':
+          return Object.assign({}, state, {
+              isLogin: false,
+              name: ''
+          })
+          break;
+        case 'message':
+          if (action.payload === 'Wrong email or password!') {
+            color = 'head_color_red';
+          } else if (action.payload === 'Please enter email') {
+            color = 'head_color_orange';
+          }
+          return Object.assign({}, state, {
+              headColor: color,
+              newMessage: true,
+              message: action.payload
+          })
+      }
+
+    case REDUCERS.AUTH_MESSAGE:
       if (action.payload === 'Wrong email or password!') {
         color = 'head_color_red';
       } else if (action.payload === 'Please enter email') {
         color = 'head_color_orange';
       }
       return Object.assign({}, state, {
-        login:{
           headColor: color,
           newMessage: true,
           message: action.payload
-        }
       })
-    case REDUCERS.AUTH.CHANGE_HEAD_COLOR:
+    case REDUCERS.AUTH_CHANGE_HEAD_COLOR:
       return Object.assign({}, state, {
-        login:{
           headColor: action.payload
-        }
       })
 
     default:
