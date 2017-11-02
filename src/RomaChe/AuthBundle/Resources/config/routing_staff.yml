@@ -13,6 +13,9 @@ staff_writer:
 
 
 
+checkAddingRole:
+    path:     /checkAddingRole
+    defaults: { _controller: AuthBundle:Staff:checkAddingRole }
 getUsersList:
     path:     /getUsersList
     defaults: { _controller: AuthBundle:Staff:getUsersList }

@@ -150,10 +150,26 @@ class SuperPage extends React.Component {
   handleAdd() {
     const newRole = this.state.selectedRoleName;
     if (newRole) {
-      this.setState({
-        roles: Array.from(new Set([...this.state.roles, newRole])),
-        selectedRoleName: '',
-      });
+      this.props.Dispatcher(Action.update(
+        REDUCER.STAFF_CHECK_ADDING_ROLE,
+        { role: newRole }
+      ));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.Store.staff.checkAddingRole) {
+      const newRole = this.state.selectedRoleName;
+      if (newRole) {
+        this.setState({
+          roles: Array.from(new Set([...this.state.roles, newRole])),
+          selectedRoleName: '',
+        });
+      }
+
+      this.props.Dispatcher(Action.update(
+        REDUCER.STAFF_CHECKED_ADDING_ROLE
+      ));
     }
   }
 
@@ -349,7 +365,7 @@ class SuperPage extends React.Component {
 export default connect(
     ({ Main, staff, login }) => ({
       Store: {
-        Main: { ...Main },
+        Main: Main,
         login: login,
         staff: staff,
       },

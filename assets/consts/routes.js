@@ -1,6 +1,7 @@
 export const ROUTES = {
   MAIN_UPDATE_SECTIONS: '/api/main/get=sections',
 
+  STAFF_CHECK_ADDING_ROLE: '/staff/checkAddingRole',
   STAFF_GET_USER_TO_LIST: '/staff/updateRoles',
   STAFF_GET_USERS_LIST: '/staff/getUsersList',
   STAFF_GET_USER: '/staff/getUser',

@@ -20,6 +20,37 @@ class StaffController extends Controller
             // ...
         ));
     }
+    private function checkGranteForAddRole($role)
+    {
+      $roleArr = explode('_', $role);
+      if(count($roleArr) > 2) {
+        return $this->get('security.authorization_checker')->isGranted('ROLE_'. $roleArr[1] .'_ADMIN') ||
+        $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN');
+      }
+      return false;
+    }
+    public function checkAddingRoleAction(Request $request)
+    {
+      if($request->getMethod() == 'POST' && $request !== null ) {
+          $content = json_decode($request->getContent());
+
+          if($this->checkGranteForAddRole($content->{'role'})) {
+            return new JsonResponse(array(
+                "type" => true
+              ));
+          }
+          return new JsonResponse(array(
+              "type" => 'message',
+              "message" =>  'You are have`nt rights for added role in this section',
+              "color" => 'warning',
+          ));
+      }
+      return new JsonResponse(array(
+        "type" => 'message',
+        "message" =>  'Not role for checking!',
+        "color" => 'danger',
+      ));
+    }
     public function updateRolesAction(Request $request)
     {
         if($request->getMethod() == 'POST' && $request !== null ) {

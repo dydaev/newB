@@ -242,4 +242,18 @@ class Role implements RoleInterface
     {
         return $this->permission;
     }
+
+    /**
+    *
+    * @return string, section
+    */
+    public function getSection()
+    {
+        $roleArr = explode('_', $this->getName());
+        if(count($roleArr) > 2) {
+          return $roleArr[1];
+        } else {
+          return '';
+        }
+    }
 }
