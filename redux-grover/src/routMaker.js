@@ -12,9 +12,9 @@ export const createRoute = (constName, route) => {
   let routeFile = pars.getGrover(routePath);
   let routeObj = pars.getObject(routeFile, config.routsName);
 
-  const routeLine = constName + ': \'' + route + '\'';
+  const routeLine = constName + ': \'' + route + '\',';
 
   routeFile = pars.update(routeObj, constName, routeLine);
 
-  pars.setToFile(routeFile);
+  pars.setToFile(routePath, routeFile);
 };

@@ -12,9 +12,9 @@ export const createConst = (constName) => {
   let constFile = pars.getGrover(constsPath);
   let reducerObj = pars.getObject(constFile, constName);
 
-  const constLine = constName + ': \'' + constName + '\'';
+  const constLine = constName + ': \'' + constName + '\',';
 
   constFile = pars.update(constFile, constName, constLine);
 
-  pars.setToFile(constFile);
+  pars.setToFile(constsPath, constFile);
 };

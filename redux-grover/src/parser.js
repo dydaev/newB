@@ -5,12 +5,14 @@ var path = require('path');
 export const newLineChar  = process.platform === 'win32' ? '\r\n' : '\n';
 export const dirSeparator = process.platform === 'win32' ? '\\' : '/';
 
-export const setToFile = grover => {
+//----------------------------------
+export const setToFile = (file, grover) => {
   const str = grover.join(newLineChar);
-  console.log(str);
-  return false;
+  // console.log(str);
+  fs.writeFileSync(file, str);
 };
 
+//----------------------------------
 export const getGrover = fileName => {
   if (fs.existsSync(fileName)) {
     const file = fs.readFileSync(fileName, 'utf8');
@@ -20,6 +22,7 @@ export const getGrover = fileName => {
   return false;
 };
 
+//----------------------------------
 export const getObjectHeaderPosition = (grover, objectName) => {
   const headObjectPosition = grover.findIndex(lm =>
     new RegExp(`(\\s|\.)${objectName}(\\s|\=|\\(|\:)`).test(lm)
@@ -27,9 +30,11 @@ export const getObjectHeaderPosition = (grover, objectName) => {
   return headObjectPosition >= 0 ? headObjectPosition + 1 : false;
 };
 
+//----------------------------------
 export const groverLength = (grover, groverName) =>
 getObjectEndPosition(grover, groverName) - getObjectHeaderPosition(grover, groverName) + 1;
 
+//----------------------------------
 export const clearObjectInGrover = (grover, groverName) => {
   const _position = getObjectHeaderPosition(grover, groverName) - 1;
   const _length = groverLength(grover, groverName);
@@ -40,12 +45,15 @@ export const clearObjectInGrover = (grover, groverName) => {
   return grover;
 };
 
+//----------------------------------
 export const preLineSpices = (grover, position) =>
   grover[position].match(/(^[\s]*)/g).toString();
 
+//----------------------------------
 export const update = (grover, objectName, objectBody) => {
   let positionUpdateObject = getObjectHeaderPosition(grover, objectName) - 1;
   if (positionUpdateObject >= 0) {
+    console.log('detected object ', objectName, ', clering!');
     grover = clearObjectInGrover(grover, objectName);
   } else {
     positionUpdateObject = nameAnalitic(grover, objectName);
@@ -61,24 +69,31 @@ export const update = (grover, objectName, objectBody) => {
   return grover;
 };
 
+//----------------------------------
 export const getObject = (grover, objectName) =>
   grover.slice(
     getObjectHeaderPosition(grover, objectName) - 1,
     getObjectEndPosition(grover, objectName)
   );
 
+//----------------------------------
 const bordersOfObject  = [
   { type: 'ob1', face: '\\s+function\\s+[a-z0-9]+(\\s)*\\(', _start: '{', _end: '}' },
   { type: 'ob2', face: '\\s+const\\s+[a-z]+\\s*\\=\\s', _start: '{', _end: '}' },
   { type: 'ob3', face: '\\s+case\\s', _start: '(', _end: ')' },
   { type: 'arr1', face: '\\[', _start: '[', _end: ']' },
+  { type: 'obj4', face: "\\s*[a-z_]+:\\s*\\'", _start: "'", _end: "'" },
+  { type: 'obj5', face: '\\s*[a-z_]+:\\s*\\"', _start: '"', _end: '"' },
+  { type: 'obj6', face: '\\s*[a-z]+\\:\\s*[a-z0-9]+\\,', _start: ':', _end: ',' },
   { type: 'default', face: '', _start: '{', _end: '}' },
 ];
 
+//----------------------------------
 export const differentOfChar = (line, objectType) =>
 (line.split(objectType._start).length - 1) -
 (line.split(objectType._end).length - 1);
 
+//----------------------------------
 export const getObjectEndPosition = (grover, objectName) => {
   const objectHead = (getObjectHeaderPosition(grover, objectName) - 1);
   if (objectHead < 0) {
@@ -92,8 +107,9 @@ export const getObjectEndPosition = (grover, objectName) => {
 
   // console.log(objectType.type);
   let diffSimb = 0;
-  let inObj = (grover[objectHead].split(objectType._start).length === 2
-  && grover[objectHead].split(objectType._end).length === 2);
+  let inObj = (grover[objectHead].split(objectType._start).length >= 2 &&
+  grover[objectHead].split(objectType._end).length ==
+  grover[objectHead].split(objectType._start).length);
 
   for (let ind = objectHead; ind < grover.length; ind++) {
     diffSimb = diffSimb + differentOfChar(grover[ind], objectType);
@@ -105,6 +121,7 @@ export const getObjectEndPosition = (grover, objectName) => {
   return false;
 };
 
+//----------------------------------
 export const nameAnalitic = (grover, objectName) => {
   let position = 1;
   const res = grover.reduce((acc, lm, ind) => {

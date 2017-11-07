@@ -9,5 +9,5 @@ export var constsPath = '/consts';
 export var constsName = 'REDUCER';
 export var routsName = 'ROUTES';
 
-export const constNameChar  = process.platform === 'win32' ? '\r\n' : '\n';
+export const newLineChar  = process.platform === 'win32' ? '\r\n' : '\n';
 export const dirSeparator = process.platform === 'win32' ? '\\' : '/';

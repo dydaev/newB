@@ -28,5 +28,5 @@ export const createReducer = (constName, stateName) => {
   grover = pars.update(grover, 'initialState', initObj);
   grover = pars.update(grover, 'update', updateObj);
 
-  pars.setToFile(grover);
+  pars.setToFile(reducerPath, grover);
 };
