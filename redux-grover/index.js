@@ -5,11 +5,15 @@ import * as config from './grover.config';
 
 // constManager.readFolder();
 
-const reducer  = 'STAFF_ADD_NEW_ROLE';
-//constManager.createConst(reducer);
-//routManager.createRoute('/weathe?cyty=', reducer);
-reducerMaker.createReducer(reducer, 'isRoleAdded');
+const constName  = 'STAFF_DELETE_NEW_ROLE';
+const route = '/api?role=update';
+const stateName = 'isRoleDelete';
 
+if (constName && route) routManager.createRoute(constName, route);
+if (constName) constManager.createConst(constName);
+if (constName && stateName) reducerMaker.createReducer(constName, stateName);
+
+//TODO generate dispatch(action)
 //TODO generate shortcut command for symfony controller generator
 // console.log(data);
 
