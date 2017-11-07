@@ -1,14 +1,20 @@
-import * as folder from '../grover.config';
+import * as config from '../grover.config.js';
 
 var fs = require('fs');
 var path = require('path');
-const constNameChar  = process.platform === 'win32' ? '\r\n' : '\n';
-const dirSeparator = process.platform === 'win32' ? '\\' : '/';
+export const newLineChar  = process.platform === 'win32' ? '\r\n' : '\n';
+export const dirSeparator = process.platform === 'win32' ? '\\' : '/';
+
+export const setToFile = grover => {
+  const str = grover.join(newLineChar);
+  console.log(str);
+  return false;
+};
 
 export const getGrover = fileName => {
   if (fs.existsSync(fileName)) {
     const file = fs.readFileSync(fileName, 'utf8');
-    return file.split(constNameChar);
+    return file.split(newLineChar);
   }
 
   return false;
@@ -38,8 +44,8 @@ export const preLineSpices = (grover, position) =>
   grover[position].match(/(^[\s]*)/g).toString();
 
 export const update = (grover, objectName, objectBody) => {
-  let positionUpdateObject = (getObjectHeaderPosition(grover, objectName) - 1);
-  if (positionUpdateObject) {
+  let positionUpdateObject = getObjectHeaderPosition(grover, objectName) - 1;
+  if (positionUpdateObject >= 0) {
     grover = clearObjectInGrover(grover, objectName);
   } else {
     positionUpdateObject = nameAnalitic(grover, objectName);
