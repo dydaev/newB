@@ -20,7 +20,7 @@ if (process.argv.length === 6) {
     if (constName) constManager.createConst(constName);
     if (constName && stateName) reducerMaker.createReducer(constName, stateName);
   } else if (action === 'DELETE') {
-    if (constName && route) routManager.deleteRoute(route);
+    if (constName && route) routManager.deleteRoute(constName);
     if (constName) constManager.deleteConst(constName);
     if (constName && stateName) reducerMaker.deleteReducer(constName, stateName);
     console.log('in process writing)');

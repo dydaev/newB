@@ -47,7 +47,7 @@ export const clearObjectInGrover = (grover, groverName) => {
 
 //----------------------------------
 export const preLineSpices = (grover, position) =>
-  grover[position].match(/(^[\s]*)/g).toString();
+  grover[position].match(/(^[\s]*)/g).toString()
 
 //----------------------------------
 export const update = (grover, objectName, objectBody) => {
@@ -60,7 +60,7 @@ export const update = (grover, objectName, objectBody) => {
     positionUpdateObject = nameAnalitic(grover, objectName);
   }
 
-  const spices = preLineSpices(grover, positionUpdateObject);
+  const spices = positionUpdateObject > 0 ? preLineSpices(grover, positionUpdateObject) : '';
 
   if (!Array.isArray(objectBody)) objectBody = [objectBody];
 
