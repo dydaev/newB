@@ -6,10 +6,10 @@ export const newLineChar  = process.platform === 'win32' ? '\r\n' : '\n';
 export const dirSeparator = process.platform === 'win32' ? '\\' : '/';
 
 //----------------------------------
+
 export const setToFile = (file, grover) => {
   const str = grover.join(newLineChar);
-  // console.log(str);
-  fs.writeFileSync(file, str);
+  return fs.writeFileSync(file, str);
 };
 
 //----------------------------------
@@ -54,6 +54,7 @@ export const update = (grover, objectName, objectBody) => {
   let positionUpdateObject = getObjectHeaderPosition(grover, objectName) - 1;
   if (positionUpdateObject >= 0) {
     console.log('detected object ', objectName, ', clering!');
+
     grover = clearObjectInGrover(grover, objectName);
   } else {
     positionUpdateObject = nameAnalitic(grover, objectName);
