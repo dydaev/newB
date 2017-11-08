@@ -39,7 +39,7 @@ class SuperPage extends React.Component {
       modal: false,
       id: '',
       ind: '',
-      roles: [],
+      Roles: [],
       selectedRoleName: '',
       selectedRoleInd: '',
     };
@@ -75,7 +75,7 @@ class SuperPage extends React.Component {
       modal: !this.state.modal,
       id: this.state.modal ? '' : id,
       ind: this.state.modal ? '' : ind,
-      roles: (ind >= 0) ? this.props.Store.staff.users_list[ind].Roles : [],
+      Roles: (ind >= 0) ? Object.values(this.props.Store.staff.users_list[ind].Roles) : [],
     });
   }
 
@@ -94,7 +94,7 @@ class SuperPage extends React.Component {
       REDUCER.STAFF_GET_USER_TO_LIST,
       {
         userId: this.state.id,
-        roles: this.state.roles,
+        roles: this.state.Roles,
       }
     ));
     this.toggle();
@@ -102,20 +102,20 @@ class SuperPage extends React.Component {
 
   handleOptionSelect(e) {
     this.setState({
-      selectedRoleName: this.state.roles[e.target.value],
+      selectedRoleName: this.state.Roles[e.target.value],
       selectedRoleInd: e.target.value,
     });
   }
 
   handleChangeInputRole(e) {
     if (this.state.selectedRoleInd >= 0) {
-      const newRoles = this.state.roles.map((role, ind) => {
-        return parseInt(this.state.selectedRoleInd) === ind ?
-        e.target.value.toUpperCase() : role;
-      });
+      const newRoles = this.state.Roles.map((role, ind) =>
+        parseInt(this.state.selectedRoleInd) === ind ?
+        e.target.value.toUpperCase() : role
+      );
       this.setState({
         selectedRoleName: e.target.value.toUpperCase(),
-        roles: newRoles,
+        Roles: newRoles,
       });
     } else {
       this.setState({
@@ -162,7 +162,7 @@ class SuperPage extends React.Component {
       const newRole = this.state.selectedRoleName;
       if (newRole) {
         this.setState({
-          roles: Array.from(new Set([...this.state.roles, newRole])),
+          Roles: Array.from(new Set([...this.state.Roles, newRole])),
           selectedRoleName: '',
         });
       }
@@ -175,15 +175,14 @@ class SuperPage extends React.Component {
 
   handleUpdate() {
     if (this.state.selectedRoleInd) {
-      const selectedOptionsName = this.state.roles[this.state.selectedRoleInd];
-      const rolesArray = this.state.roles.map(role => {
-        return role === selectedOptionsName ?
+      const selectedOptionsName = this.state.Roles[this.state.selectedRoleInd];
+      const rolesArray = this.state.Roles.map(role =>
+        role === selectedOptionsName ?
         (role.includes(this.state.selectedRoleName) ? role :
-        this.state.selectedRoleName) :
-        role;
-      });
+        this.state.selectedRoleName) : role
+      );
       this.setState({
-        roles: rolesArray,
+        Roles: rolesArray,
         selectedRoleName: '',
         selectedRoleInd: '',
       });
@@ -194,9 +193,9 @@ class SuperPage extends React.Component {
     const deleteName = this.state.selectedRoleName;
     if (deleteName !== 'ROLE_USER') {
       this.setState({
-        roles: this.state.roles.filter(role => {
-          return role !== deleteName;
-        }),
+        Roles: this.state.Roles.filter(role =>
+          role !== deleteName
+        ),
       });
     }
   }
@@ -228,13 +227,13 @@ class SuperPage extends React.Component {
                 onChange={(e)=> this.handleOptionSelect(e)}
               multiple>
                 {
-                  this.state.roles.map((role, ind) => {
-                    return (
+                  this.state.Roles.map((role, ind) =>
+                    (
                       <option key={ind} value={ind}>
                         {role}
                       </option>
-                    );
-                  })
+                    )
+                  )
                 }
               </Input>
             </FormGroup>
@@ -308,11 +307,11 @@ class SuperPage extends React.Component {
                 >
                   {
                     !this.props.Store.Main.roles ? '' :
-                    Object.keys(this.props.Store.Main.roles).map((role, ind) => {
-                      return this.inputRole.toUpperCase() === role.toUpperCase() ?
+                    Object.keys(this.props.Store.Main.roles).map((role, ind) =>
+                      this.inputRole.toUpperCase() === role.toUpperCase() ?
                       (<option key={ind} selected>{role}</option>) :
-                      (<option key={ind}>{role}</option>);
-                    })
+                      (<option key={ind}>{role}</option>)
+                    )
                   }
                 </Input>
               </FormGroup>
@@ -335,18 +334,18 @@ class SuperPage extends React.Component {
           </thead>
           <tbody>
             {
-              this.props.Store.staff.users_list.map((user, ind) => {
-                return (<tr key={ind}>
+              this.props.Store.staff.users_list.map((user, ind) =>
+                (<tr key={ind}>
                   <th scope="row">{ind + 1}</th>
                   <td>{user.username}</td>
                   <td>{user.email}</td>
                   <td>{user.createdAt.date}</td>
                   <td>
                     <a href="#a" onClick={()=>this.toggle(ind, user.id)}>Roles</a>{' '}
-                    <a href="#a" onClick={()=>this.handleUserEdit(user.id)}>edit</a>
+                    <a href="#a" onClick={()=>this.handleUserEdit(user.id)}>Edit</a>
                   </td>
-                </tr>);
-              })
+                </tr>)
+              )
             }
             <tr>
                 <th scope="row"></th>

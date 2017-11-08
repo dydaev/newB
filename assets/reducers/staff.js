@@ -28,7 +28,7 @@ export default function update(state = initialState, action) {
       return Object.assign({}, state, {
         users_list: state.users_list.map(user =>
           user.id !== action.payload.user.id ?
-          user : Object.assign({}, action.payload.user, { roles:  action.payload.user.Roles }),
+          user : action.payload.user,
         ),
       });
     default:

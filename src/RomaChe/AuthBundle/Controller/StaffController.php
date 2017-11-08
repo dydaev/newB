@@ -66,27 +66,25 @@ class StaffController extends Controller
               $manager = $this->getDoctrine()->getManager();
               $takedRoles = $content->{'roles'};
 
-              foreach ($takedRoles as $value) {
+              foreach ($user->getRoles() as $userRole) {//delete all user roles, for updating
+                  $user->removeRole($userRole);
+              }
+
+              foreach ($takedRoles as $newRoleForUser) {
                 $role = $em->getRepository('AuthBundle:Role')
-                  ->findOneBy(array('name' => $value));
+                  ->findOneBy(array('name' => $newRoleForUser));
                 if($role === null) {
                   $role = new Role();
-                  $role->setName($value);
+                  $role->setName($newRoleForUser);
                   $role->setPermission(Consts::DEFAULT_GROUP_PERMISSION);
                   $manager->persist($role);
                 }
-                if(!in_array($value, $user->getRolesNames())) {
+                if(!in_array($newRoleForUser, $user->getRolesNames())) {
 
                   $user->addRole($role);
                 }
               }
-              if(count($user->getRolesNames()) > count($takedRoles) ) {
-                foreach ($user->getRoles() as $userRole) {
-                  if(!in_array($userRole->getName(), $takedRoles)) {
-                    $user->removeRole($userRole);
-                  }
-                }
-              }
+
               $manager->persist($user);
               $manager->flush();
               return new JsonResponse(array(
