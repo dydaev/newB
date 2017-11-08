@@ -16,10 +16,13 @@ if (process.argv.length === 6) {
 
   console.log(process.argv[2]);
   if (action === 'UPDATE') {
-    // if (constName && route) routManager.createRoute(constName, route);
-    // if (constName) constManager.createConst(constName);
-    // if (constName && stateName) reducerMaker.createReducer(constName, stateName);
+    if (constName && route) routManager.createRoute(constName, route);
+    if (constName) constManager.createConst(constName);
+    if (constName && stateName) reducerMaker.createReducer(constName, stateName);
   } else if (action === 'DELETE') {
+    if (constName && route) routManager.deleteRoute(route);
+    if (constName) constManager.deleteConst(constName);
+    if (constName && stateName) reducerMaker.deleteReducer(constName, stateName);
     console.log('in process writing)');
   }
 } else if (process.argv.length === 3) {

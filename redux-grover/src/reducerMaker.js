@@ -4,13 +4,31 @@ import * as pars from './parser';
 var fs = require('fs');
 var path = require('path');
 
-export const createReducer = (constName, stateName) => {
+const getPath = constName => {
   const fileName = constName.split('_')[0].toLowerCase();
-  const reducerPath = config.mainPath + config.reducersPath + config.dirSeparator + fileName + '.js';
+  return config.mainPath + config.reducersPath + config.dirSeparator + fileName + '.js';
+};
 
+export const deleteReducer = (constName, stateName) => {
+  let grover = pars.getGrover(getPath(constName));
+  let initObj = pars.getObject(grover, 'initialState');
+  let updateObj = pars.getObject(grover, 'update');
+
+  if (pars.getObjectHeaderPosition(initObj, stateName) >= 0) {
+    initObj = pars.clearObjectInGrover(initObj, stateName);
+    grover = pars.update(grover, 'initialState', initObj);
+  }
+  if (pars.getObjectHeaderPosition(updateObj, constName) >= 0) {
+    updateObj = pars.clearObjectInGrover(updateObj, constName);
+    grover = pars.update(grover, 'update', updateObj);
+  }
+  pars.setToFile(getPath(constName), grover);
+};
+
+export const createReducer = (constName, stateName) => {
   //TODO check if file empty, inpet in his initialState and mathod update with switch.
 
-  let grover = pars.getGrover(reducerPath);
+  let grover = pars.getGrover(getPath(constName));
   let initObj = pars.getObject(grover, 'initialState');
   let updateObj = pars.getObject(grover, 'update');
 
@@ -28,5 +46,5 @@ export const createReducer = (constName, stateName) => {
   grover = pars.update(grover, 'initialState', initObj);
   grover = pars.update(grover, 'update', updateObj);
 
-  pars.setToFile(reducerPath, grover);
+  pars.setToFile(getPath(constName), grover);
 };
