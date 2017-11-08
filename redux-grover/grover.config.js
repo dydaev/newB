@@ -1,6 +1,6 @@
 export var path = require('path');
 
-export var mainPath = '../assets';
+export var mainPath = './assets';
 export var actionsPath = '/actions';
 
 export var reducersPath = '/reducers';

@@ -22,6 +22,7 @@ export const deleteReducer = (constName, stateName) => {
     updateObj = pars.clearObjectInGrover(updateObj, constName);
     grover = pars.update(grover, 'update', updateObj);
   }
+  // console.log(grover);
   pars.setToFile(getPath(constName), grover);
 };
 

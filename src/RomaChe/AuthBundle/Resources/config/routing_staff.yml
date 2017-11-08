@@ -12,7 +12,9 @@ staff_writer:
     defaults: { _controller: AuthBundle:Default:index }
 
 
-
+deleteUserRole:
+    path:     /deleteUserRole
+    defaults: { _controller: AuthBundle:Staff:deleteUserRole }
 checkAddingRole:
     path:     /checkAddingRole
     defaults: { _controller: AuthBundle:Staff:checkAddingRole }

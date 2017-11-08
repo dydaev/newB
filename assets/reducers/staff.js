@@ -26,10 +26,10 @@ export default function update(state = initialState, action) {
       });
     case REDUCER.STAFF_GET_USER_TO_LIST:
       return Object.assign({}, state, {
-        users_list: state.staff.users_list.map(user => {
-          return user.id !== action.payload.id ?
-          user : action.payload.user;
-        }),
+        users_list: state.users_list.map(user =>
+          user.id !== action.payload.user.id ?
+          user : Object.assign({}, action.payload.user, { roles:  action.payload.user.Roles }),
+        ),
       });
     default:
       return { ...state };

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use RomaChe\AuthBundle\Entity\Users;
 use RomaChe\AuthBundle\Entity\Consts;
 use RomaChe\AuthBundle\Entity\Role;
+use Symfony\Component\VarDumper\VarDumper;
 
 class StaffController extends Controller
 {
@@ -63,9 +64,9 @@ class StaffController extends Controller
 
             if($user) {
               $manager = $this->getDoctrine()->getManager();
-              $rolesArray = $content->{'roles'};
+              $takedRoles = $content->{'roles'};
 
-              foreach ($rolesArray as $value) {
+              foreach ($takedRoles as $value) {
                 $role = $em->getRepository('AuthBundle:Role')
                   ->findOneBy(array('name' => $value));
                 if($role === null) {
@@ -77,6 +78,13 @@ class StaffController extends Controller
                 if(!in_array($value, $user->getRolesNames())) {
 
                   $user->addRole($role);
+                }
+              }
+              if(count($user->getRolesNames()) > count($takedRoles) ) {
+                foreach ($user->getRoles() as $userRole) {
+                  if(!in_array($userRole->getName(), $takedRoles)) {
+                    $user->removeRole($userRole);
+                  }
                 }
               }
               $manager->persist($user);
