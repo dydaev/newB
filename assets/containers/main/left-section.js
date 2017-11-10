@@ -4,6 +4,7 @@ import Block_previews from '../block-previews';
 import Block_previews_gallery from '../block-previews-gallery';
 import Block_previews_text4x4 from '../block-previews-text4x4';
 import { News_review, Img_news_review, Img_gallery_preview } from '../../components/news-review';
+import ControllButtons from '../controll-buttons';
 
 export default function Main_left_section() {
     const width = 200;
@@ -23,7 +24,7 @@ export default function Main_left_section() {
         'https://files.brightside.me/files/news/part_4/46555/208855-3432610-1000-1446444849comment_pngkZ7y3otB9J0WJmTBEYYcmM3S6Tydz-1000-6d51e333c8-1484729696.jpg',
         'https://files.brightside.me/files/news/part_4/46555/206005-12-_2_-1000-41dad920ee-1484729696.jpg'
     ];
-    
+
     return (
         <section style={{ width: '455px' }}>
             <Block_previews title="Books newss" width='100%' more='res' >
@@ -50,53 +51,55 @@ export default function Main_left_section() {
                 />
             </Block_previews>
             <Block_previews_gallery title="gallery" width='100%' height='210px'>
-                {gallery.map( (img, ind) => 
+                {gallery.map( (img, ind) =>
                     <Img_gallery_preview
                         key = { ind }
-                        src={ img } 
-                        link={ img } 
+                        src={ img }
+                        link={ img }
                         width = '145px'
                     />
                 )}
             </Block_previews_gallery>
-            <Block_previews_text4x4 title="tech news" width='100%' height='210px'>
-                <News_review
-                    title={ title }
-                    text={ text }
-                    author='Jony .D'
-                    comments='7'
-                    newsId = "tra"
-                    width = '210px'
-                    height = '95px'
-                    />
-                    <News_review
-                    title={ title }
-                    text={ text }
-                    author='Semen K.'
-                    comments='18'
-                    newsId = "tra"
-                    width = '210px'
-                    height = '95px'
-                    />
-                    <News_review
-                    title={ title }
-                    text={ text }
-                    author='Mukolka'
-                    comments='2'
-                    newsId = "tra"
-                    width = '210px'
-                    height = '95px'
-                    />
-                    <News_review
-                    title={ title }
-                    text={ text }
-                    author='Luba'
-                    comments='7'
-                    newsId = "tra"
-                    width = '210px'
-                    height = '95px'
-                    />
-            </Block_previews_text4x4>
+            <ControllButtons>
+              <Block_previews_text4x4 title="tech news" width='100%' height='210px'>
+                  <News_review
+                      title={ title }
+                      text={ text }
+                      author='Jony .D'
+                      comments='7'
+                      newsId = "tra"
+                      width = '210px'
+                      height = '95px'
+                      />
+                      <News_review
+                      title={ title }
+                      text={ text }
+                      author='Semen K.'
+                      comments='18'
+                      newsId = "tra"
+                      width = '210px'
+                      height = '95px'
+                      />
+                      <News_review
+                      title={ title }
+                      text={ text }
+                      author='Mukolka'
+                      comments='2'
+                      newsId = "tra"
+                      width = '210px'
+                      height = '95px'
+                      />
+                      <News_review
+                      title={ title }
+                      text={ text }
+                      author='Luba'
+                      comments='7'
+                      newsId = "tra"
+                      width = '210px'
+                      height = '95px'
+                      />
+              </Block_previews_text4x4>
+            </ControllButtons>
         </section>
     );
 }

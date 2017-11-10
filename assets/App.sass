@@ -13,6 +13,26 @@ body
   padding: 0
   background: #ccc
 
+  div.controllButtons
+    position: relative
+    ul
+      position: absolute
+      top: -17px
+      right: 0px
+      z-index: 99
+      li
+        display: inline-block
+        width: 25px
+        height: 17px
+        margin-left: 4px
+        button
+          width: 100%
+          padding: 0
+          height: 20px
+          i
+            margin-right: 1px
+
+
   div.bg
     height: 1950px
     width: 1040px
@@ -25,10 +45,10 @@ body
       height: 100%
       width: 100%
       +backgroundShort('#{$image-path}/bg_pattern.png')
-      
+
       div.wraper
-        margin: 5px 0 0 0;
-        padding: 16px;
-        height: 100%;
-        width: 980px;
-        background: #fff;
+        margin: 5px 0 0 0
+        padding: 16px
+        height: 100%
+        width: 980px
+        background: #fff
