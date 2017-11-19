@@ -1,3 +1,6 @@
 getSections:
     path:     /api/main/get={gettingObject}
     defaults: { _controller: NewsBundle:Api:mainGet }
+updateApi:
+    path:     /api/main/update={gettingObject}
+    defaults: { _controller: NewsBundle:Api:mainUpdate }

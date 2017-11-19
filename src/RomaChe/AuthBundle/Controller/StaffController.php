@@ -15,6 +15,14 @@ use Symfony\Component\VarDumper\VarDumper;
 
 class StaffController extends Controller
 {
+    private function isRightUser()
+    {
+      
+    }
+    public function isRightUserAction()
+    {
+
+    }
     public function staffAction()
     {
         return $this->render('AuthBundle:Staff:staff.html.twig', array(

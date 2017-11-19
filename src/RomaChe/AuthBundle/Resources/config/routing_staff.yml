@@ -11,7 +11,9 @@ staff_writer:
     path:     /writer
     defaults: { _controller: AuthBundle:Default:index }
 
-
+isRightUser:
+    path:     /isRightUser
+    defaults: { _controller: AuthBundle:Staff:isRightUser }
 deleteUserRole:
     path:     /deleteUserRole
     defaults: { _controller: AuthBundle:Staff:deleteUserRole }

@@ -22,11 +22,139 @@ class ApiController extends Controller
         }
 
     }
-    public function mainGetAction($gettingObject = null)
+//------------------------------------------------------------------------------UPDATE
+    public function mainUpdateAction(Request $request, $gettingObject = null)
     {
-      $result = '';
       $secStrategic = $this->get('RomaChe.SecurityStrategicService');
+      $result = array();
+      $content  = null;
+      if ($request) {
+        $content = json_decode($request->getContent());
+      }
+      switch ($gettingObject) {
+        case 'section':
+        if ($content->{'id'}) {
+          $em = $this->getDoctrine()->getManager();
+          $section = $em->getRepository(Section::class)
+            ->findOneBy(array('id' => $content->{'id'}));
+
+          if ($section) {
+            $secStrategic->setPageObject($section);
+              if($secStrategic->checkCan(Consts::WRITE)) {
+                array_push($result, ['access' => 'ok']);
+                if ($content->{'name'} != $section->getName()) {
+                  $section->setName($content->{'name'});
+                  array_push($result, $content->{'name'});
+                }
+
+                if ($content->{'description'} != $section->getDescription()){
+                  $section->setDescription($content->{'description'});
+                  array_push($result, $content->{'description'});
+                }
+
+                $em->flush();
+                return $this->redirectToRoute('getSections', array('gettingObject' => 'sections_elements'));
+
+              } else {
+                $result = [
+                  'type' => 'message',
+                  'message' => 'access denite!',
+                  "color" => 'warning'
+                ];
+                array_push($result, ['access' => 'denite']);
+              }
+          }
+        } else {
+          $result = [
+            'type' => 'message',
+            'message' => 'No id!',
+            "color" => 'warning'
+          ];
+        }
+          break;
+
+        default:
+          # code...
+          break;
+      }
+      return new JsonResponse($result);
+    }
+//------------------------------------------------------------------------------GET
+    public function mainGetAction(Request $request, $gettingObject = null)
+    {
+      $secStrategic = $this->get('RomaChe.SecurityStrategicService');
+      $result = array();
+      $content  = null;
+      if ($request) {
+        $content = json_decode($request->getContent());
+      }
         switch ($gettingObject) {
+          case 'sections_elements':
+            $elements = $this->getDoctrine()
+              ->getRepository(Section::class)
+              ->findAll();
+
+            foreach ($elements as $element) {
+              $secStrategic->setPageObject($element);
+              if ($secStrategic->checkCan(Consts::READ)) {
+
+                $themes = $element->getThemes();
+                $subElements = array();
+                foreach ($themes as $theme) {
+                  $secStrategic->setPageObject($theme);
+
+                  array_push($subElements, [
+                    'id' => $theme->getId(),
+                    'name' => $theme->getName(),
+                    'writeRights' => $secStrategic->checkCan(Consts::WRITE),
+                  ]);
+                }
+
+                $secStrategic->setPageObject($element);
+                array_push($result, [
+                  'id' => $element->getId(),
+                  'name' => $element->getName(),
+                  'subElements' => $subElements,
+                  'writeRights' => $secStrategic->checkCan(Consts::WRITE),
+                ]);
+              }
+            }
+
+          return new JsonResponse($result);
+
+          case 'selected_element':
+          $result = array();
+          // dump($content->{'id'});die();
+          if ($content->{'id'}) {
+            $element = $this->getDoctrine()
+              ->getRepository(Section::class)
+              ->findOneBy(array('id' => $content->{'id'}));
+
+            if ($element) {
+              $secStrategic->setPageObject($element);
+              if($secStrategic->checkCan(Consts::READ)) {
+                $result = [
+                  'id' => $element->getId(),
+                  'name' => $element->getName(),
+                  'writeRights' => $secStrategic->checkCan(Consts::WRITE),
+                  'description' => $element->getDescription(),
+                  'createdAt' => $element->getCreatedAt()
+                ];
+                $themes = $element->getThemes();
+                if (count($themes) > 0) {
+                  array_push($result, ['themes' => $themes ]);
+                }
+              }
+            } else {
+              $result = [
+                'type' => 'message',
+                'message' => 'Element '. $content->{'id'} .' not found',
+                "color" => 'warning'
+              ];
+            }
+          }
+          // dump($result);die();
+          return new JsonResponse($result);
 
           case 'sections':
           $result = array();
@@ -49,12 +177,12 @@ class ApiController extends Controller
                     foreach ($section->getThemes()->toArray() as $theme) {
                       $secStrategic->setPageObject($theme);
                       if($secStrategic->checkCan(Consts::READ)) {
-                        array_push($result[$sectionName], $theme->getName());
+                        array_push($result[$sectionName], [$theme->getName() => $theme->getId()] );
                       }
                     }
 
                   } else {
-                     $result[$sectionName] = array();
+                     $result[$sectionName] = $section->getId();
                   }
               }
           }

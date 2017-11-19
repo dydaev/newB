@@ -7,35 +7,44 @@ import { Badge, Button } from 'reactstrap';
 
 import REDUCER from '../consts';
 
-const ControllButtons = (props) => {
-  let addButt = (
+const ControllButtons = props => {
+  const addButt = !props.onAdd ?
+  '' :
+  (
     <li>
-    <Button color="success" outline>
-    <i className="fa fa-plus" aria-hidden="true"></i>
-    </Button>
+      <Button color="success" onClick={() => props.onAdd()} outline>
+        <i className="fa fa-plus" aria-hidden="true"></i>
+      </Button>
     </li>
   );
-  let editButt = (
+
+  const editButt = !props.onEdit ?
+  '' :
+  (
     <li>
-      <Button color="primary" outline>
+      <Button color="primary" onClick={() => props.onEdit()} outline>
         <i className="fa fa-pencil-square-o" aria-hidden="false"></i>
       </Button>
     </li>
   );
-  let deleteButt = (
+
+  const deleteButt = !props.onDelete ?
+  '' :
+  (
     <li>
-      <Button color="danger" outline>
+      <Button color="danger" onClick={() => props.onDelete()} outline>
         <i className="fa fa-times" aria-hidden="true"></i>
       </Button>
     </li>
   );
-  let newsStyle = {};
 
-  if (props.isNews) {
-    let addButt = '';
-    let newsStyle = {
-      top: 0,
-    };
+  const newsStyle = props.isSubObj ?
+  { top: 0 } :
+  { bottom: '0px' };
+
+  if (props.Store.login.isLogin) {
+    const ObjInD = { type: '', id: '' };//props.children.bbbbbbbbbbbbbbbbbbbbbbbb;
+    // props.Dispatcher(Action.update(REDUCER.GET_ACCESS_OBJ, ObjInD));
   }
 
   return (

@@ -18,7 +18,7 @@ const initialState = {
 export default function update(state = initialState, action) {
 
   switch (action.type) {
-    case REDUCER.MAIN_UPDATE_SECTIONS:
+    case REDUCER.MAIN_GET_SECTIONS:
       return Object.assign({}, state, {
           sections: action.payload.sections
       })

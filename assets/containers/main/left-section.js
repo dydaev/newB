@@ -25,6 +25,16 @@ export default function Main_left_section() {
         'https://files.brightside.me/files/news/part_4/46555/206005-12-_2_-1000-41dad920ee-1484729696.jpg'
     ];
 
+    const handleEdit = () => {
+      alert('edit');
+    }
+    const handleDelete = () => {
+      alert('delete');
+    }
+    const handleAdd = () => {
+      alert('add');
+    }
+
     return (
         <section style={{ width: '455px' }}>
             <Block_previews title="Books newss" width='100%' more='res' >
@@ -60,7 +70,7 @@ export default function Main_left_section() {
                     />
                 )}
             </Block_previews_gallery>
-            <ControllButtons>
+            <ControllButtons onEdit={handleEdit} onDelete={handleDelete} onAdd={handleAdd}>
               <Block_previews_text4x4 title="tech news" width='100%' height='210px'>
                   <News_review
                       title={ title }
