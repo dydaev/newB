@@ -6,10 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-use RomaChe\AuthBundle\Helpers\UserSectionRoles;
 use RomaChe\AuthBundle\Helpers\ChmodObjectService;
+use RomaChe\AuthBundle\Helpers\UserSectionRoles;
 use RomaChe\NewsBundle\Entity\Section;
 use RomaChe\AuthBundle\Entity\Consts;
+use RomaChe\NewsBundle\Entity\Theme;
 use RomaChe\AuthBundle\Entity\Users;
 
 
@@ -32,6 +33,46 @@ class ApiController extends Controller
         $content = json_decode($request->getContent());
       }
       switch ($gettingObject) {
+        case 'sections_theme':
+        if ($content->{'id'}) {
+          $em = $this->getDoctrine()->getManager();
+          $theme = $em->getRepository(Theme::class)
+            ->findOneBy(array('id' => $content->{'id'}));
+
+          if ($theme) {
+            $secStrategic->setPageObject($theme);
+              if($secStrategic->checkCan(Consts::WRITE)) {
+                array_push($result, ['access' => 'ok']);
+                if ($content->{'name'} != $theme->getName()) {
+                  $theme->setName($content->{'name'});
+                  array_push($result, $content->{'name'});
+                }
+
+                if ($content->{'description'} != $theme->getDescription()){
+                  $theme->setDescription($content->{'description'});
+                  array_push($result, $content->{'description'});
+                }
+
+                $em->flush();
+                return $this->redirectToRoute('getSections', array('gettingObject' => 'sections_elements'));
+
+              } else {
+                $result = [
+                  'type' => 'message',
+                  'message' => 'access denite!',
+                  "color" => 'warning'
+                ];
+                array_push($result, ['access' => 'denite']);
+              }
+          }
+        } else {
+          $result = [
+            'type' => 'message',
+            'message' => 'No id for udate Theme!',
+            "color" => 'warning'
+          ];
+        }
+          break;
         case 'section':
         if ($content->{'id'}) {
           $em = $this->getDoctrine()->getManager();
@@ -67,7 +108,7 @@ class ApiController extends Controller
         } else {
           $result = [
             'type' => 'message',
-            'message' => 'No id!',
+            'message' => 'No id for update Section!',
             "color" => 'warning'
           ];
         }
@@ -89,6 +130,34 @@ class ApiController extends Controller
         $content = json_decode($request->getContent());
       }
         switch ($gettingObject) {
+          case 'selected_theme':
+          if ($content->{'id'}) {
+            $theme = $this->getDoctrine()
+              ->getRepository(Theme::class)
+              ->findOneBy(array('id' => $content->{'id'}));
+
+            if ($theme) {
+              $secStrategic->setPageObject($theme);
+              if($secStrategic->checkCan(Consts::READ)) {
+                $result = [
+                  'id' => $theme->getId(),
+                  'type' => 'theme',
+                  'name' => $theme->getName(),
+                  'writeRights' => $secStrategic->checkCan(Consts::WRITE),
+                  'description' => $theme->getDescription(),
+                  'createdAt' => $theme->getCreatedAt()
+                ];
+              }
+            } else {
+              $result = [
+                'type' => 'message',
+                'message' => 'Theme '. $content->{'id'} .' not found',
+                "color" => 'warning'
+              ];
+            }
+          }
+          return new JsonResponse($result);
+
           case 'sections_elements':
             $elements = $this->getDoctrine()
               ->getRepository(Section::class)
@@ -135,6 +204,7 @@ class ApiController extends Controller
               if($secStrategic->checkCan(Consts::READ)) {
                 $result = [
                   'id' => $element->getId(),
+                  'type' => 'section',
                   'name' => $element->getName(),
                   'writeRights' => $secStrategic->checkCan(Consts::WRITE),
                   'description' => $element->getDescription(),

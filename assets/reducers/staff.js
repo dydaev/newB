@@ -1,9 +1,8 @@
 import REDUCER from '../consts';
 
 const initialState = {
-  TTTTTTT: false,
   elements: [],
-  selectedElement: {},
+  selectedElement: [],
   users_list: [],
   user: [],
   checkAddingRole: false,
@@ -14,14 +13,14 @@ export default function update(state = initialState, action) {
     case REDUCER.STAFF_SET_ELEMENT_DESCRIPTION:
       return Object.assign({}, state, {
         selectedElement: {
-          ...state.section,
+          ...state.selectedElement,
           description: action.payload,
         },
       });
     case REDUCER.STAFF_SET_ELEMENT_NAME:
       return Object.assign({}, state, {
         selectedElement: {
-          ...state.section,
+          ...state.selectedElement,
           name: action.payload,
         },
       });

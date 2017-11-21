@@ -4,7 +4,7 @@ export const ROUTES = {
   STAFF_UPDATE_THEME: '/api/main/update=sections_theme',
   STAFF_UPDATE_SECTION: '/api/main/update=section',
   STAFF_GET_ELEMENTS: '/api/main/get=sections_elements',
-  STAFF_GET_SELECTED_THEME: '/api/main/get=sections_theme',
+  STAFF_GET_SELECTED_THEME: '/api/main/get=selected_theme',
   STAFF_GET_SELECTED_ELEMENT: '/api/main/get=selected_element',
   STAFF_CHECK_ADDING_ROLE: '/staff/checkAddingRole',
   STAFF_GET_USER_TO_LIST: '/staff/updateRoles',

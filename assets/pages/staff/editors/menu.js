@@ -12,31 +12,17 @@ class MenuEditor extends React.Component {
   constructor(props) {
     super(props);
 
+    this.toggle = this.toggle.bind(this);
     this.handleChengeName = this.handleChengeName.bind(this);
     this.handleSelectTheme = this.handleSelectTheme.bind(this);
-    this.handleUpdateTheme = this.handleUpdateTheme.bind(this);
     this.handleSelectSection = this.handleSelectSection.bind(this);
     this.handleUpdateElement = this.handleUpdateElement.bind(this);
     this.handleChengeDescription = this.handleChengeDescription.bind(this);
 
     props.Dispatcher(Action.update(REDUCER.STAFF_GET_ELEMENTS));
-    this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
     };
-  }
-
-  handleUpdateTheme() {
-    const nameInput =  document.querySelector('#forName');
-    const descriptionInput = document.querySelector('#forDescription');
-    if (nameInput.value &&  descriptionInput.value && this.state.selectId !== undefined) {
-
-      this.props.Dispatcher(Action.update(REDUCER.STAFF_UPDATE_THEME, {
-        id: this.state.selectId,
-        name: nameInput.value,
-        description: descriptionInput.value,
-      }));
-    }
   }
 
   handleSelectTheme(selectId) {
@@ -77,12 +63,15 @@ class MenuEditor extends React.Component {
     const nameInput =  document.querySelector('#forName');
     const descriptionInput = document.querySelector('#forDescription');
     if (nameInput.value &&  descriptionInput.value && this.state.selectId !== undefined) {
-
-      this.props.Dispatcher(Action.update(REDUCER.STAFF_UPDATE_SECTION, {
+      const update = {
         id: this.state.selectId,
         name: nameInput.value,
         description: descriptionInput.value,
-      }));
+      };
+      if (this.props.Store.staff.selectedElement.type === 'section')
+        this.props.Dispatcher(Action.update(REDUCER.STAFF_UPDATE_SECTION, update));
+      else
+        this.props.Dispatcher(Action.update(REDUCER.STAFF_UPDATE_THEME, update));
     }
   }
 
@@ -99,7 +88,7 @@ class MenuEditor extends React.Component {
         <Label for="forElements"><h2>Main menu:</h2></Label>
         <Nav tabs>
           {
-            this.props.Store.staff.selectedElement.map((element, ind) => {
+            this.props.Store.staff.elements.map((element, ind) => {
               return !element.subElements.length ?
               (
                 <NavItem key={ind}>
@@ -113,7 +102,6 @@ class MenuEditor extends React.Component {
                 </NavItem>
               ) : (
                 <Dropdown
-                nav
                 isOpen={this.state.dropdownOpen}
                 toggle={this.toggle}
                 key={ind}
@@ -149,7 +137,7 @@ class MenuEditor extends React.Component {
           id="forName"
           placeholder="Name"
           onChange={ e => this.handleChengeName(e)}
-          value={this.props.Store.staff.section.name}
+          value={this.props.Store.staff.selectedElement.name}
           />
         </FormGroup>
         <FormGroup>
@@ -159,7 +147,7 @@ class MenuEditor extends React.Component {
           name="text"
           id="forDescription"
           onChange={ e => this.handleChengeDescription(e)}
-          value={this.props.Store.staff.section.description}
+          value={this.props.Store.staff.selectedElement.description || ''}
           />
         </FormGroup>
         <FormGroup tag="fieldset">
@@ -167,8 +155,8 @@ class MenuEditor extends React.Component {
           <FormGroup disabled>
             <Label>
             {
-              this.props.Store.staff.section.createdAt ?
-              this.props.Store.staff.section.createdAt.date.split('.')[0] :
+              this.props.Store.staff.selectedElement.createdAt ?
+              this.props.Store.staff.selectedElement.createdAt.date.split('.')[0] :
               ''
             }
             </Label>
