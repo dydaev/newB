@@ -24,6 +24,10 @@ export default function update(state = initialState, action) {
           name: action.payload,
         },
       });
+    case REDUCER.STAFF_ADD_THEME:
+      return Object.assign({}, state, {
+        elements: action.payload,
+      });
     case REDUCER.STAFF_UPDATE_THEME:
       return Object.assign({}, state, {
         elements: action.payload,

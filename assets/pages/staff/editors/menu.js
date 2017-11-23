@@ -13,6 +13,7 @@ class MenuEditor extends React.Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.handleAddTheme = this.handleAddTheme.bind(this);
     this.handleChengeName = this.handleChengeName.bind(this);
     this.handleSelectTheme = this.handleSelectTheme.bind(this);
     this.handleSelectSection = this.handleSelectSection.bind(this);
@@ -23,6 +24,19 @@ class MenuEditor extends React.Component {
     this.state = {
       dropdownOpen: false,
     };
+  }
+
+  handleAddTheme() {
+    if (this.state.selectId && this.props.Store.staff.selectedElement.type === 'section') {
+      this.props.Dispatcher(Action.update(
+        REDUCER.STAFF_ADD_THEME,
+        {
+          name: 'NEW THEME',
+          description: 'TEST THEME OFTEN CRETED METHOD',
+          sectionId: '12',
+        }
+      ));
+    }
   }
 
   handleSelectTheme(selectId) {

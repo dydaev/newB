@@ -1,6 +1,7 @@
 export const ROUTES = {
   MAIN_GET_SECTIONS: '/api/main/get=sections',
 
+  STAFF_ADD_THEME: '/api?add=theme',
   STAFF_UPDATE_THEME: '/api/main/update=sections_theme',
   STAFF_UPDATE_SECTION: '/api/main/update=section',
   STAFF_GET_ELEMENTS: '/api/main/get=sections_elements',

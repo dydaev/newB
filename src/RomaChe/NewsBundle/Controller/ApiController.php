@@ -11,6 +11,7 @@ use RomaChe\AuthBundle\Helpers\UserSectionRoles;
 use RomaChe\NewsBundle\Entity\Section;
 use RomaChe\AuthBundle\Entity\Consts;
 use RomaChe\NewsBundle\Entity\Theme;
+use RomaChe\NewsBundle\Entity\Chmod;
 use RomaChe\AuthBundle\Entity\Users;
 
 
@@ -23,6 +24,68 @@ class ApiController extends Controller
         }
 
     }
+
+//------------------------------------------------------------------------------ADD
+    public function mainAddAction(Request $request, $gettingObject = null)
+    {
+      $secStrategic = $this->get('RomaChe.SecurityStrategicService');
+      $result = array();
+      $content  = null;
+      if ($request) {
+        $content = json_decode($request->getContent());
+      }
+
+      switch ($gettingObject) {
+        case 'theme':
+          if ($content->{'name'} && $content->{'sectionId'}) {
+            $em = $this->getDoctrine()->getManager();
+            $section = $em->getRepository(Section::class)
+              ->findOneBy(array('id' => $content->{'sectionId'}));
+
+            $secStrategic->setPageObject($theme);
+            if ($secStrategic->checkCan(Consts::WRITE)) {
+              $theme = new Theme();
+              $theme->setSection($section);
+              $theme->setName($content->{'name'});
+              $theme->setDescription($content->{'description'} || 'no description');
+
+              $themeChmod = new Chmod();
+              $themeChmod->setChmod(710);
+              $themeChmod->setAuthor($this->get('security.token_storage')
+                ->getToken()
+                ->getUser());
+              $em->persist($themeChmod);
+              $theme->setChmod($themeChmod);
+
+              $em->persist($theme);
+              $em->flush();
+
+              return $this->redirectToRoute('getSections', array('gettingObject' => 'sections_elements'));
+            } else {
+              $result = [
+                  'type' => 'message',
+                  'message' => 'access denite!',
+                  "color" => 'warning'
+                ];
+            }
+          } else {
+            $result = [
+                  'type' => 'message',
+                  'message' => 'Not selected section or Theme name',
+                  "color" => 'warning'
+                ];
+          }
+
+          break;
+
+        default:
+          # code...
+          break;
+      }
+      
+      return new JsonResponse($result);
+    }
+
 //------------------------------------------------------------------------------UPDATE
     public function mainUpdateAction(Request $request, $gettingObject = null)
     {
