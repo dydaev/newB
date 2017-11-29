@@ -254,7 +254,7 @@ class MenuEditor extends React.Component {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.state.saveFunc}>Save</Button>{' '}
-          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+          <Button color="secondary" onClick={() => this.toggleModal(()=>0)}>Cancel</Button>
         </ModalFooter>
       </Modal>
       <FormGroup>

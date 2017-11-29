@@ -15,28 +15,31 @@ body
 
   div.controllButtons
     position: relative
+    padding: 1px
+    &:hover
+      border-radius: 2px
+      padding: 0
+      border: 1px dashed gray
     div
       position: relative
-      z-index: 100
     &>ul
-      padding: 0
-      width: 0
+      z-index: 100
       position: absolute
+      width: 0
+      height: 0
+      top: -12px
+      right: 12px
+      padding: 0
       white-space: nowrap
-      top: -17px
-      right: 29px
-      z-index: 101
       &:hover
         background: white
       li
         display: inline-block
-        width: 25px
-        height: 17px
-        margin-left: 4px
+        height: 21px
         button
-          width: 100%
           padding: 0
-          height: 20px
+          width: 21px
+          height: 21px
 
   div.bg
     height: 1950px

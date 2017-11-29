@@ -11,7 +11,7 @@ const ControllButtons = props => {
   const addButt = !props.onAdd ?
   '' :
   (
-    <li>
+    <li className="li-button-add">
       <Button color="success" onClick={() => props.onAdd()} outline>
         <i className="fa fa-plus" aria-hidden="true"></i>
       </Button>
@@ -21,7 +21,7 @@ const ControllButtons = props => {
   const editButt = !props.onEdit ?
   '' :
   (
-    <li>
+    <li className="li-button-edit">
       <Button color="primary" onClick={() => props.onEdit()} outline>
         <i className="fa fa-pencil-square-o" aria-hidden="false"></i>
       </Button>
@@ -31,7 +31,7 @@ const ControllButtons = props => {
   const deleteButt = !props.onDelete ?
   '' :
   (
-    <li>
+    <li className="li-button-delete">
       <Button color="danger" onClick={() => props.onDelete()} outline>
         <i className="fa fa-times" aria-hidden="true"></i>
       </Button>
@@ -43,7 +43,7 @@ const ControllButtons = props => {
   { bottom: '0px' };
 
   newsStyle = props.isVertical ?
-  { ...newsStyle, display: 'grid', top: -12, right: 16 } :
+  { ...newsStyle, display: 'grid', top: -12 } :
   newsStyle;
 
   if (props.Store.login.isLogin) {
