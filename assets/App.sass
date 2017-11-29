@@ -17,11 +17,17 @@ body
     position: relative
     div
       position: relative
+      z-index: 100
     &>ul
+      padding: 0
+      width: 0
       position: absolute
+      white-space: nowrap
       top: -17px
-      right: 0px
-      z-index: 99
+      right: 29px
+      z-index: 101
+      &:hover
+        background: white
       li
         display: inline-block
         width: 25px

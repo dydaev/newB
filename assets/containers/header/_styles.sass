@@ -30,7 +30,7 @@ header#main
     ul#main-menu
         margin: 28px 0 0 0
 
-    a.nav-link
+    .nav-link
         color: $dirty-red
         margin: .2rem 8px
         padding: 0.15rem 6px
@@ -59,3 +59,19 @@ nav.main-nav
             font-size: 30px
             padding-top: 9px
             font-family: Franchise-Bold, 'Comic Sans MS', cursive
+
+        &:hover > div.dropdown-menu
+            position: absolute
+            display: block
+            top: 58px
+            left: -13px
+            min-width: 100px
+            width: 130px
+
+        div.dropdown-menu
+            background: $dirty-gray
+
+            button
+                text-transform: uppercase
+                color: $light-white
+                padding: 6px 1rem

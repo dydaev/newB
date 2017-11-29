@@ -35,10 +35,11 @@ class MainNav extends React.Component {
     };
   }
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
+  toggle(e) {
+    console.log(e);
+    // this.setState({
+    //   dropdownOpen: !this.state.dropdownOpen,
+    // });
   }
 
   handleEdit() {
@@ -68,11 +69,15 @@ class MainNav extends React.Component {
                   let navObject;
                   if (this.props.Store.Main.sections[section].length > 0) {
                     navObject = (
-                      <NavDropdown  key={ind} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                      <NavDropdown  key={ind} onClick={() => browserHistory.push('/' + routPath)} toggle={this.toggle}>
                         <DropdownToggle nav color="dark" className="navbar-dark">
                           {splitName(section)}
                         </DropdownToggle>
-                        <DropdownMenu color="dark" className="dark">
+                        <DropdownMenu
+                        color="dark"
+                        className="dark"
+                        right={Object.keys(this.props.Store.Main.sections).length - 1 === ind}
+                        >
                           {
                             this.props.Store.Main.sections[section].map((theme, themeInd) => {
                               const themePath = typeof theme !== 'object' ?

@@ -25,6 +25,82 @@ class ApiController extends Controller
 
     }
 
+//------------------------------------------------------------------------------DELETE
+    public function mainDeleteAction(Request $request, $gettingObject = null)
+    {
+      $secStrategic = $this->get('RomaChe.SecurityStrategicService');
+      $result = array();
+      $content  = null;
+      if ($request) {
+        $content = json_decode($request->getContent());
+      }
+
+      switch ($gettingObject) {
+        case 'theme':
+          if ($content->{'id'}) {
+            $em = $this->getDoctrine()->getManager();
+            $theme = $em->getRepository(Theme::class)
+              ->findOneBy(array('id' => $content->{'id'}));
+
+            $secStrategic->setPageObject($theme);
+            if ($secStrategic->checkCan(Consts::WRITE)) {
+              $em->remove($theme);
+              $em->flush();
+
+              return $this->redirectToRoute('getSections', array('gettingObject' => 'sections_elements'));
+            } else {
+              $result = [
+                  'type' => 'message',
+                  'message' => 'access denite!',
+                  "color" => 'warning'
+                ];
+            }
+          } else {
+            $result = [
+                  'type' => 'message',
+                  'message' => 'Not selected section or Theme ID',
+                  "color" => 'warning'
+                ];
+          }
+
+          break;
+        case 'section':
+          if ($content->{'id'}) {
+            $em = $this->getDoctrine()->getManager();
+            $section = $em->getReference('NewsBundle:Section', $content->{'id'});
+            // $section = $em->getRepository(Section::class)
+            //   ->findOneBy(array('id' => $content->{'id'}));
+
+            $secStrategic->setPageObject($section);
+            if ($secStrategic->checkCan(Consts::WRITE)) {
+              $em->remove($section);
+              $em->flush();
+
+              return $this->redirectToRoute('getSections', array('gettingObject' => 'sections_elements'));
+            } else {
+              $result = [
+                  'type' => 'message',
+                  'message' => 'access denite!',
+                  "color" => 'warning'
+                ];
+            }
+          } else {
+            $result = [
+                  'type' => 'message',
+                  'message' => 'Not selected section or Section ID',
+                  "color" => 'warning'
+                ];
+          }
+
+          break;
+
+        default:
+          # code...
+          break;
+      }
+
+      return new JsonResponse($result);
+    }
 //------------------------------------------------------------------------------ADD
     public function mainAddAction(Request $request, $gettingObject = null)
     {
@@ -36,13 +112,55 @@ class ApiController extends Controller
       }
 
       switch ($gettingObject) {
+        case 'section':
+          if ($content->{'name'}) {
+
+            if ($this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+              $em = $this->getDoctrine()->getManager();
+
+              $section = new Section();
+              $section->setName($content->{'name'});
+              $description = $content->{'description'} ? $content->{'description'} : 'Added section';
+              $section->setDescription($description);
+
+              $chmod = new Chmod();
+              $chmod->setChmod(710);
+              $chmod->setGroupName('SUPER');
+              $chmod->setDescription('Section');
+              $chmod->setAuthor($this->get('security.token_storage')
+                ->getToken()
+                ->getUser());
+
+              $em->persist($chmod);
+              $section->setChmod($chmod);
+
+              $em->persist($section);
+              $em->flush();
+
+              return $this->redirectToRoute('getSections', array('gettingObject' => 'sections_elements'));
+            } else {
+              $result = [
+                  'type' => 'message',
+                  'message' => 'access denite!',
+                  "color" => 'warning'
+                ];
+            }
+          } else {
+            $result = [
+                  'type' => 'message',
+                  'message' => 'Not selected section or Section name',
+                  "color" => 'warning'
+                ];
+          }
+
+          break;
         case 'theme':
           if ($content->{'name'} && $content->{'sectionId'}) {
             $em = $this->getDoctrine()->getManager();
             $section = $em->getRepository(Section::class)
               ->findOneBy(array('id' => $content->{'sectionId'}));
 
-            $secStrategic->setPageObject($theme);
+            $secStrategic->setPageObject($section);
             if ($secStrategic->checkCan(Consts::WRITE)) {
               $theme = new Theme();
               $theme->setSection($section);
@@ -50,6 +168,7 @@ class ApiController extends Controller
               $theme->setDescription($content->{'description'} || 'no description');
 
               $themeChmod = new Chmod();
+              $themeChmod->setGroupName('THEME');
               $themeChmod->setChmod(710);
               $themeChmod->setAuthor($this->get('security.token_storage')
                 ->getToken()
@@ -82,7 +201,7 @@ class ApiController extends Controller
           # code...
           break;
       }
-      
+
       return new JsonResponse($result);
     }
 

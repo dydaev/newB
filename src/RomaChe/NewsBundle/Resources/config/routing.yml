@@ -4,3 +4,9 @@ getSections:
 updateApi:
     path:     /api/main/update={gettingObject}
     defaults: { _controller: NewsBundle:Api:mainUpdate }
+addApi:
+    path:     /api/main/add={gettingObject}
+    defaults: { _controller: NewsBundle:Api:mainAdd }
+deleteApi:
+    path:     /api/main/delete={gettingObject}
+    defaults: { _controller: NewsBundle:Api:mainDelete }

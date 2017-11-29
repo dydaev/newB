@@ -38,22 +38,33 @@ const ControllButtons = props => {
     </li>
   );
 
-  const newsStyle = props.isSubObj ?
+  let newsStyle = props.isSubObj ?
   { top: 0 } :
   { bottom: '0px' };
+
+  newsStyle = props.isVertical ?
+  { ...newsStyle, display: 'grid', top: -12, right: 16 } :
+  newsStyle;
 
   if (props.Store.login.isLogin) {
     const ObjInD = { type: '', id: '' };//props.children.bbbbbbbbbbbbbbbbbbbbbbbb;
     // props.Dispatcher(Action.update(REDUCER.GET_ACCESS_OBJ, ObjInD));
   }
 
-  return (
-    <div className="controllButtons">
+  let buttons = '';
+  if (props.active === undefined || props.active === true) {
+    buttons = (
       <ul style={ newsStyle }>
         {addButt}
         {editButt}
         {deleteButt}
       </ul>
+    );
+  }
+
+  return (
+    <div className="controllButtons">
+      { buttons }
       <div>
         {props.children}
       </div>
