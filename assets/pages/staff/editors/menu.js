@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
@@ -278,7 +277,7 @@ class MenuEditor extends React.Component {
                       <NavItem>
                           <NavLink
                           href="#"
-                          onMouseOver={() => this.handleSelectSection(element.id)}
+                          onClick={() => this.handleSelectSection(element.id)}
                           disabled={!element.writeRights}
                           >
                             { element.name }

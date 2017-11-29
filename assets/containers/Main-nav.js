@@ -15,9 +15,12 @@ import {
   DropdownMenu,
   DropdownToggle,
   DropdownItem } from 'reactstrap';
+import { FormGroup, Label, Input, FormText } from 'reactstrap';
 
 import MainHeader from './header/';
 import MainMESSAGE from '../components/main-header/main-message';
+
+import AdminMenu from '../components/main-header/admin-menu';
 
 class MainNav extends React.Component {
   constructor(props) {
@@ -29,14 +32,19 @@ class MainNav extends React.Component {
     }
 
     this.Dispatcher(Action.update(REDUCER.MAIN_GET_SECTIONS));
+
+    this.handleToggleEditorMode = this.handleToggleEditorMode.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
     };
   }
 
+  handleToggleEditorMode() {
+    this.Dispatcher(Action.update(REDUCER.STAFF_TOGGLE_EDITOR_MODE));
+  }
+
   toggle(e) {
-    console.log(e);
     // this.setState({
     //   dropdownOpen: !this.state.dropdownOpen,
     // });
@@ -93,7 +101,14 @@ class MainNav extends React.Component {
                                 </DropdownItem>);
                             })
                           }
+                          {
+                            section !== 'staff' ? '' :
+                            <DropdownItem onClick={() => this.handleToggleEditorMode()}>
+                              <AdminMenu/>
+                            </DropdownItem>
+                          }
                         </DropdownMenu>
+
                       </NavDropdown>
                     );
                   } else {

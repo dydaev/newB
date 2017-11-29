@@ -62,7 +62,9 @@ const ControllButtons = props => {
     );
   }
 
-  return (
+  return !props.Store.staff.toggleEditorMode ?
+  props.children :
+  (
     <div className="controllButtons">
       { buttons }
       <div>

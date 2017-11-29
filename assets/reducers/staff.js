@@ -1,6 +1,7 @@
 import REDUCER from '../consts';
 
 const initialState = {
+  toggleEditorMode: false,
   elements: [],
   selectedElement: [],
   users_list: [],
@@ -10,6 +11,10 @@ const initialState = {
 
 export default function update(state = initialState, action) {
   switch (action.type) {
+    case REDUCER.STAFF_TOGGLE_EDITOR_MODE:
+      return Object.assign({}, state, {
+        toggleEditorMode: !state.toggleEditorMode,
+      });
     case REDUCER.STAFF_SET_ELEMENT_DESCRIPTION:
       return Object.assign({}, state, {
         selectedElement: {

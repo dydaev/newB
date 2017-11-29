@@ -7,6 +7,8 @@ import MenuEditor from '../editors/menu';
 import { Action } from '../../../actions';
 import REDUCER from '../../../consts';
 
+import { FormGroup, Label, Input, FormText } from 'reactstrap';
+
 class AdminPage extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,7 @@ class AdminPage extends React.Component {
   render() {
     return (
         <section className='home-page' style={{ display: 'flex', justifyContent: 'space-between' }}>
+          
           <MenuEditor/>
         </section>
     );
